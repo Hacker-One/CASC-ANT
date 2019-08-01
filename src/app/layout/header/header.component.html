@@ -1,0 +1,18 @@
+<header>
+  <!--<img src="../../../assets/images/banner.png" alt="banner">-->
+  <div class="p-logo"><img src="../../../assets/images/logo.png" alt="logo"></div>
+  <ul class="p-menu clearfix">
+    <ng-container *ngFor="let item of menuList">
+      <li class="fir-nav">
+        <a (click)="goPage(item)" nz-dropdown [nzDropdownMenu]="menu">{{item.desc}}</a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul class="sec-nav">
+            <li *ngFor="let tem of item.resourcess;">
+              <a (click)="goPage(tem)">{{tem.desc}}</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </li>
+    </ng-container>
+  </ul>
+</header>

@@ -3,7 +3,19 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  hmr: false,
+  apiURl: {
+    getSysMenus: 'system/sysmenus/user',
+    saveDirectory: 'system/resource/sysmenu',
+    saveLink: 'system/resource/syslink',
+    getMenuNohome: 'system/sysmenus/nohome',
+    getAccountList: 'system/sysusers?currentNum=1&pagePerNum=100',
+    getRoleList: 'system/sysroles?currentNum=1&pagePerNum=100',
+    getMenuTree: 'system/syspermission',
+    addRole: 'system/sysrole',
+    saveUserRole: 'system/sysuser',
+  }
 };
 
 /*

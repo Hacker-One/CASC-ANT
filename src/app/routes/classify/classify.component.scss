@@ -1,0 +1,24 @@
+
+%display-table {
+  display: table-cell;
+  padding: 25px;
+  border: 1px solid #ddd;
+}
+
+.classify-container {
+  display: table;
+
+  .classify-tree {
+    width: 300px;
+    min-width: 300px;
+    @extend %display-table;
+    margin-right: 20px;
+  }
+
+  .classify-content {
+    //width: 100%;
+    margin-left: 10px;
+    @extend %display-table
+  }
+}
+

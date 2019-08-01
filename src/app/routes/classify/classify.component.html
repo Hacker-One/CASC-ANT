@@ -1,0 +1,14 @@
+<div class="classify-container">
+  <div class="classify-tree">
+    <nz-tree [nzData]="nodes" nzShowLine (nzClick)="nzEvent($event)"> </nz-tree>
+  </div>
+  <div class="classify-content">
+
+    <div class="portal-list" *ngFor="let item of portalList">
+      <button nz-button nzType="primary">{{item}}</button>
+    </div>
+
+  </div>
+</div>
+
+

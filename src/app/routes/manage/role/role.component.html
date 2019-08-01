@@ -1,0 +1,70 @@
+<div class="page-btn-line">
+  <ql-button [routerLink]="[ '/manage/role-new-edit' ]" type="info" size="small">新建角色</ql-button>
+</div>
+<div class="search-box mb-20">
+  <div class="form-group row">
+    <label for="account" class="col-sm-1 col-form-label">账号</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="account" placeholder="">
+    </div>
+    <label for="account" class="col-sm-1 col-form-label">姓名</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="account" placeholder="">
+    </div>
+    <label for="account" class="col-sm-1 col-form-label">邮箱</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="account" placeholder="">
+    </div>
+    <label for="account" class="col-sm-1 col-form-label">电话</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="account" placeholder="">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 text-right pr-0">
+      <button class="btn-z primary mr-10"><i class="icon iconfont iconsearch"></i>查询</button>
+      <button class="btn-z primary"><i class="icon iconfont iconrefresh"></i>重置</button>
+    </div>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>角色</th>
+      <th>角色编码</th>
+      <th>域</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let element of roleDatas;let index = index;">
+      <tr>
+        <th scope="row">{{index}}</th>
+        <td>{{element.displayName}}</td>
+        <td>{{element.appExtId}}</td>
+        <td>{{element.externalId}}</td>
+        <td>{{element.state==1?'有效':'无效'}}</td>
+        <td>
+          <!-- <a href="javascript:void(0)">详情</a> -->
+          <a href="javascript:void(0)" (click)="authorityDialog = true">设置权限</a>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+
+<ql-dialog [(visible)]="authorityDialog">
+  <ng-template #title>
+    <span>角色信息</span>
+  </ng-template>
+  <ql-tree [model]="data3" [show-checkbox]="true" #tree> </ql-tree>
+  <!-- <ql-button (click)="updateItemChecked()">更新选中</ql-button>
+  <ql-button (click)="findAllChecked()">获取所有选中</ql-button> -->
+  <ng-template #footer>
+    <ql-button type="success" (click)="authorityDialog = false">确定</ql-button>
+    <ql-button (click)="authorityDialog = false">取消</ql-button>
+  </ng-template>
+</ql-dialog>

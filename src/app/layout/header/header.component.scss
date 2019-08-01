@@ -1,0 +1,101 @@
+img {
+  max-width: 100%
+}
+
+header {
+  background: url("../../../assets/images/banner.png") no-repeat center;
+  background-size: 100% 100%;
+  height: 100%;
+
+  .p-menu {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    width: 100%;
+
+    > li {
+      float: left;
+      list-style: none;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+
+      a {
+        display: block;
+        height: 42px;
+        line-height: 42px;
+        font-size: 26px;
+        color:rgba(255,255,255,1);
+        padding: 0 56px;
+        transition: .3s;
+        min-width: 192px;
+      }
+
+      &.active a, &:hover a {
+        background:#2b7ac3;
+      }
+    }
+
+    &::before {
+      display: inline-block;
+      content: "";
+      background: rgba(0,78,162,1);
+      opacity:0.46;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .p-logo {
+    position: absolute;
+    left: 30px;
+    width: 354px;
+    top: 20px;
+    font-size: 0;
+  }
+}
+
+
+.sec-nav {
+  background: #316799;
+  border-radius: 2px;
+
+  li {
+
+    a {
+      font-size: 16px;
+      color: #fff;
+      display: block;
+      width: 100%;
+      background: #316799;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      transition: .3s;
+      font-weight: normal;
+
+      &:hover {
+        background: #2b7ac3;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  header {
+    .p-logo {
+      //top: 10px;
+      //width: 286px;
+    }
+
+    .p-menu {
+
+      li a {
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+      }
+    }
+  }
+}

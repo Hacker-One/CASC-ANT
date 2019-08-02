@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-// import { HttpService } from '../../../../system/share/http.service';
-import { ManageService } from '../../../../core/api/manage.service';
+import { ManageService } from '../../../../core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-application-directory',
   templateUrl: './application-directory.component.html',
-  styleUrls: ['./application-directory.component.scss']
+  styleUrls: ['./application-directory.component.scss'],
 })
 export class ApplicationDirectoryComponent implements OnInit {
-
+  public buildForm: FormGroup;
   directoryObj = {
     desc: '',
     pdesc: '',
@@ -18,10 +17,50 @@ export class ApplicationDirectoryComponent implements OnInit {
     rExtIds: []
   }
   roleCheckBoxArr: Array<any> = [];
-  constructor(private service: ManageService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private manageService: ManageService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     // this.getRoles();
+    this.initParams();
+    this.getRoleList();
+  }
+
+  // 初始化参数和表单
+  initParams() {
+    this.buildForm = this.fb.group({
+      desc: [{value: null, disabled: false}, [Validators.required]],
+      pdesc: [null, [Validators.required]],
+      sortNum: [null, [Validators.required]],
+      roleCheckBoxArr: [[], [Validators.required]],
+      rExtId: [[], [Validators.required]],
+    });
+  }
+
+  getRoleList() {
+    this.manageService.getRoleListApi({currentNum: 1, pagePerNum: 100}).subscribe(resp => {
+      console.log(resp.resources);
+      // this.roleCheckBoxArr =
+      resp.resources.forEach(item => {
+        const node = {
+          label: item.displayName,
+          value: item.id,
+          checked: false
+        };
+        this.roleCheckBoxArr.push(node);
+      });
+      console.log(this.roleCheckBoxArr);
+      this.buildForm.patchValue({
+        rExtId: this.roleCheckBoxArr
+      });
+    });
+  }
+
+  log(value) {
+    console.log(value);
   }
 
   // getRoles() {

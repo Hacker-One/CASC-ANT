@@ -167,10 +167,9 @@ export class HeaderComponent implements OnInit {
     //   this._state.notifyDataChanged('menu.data', this.menuList);
     // }, 1000);
     this.manageSeivice.getSysMenus('fangshufeng').subscribe(res => {
-      console.log(res);
       this.menuList = res.result;
       this._state.notifyDataChanged('menu.data', this.menuList);
-    })
+    });
   }
 
   goPage(item) {

@@ -15,15 +15,15 @@ export class PathNavComponent implements OnInit {
     this._state.subscribe('menu.data', (menuData) => {
       this.menuData = menuData;
       this.setPathArr(this.currentUrl, this.menuData);
-      console.log(menuData);
+      // console.log(menuData);
     })
   }
 
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        console.log(event);
-        console.log(this.menuData);
+        // console.log(event);
+        // console.log(this.menuData);
         this.currentUrl = event.url;
         if (this.menuData.length > 0) {
           this.setPathArr(this.currentUrl, this.menuData);
@@ -59,7 +59,7 @@ export class PathNavComponent implements OnInit {
         }
       }
     }
-    console.log(this.pathArr);
+    // console.log(this.pathArr);
 
   }
 

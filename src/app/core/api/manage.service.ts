@@ -10,8 +10,31 @@ export class ManageService {
 
     constructor(private util: UtilService) { }
 
+    /**
+     * 获取系统菜单
+     */
     getSysMenus(params) {
         return this.util.get(`system/sysmenus/user/${params}`);
+    }
+
+    /**
+     * 添加一级目录
+     * @params sortNum: string 排序
+     * @params desc: string 名称
+     * @params pdesc: string 描述
+     * @params rExtId: [] 角色列表获取的自定义id
+     */
+    addSysMenuApi(params): Observable<any> {
+      return this.util.post('system/resource/sysmenu', params);
+    }
+
+    /**
+     * 查询系统角色列表
+     * @params currentNum
+     * @params pagePerNum
+     */
+    getRoleListApi(params): Observable<any> {
+      return this.util.get('system/sysroles', params);
     }
 
     saveDirectory(params) {

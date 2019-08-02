@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ManageRoutingModule } from './manage-routing.module';
 import { ApplicationComponent } from './application/application.component';
+import { ApplicationDirectoryComponent } from './application/application-directory/application-directory.component';
 // import { AccountComponent } from './account/account.component';
 // import { AuthorityComponent } from './authority/authority.component';
 // import { ColumnComponent } from './column/column.component';
-// import { ApplicationDirectoryComponent } from './application/application-directory/application-directory.component';
 // import { ApplicationLinkComponent } from './application/application-link/application-link.component';
 // import { AccountDetailComponent } from './account/account-detail/account-detail.component';
 import { RoleComponent } from './role/role.component';
@@ -25,7 +25,8 @@ import { ShareModule } from '../share/share.module';
   ],
   declarations: [
     ApplicationComponent,
-    // ApplicationComponent, AccountComponent, AuthorityComponent, ColumnComponent, ApplicationDirectoryComponent,
+    ApplicationDirectoryComponent,
+    // ApplicationComponent, AccountComponent, AuthorityComponent, ColumnComponent,
     // ApplicationLinkComponent, AccountDetailComponent,
     RoleComponent, RoleNewEditComponent]
 })

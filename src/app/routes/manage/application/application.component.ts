@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../share/http.service';
 import { GlobalState } from '../../../global.state';
-import { ManageService } from '../../../core/api/manage.service';
+import { ManageService } from '../../../core';
 
 export interface TreeNodeInterface {
   desc: string;
@@ -9,15 +9,18 @@ export interface TreeNodeInterface {
   action: string;
   appExtId: string;
   content: string;
-  status: string;
+  state: string;
   resourceId: string;
   resourcess?: TreeNodeInterface[];
+  parent?: any;
+  level?: number;
+  expand?: boolean;
 }
 
 @Component({
   selector: 'app-application',
   templateUrl: './application.component.html',
-  styleUrls: ['./application.component.scss']
+  styleUrls: ['./application.component.scss'],
 })
 export class ApplicationComponent implements OnInit {
 
@@ -38,36 +41,10 @@ export class ApplicationComponent implements OnInit {
   getList() {
     this.tableData = [];
     this.manageService.getSysMenus('fangshufeng').subscribe(resp => {
-      // this._state.notifyDataChanged('menu.data', res.result);
-      // res.result.map((item) => {
-      //   if (!item.hasOwnProperty('resourcess')) {
-      //     return item['resourcess'] = [];
-      //   }
-      //   return item;
-      // });
-      // res.result.forEach((element, index) => {
-      //   if (element['resourcess'].length > 0) {
-      //     element['expandKey'] = `epGroup${index}`;
-      //     element['hierarchy'] = 'parent';
-      //     element['expandFlag'] = false;
-      //     this.tableData.push(element);
-      //     element.resourcess.forEach(item => {
-      //       item['expandKey'] = `epGroup${index}`;
-      //       item['hierarchy'] = 'children';
-      //       item['expandFlag'] = false;
-      //       item['resourcess'] = [];
-      //       this.tableData.push(item);
-      //     });
-      //   } else {
-      //     element['expandKey'] = '';
-      //     this.tableData.push(element);
-      //   }
-      // });
       if (resp.resultCode === '0') {
         this.tableData = resp.result;
         this.tableData.forEach(item => {
           this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-          console.log(this.mapOfExpandedData);
         });
       }
     });
@@ -110,30 +87,6 @@ export class ApplicationComponent implements OnInit {
     if (!hashMap[node.id]) {
       hashMap[node.id] = true;
       array.push(node);
-    }
-  }
-
-  hideLine(ele) {
-    if (ele.expandKey !== '') {
-      if (ele.hierarchy == 'children' && ele.expandFlag == false) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  rowClick(ele) {
-    console.log(ele);
-
-    let currentExpandKey = ele.expandKey;
-    if (ele.expandKey !== '') {
-      if (ele.hierarchy == 'parent') {
-        this.tableData.forEach(item => {
-          if (item.hasOwnProperty('hierarchy') && currentExpandKey == item.expandKey) {
-            item.expandFlag = !item.expandFlag;
-          }
-        })
-      }
     }
   }
 

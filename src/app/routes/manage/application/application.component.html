@@ -30,13 +30,13 @@
           [(nzExpand)]="item.expand"
           (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
         >
-          {{ item.desc }}
+          {{item.desc}}
         </td>
         <td></td>
         <td></td>
-        <td>{{ item.action }}</td>
+        <td>{{item.action}}</td>
         <td></td>
-        <td>{{ item.status }}</td>
+        <td>{{item.state}}</td>
         <td><span>详情</span></td>
       </tr>
     </ng-container>

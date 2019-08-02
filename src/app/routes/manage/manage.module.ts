@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ManageRoutingModule } from './manage-routing.module';
-// import { ApplicationComponent } from './application/application.component';
+import { ApplicationComponent } from './application/application.component';
 // import { AccountComponent } from './account/account.component';
 // import { AuthorityComponent } from './authority/authority.component';
 // import { ColumnComponent } from './column/column.component';
@@ -24,7 +24,9 @@ import { ShareModule } from '../share/share.module';
     ComponentModule
   ],
   declarations: [
-    // ApplicationComponent, AccountComponent, AuthorityComponent, ColumnComponent, ApplicationDirectoryComponent, ApplicationLinkComponent, AccountDetailComponent,
+    ApplicationComponent,
+    // ApplicationComponent, AccountComponent, AuthorityComponent, ColumnComponent, ApplicationDirectoryComponent,
+    // ApplicationLinkComponent, AccountDetailComponent,
     RoleComponent, RoleNewEditComponent]
 })
 export class ManageModule { }

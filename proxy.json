@@ -1,7 +1,7 @@
 {
   "/system": {
 
-    "target": "http://192.168.10.111:8085/",
+    "target": "http://192.168.10.25:8085/",
     "secure": false,
     "router" : {
       "/v1/index": "http://localhost:8080",

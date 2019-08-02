@@ -1,10 +1,14 @@
 .hidden {
-    display: none;
+  display: none;
 }
-.page-btn-line {
-    text-align: left;
-    margin-bottom: 10px;
+.application-btns {
+  text-align: left;
+  margin-bottom: 15px;
+
+  button {
+    margin-right: 10px;
+  }
 }
 .td-lv2 {
-    padding-left: 20px;
+  padding-left: 20px;
 }

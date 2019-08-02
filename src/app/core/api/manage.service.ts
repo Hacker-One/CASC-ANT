@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UtilService } from './util.service';
+import { Observable } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -28,20 +30,48 @@ export class ManageService {
         return this.util.get('system/sysusers?currentNum=1&pagePerNum=100');
     }
 
-    getRoleList() {
-        return this.util.get('system/sysroles?currentNum=1&pagePerNum=100');
+    getRoleList(
+        pageIndex: number = 1,
+        pageSize: number = 10,
+    ): Observable<any> {
+        let params = new HttpParams()
+            .append('currentNum', `${pageIndex}`)
+            .append('pagePerNum', `${pageSize}`)
+        return this.util.get('system/sysroles', params);
     }
 
     getMenuTree(params) {
         return this.util.post('system/syspermission', params);
     }
-    
+
     addRole(params) {
         return this.util.post('system/sysrole', params);
     }
 
     saveUserRole(params) {
         return this.util.post('system/sysuser', params);
+    }
+
+    randomUserUrl = 'https://api.randomuser.me/';
+
+    getUsers(
+        pageIndex: number = 1,
+        pageSize: number = 10,
+        sortField: string,
+        sortOrder: string,
+        genders: string[]
+    ): Observable<{}> {
+        let params = new HttpParams()
+            .append('page', `${pageIndex}`)
+            .append('results', `${pageSize}`)
+            .append('sortField', sortField)
+            .append('sortOrder', sortOrder);
+        genders.forEach(gender => {
+            params = params.append('gender', gender);
+        });
+        return this.util.get(`${this.randomUserUrl}`,
+            params
+        )
     }
 
 }

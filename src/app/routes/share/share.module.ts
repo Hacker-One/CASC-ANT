@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpService } from './http.service';
-import { PathNavComponent } from './components/path-nav/path-nav.component';
+import { AjaxTableComponent } from './components/ajax-table/ajax-table.component';
+import { ComponentModule } from '../../../app/component';
 
 @NgModule({
   imports: [
     CommonModule,
+    ComponentModule
   ],
-  declarations: [PathNavComponent],
+  declarations: [AjaxTableComponent],
   providers: [HttpService],
-  exports: [PathNavComponent]
+  exports: [AjaxTableComponent]
 })
 export class ShareModule { }

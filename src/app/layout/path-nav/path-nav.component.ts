@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { GlobalState } from '../../../../../app/global.state';
+import { GlobalState } from '../../../app/global.state';
 
 @Component({
-  selector: 'app-path-nav',
+  selector: 'path-nav',
   templateUrl: './path-nav.component.html',
   styleUrls: ['./path-nav.component.scss']
 })

@@ -7,4 +7,24 @@
     <li><i class="icon iconfont iconglobe"></i>应用连接</li>
     <li><i class="icon iconfont iconglobe"></i>应用连接</li>
   </ul>
+  <i class="fa fa-plus" (click)="showModal()"></i>
+  <i (click)="showModal()">+</i>
 </div>
+
+
+<nz-modal [(nzVisible)]="collectDialog" nzTitle="角色信息" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <div style="width:100%;" class="row">
+    <label for="des" class="col-sm-2 col-form-label">访问权限</label>
+    <div class="col-sm-10">
+      <div class="row">
+        <div class="col-sm-4" *ngFor="let element of collectCboxsArr;let idx = index;">
+          <label>
+            <input type="checkbox" [checked]="element.selected" [value]="element.selected"
+              (click)="checkboxClicked(idx,$event)">
+            {{element.desc}}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</nz-modal>

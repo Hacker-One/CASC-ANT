@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../../system/share/http.service';
+import { HttpService } from '../../share/http.service';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { GlobalState } from '../../../../app/global.state';

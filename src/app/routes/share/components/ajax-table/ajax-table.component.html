@@ -1,0 +1,20 @@
+<nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading"
+  [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="searchData()"
+  (nzPageSizeChange)="searchData(true)">
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
+    <tr>
+      <th>角色</th>
+      <th>角色编码</th>
+      <th>域</th>
+      <th>状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let element of ajaxTable.data;let index = index;">
+      <td>{{ element.displayName }}</td>
+      <td>{{ element.appExtId }}</td>
+      <td>{{ element.externalId }}</td>
+      <td>{{ element.state==1?'有效':'无效' }}</td>
+    </tr>
+  </tbody>
+</nz-table>

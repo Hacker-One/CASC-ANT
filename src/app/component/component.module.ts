@@ -17,6 +17,7 @@ import {
   NzUploadModule,
   NzDropDownModule,
   NzTreeModule,
+  NzTableModule,
 } from 'ng-zorro-antd';
 import { LoadingComponent } from './loading/loading.component';
 
@@ -35,7 +36,8 @@ const ZORROCOMPONENTS = [
   NzGridModule,
   NzUploadModule,
   NzDropDownModule,
-  NzTreeModule
+  NzTreeModule,
+  NzTableModule
 ];
 
 @NgModule({
@@ -53,6 +55,7 @@ const ZORROCOMPONENTS = [
     CommonModule,
     FormsModule,
     RouterModule,
+    ReactiveFormsModule,
     ...ZORROCOMPONENTS,
     LoadingComponent,
   ]

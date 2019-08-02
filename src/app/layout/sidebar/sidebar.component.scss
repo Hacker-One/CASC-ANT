@@ -3,11 +3,10 @@
   background: #316799;
   width: 100%;
   height: 100%;
-
+  text-align: center;
   ul{
     padding: 10px 0;
     background-color: #2b7ac3;
-
     li{
       width: 100%;
       height: 46px;
@@ -16,15 +15,10 @@
       font-size: 22px;
       color: #ffffff;
       background-color: #2b7ac3;
-      //background-image: url("../../../assets/images/07.png");
-      //background-repeat: no-repeat;
-      //background-size: 10%;
-      //background-position-x: 18%;
-      //background-position-y: 50%;
-      i {
-        color: #fff;
-        margin-right: 5px;
-      }
+    }
+    i {
+      color: #fff;
+      margin-right: 5px;
     }
   }
 }

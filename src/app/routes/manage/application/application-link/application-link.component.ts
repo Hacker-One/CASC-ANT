@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import { HttpService } from '../../../../system/share/http.service';
+import { HttpService } from '../../../../..//app/routes/share/http.service';
 import { Router } from '@angular/router';
 
 @Component({

@@ -9,6 +9,15 @@
     margin-right: 10px;
   }
 }
-.td-lv2 {
-  padding-left: 20px;
+
+.application-table {
+  //text-align: center;
+
+  ::ng-deep {
+
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+      text-align: center;
+    }
+
+  }
 }

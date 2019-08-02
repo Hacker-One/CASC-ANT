@@ -2,40 +2,16 @@
   <button [routerLink]="[ '/manage/applicat-directory' ]" nz-button nzType="primary">新建目录</button>
   <button [routerLink]="[ '/manage/applicat-link' ]" nz-button nzType="default">新建链接</button>
 </div>
-<!--<table class="table table-bordered">-->
-  <!--<thead>-->
-    <!--<tr>-->
-      <!--<th>名称</th>-->
-      <!--<th>类型</th>-->
-      <!--<th>排序</th>-->
-      <!--<th>URL</th>-->
-      <!--<th>来源</th>-->
-      <!--<th>状态</th>-->
-      <!--<th>操作</th>-->
-    <!--</tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-    <!--<ng-container *ngFor="let element of tableDatas;let index = index;">-->
-      <!--<tr [ngClass]="{'hidden':hideLine(element)}">-->
-        <!--<th scope="row" (click)="rowClick(element)">{{element.resourcess.length>0?'+':''}}</th>-->
-        <!--<td [ngClass]="{'td-lv2':element.hierarchy=='children'}">{{element.desc}}</td>-->
-        <!--<td [ngClass]="{'td-lv2':element.hierarchy=='children'}"></td>-->
-        <!--<td [ngClass]="{'td-lv2':element.hierarchy=='children'}">{{element.action}}</td>-->
-        <!--<td [ngClass]="{'td-lv2':element.hierarchy=='children'}"></td>-->
-        <!--<td [ngClass]="{'td-lv2':element.hierarchy=='children'}">{{element.state==1?'有效':'无效'}}</td>-->
-        <!--<td [ngClass]="{'td-lv2':element.hierarchy=='children'}">-->
-          <!--&lt;!&ndash; <a href="javascript:void(0)">详情</a> &ndash;&gt;-->
-          <!--&nbsp;|&nbsp;<a>设置无效</a>-->
-        <!--</td>-->
-      <!--</tr>-->
-    <!--</ng-container>-->
-  <!--</tbody>-->
-<!--</table>-->
 
-<nz-table #applicationTable [nzData]="tableData" [nzBordered]="true">
+<nz-table
+  class="application-table"
+  #applicationTable
+  [nzData]="tableData"
+  nzSize="middle"
+  [nzBordered]="true">
   <thead>
   <tr>
-    <th>名称</th>
+    <th width="12%">名称</th>
     <th>类型</th>
     <th>排序</th>
     <th>URL</th>
@@ -49,6 +25,7 @@
     <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
       <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
         <td
+          [nzIndentSize]="item.level * 20"
           [nzShowExpand]="!!item.resourcess"
           [(nzExpand)]="item.expand"
           (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"

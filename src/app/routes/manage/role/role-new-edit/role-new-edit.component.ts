@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-// import { UserSafeHooks } from '../../../../../app/components/tree/tree';
-import { environment } from '../../../../../environments/environment';
 import { HttpService } from 'src/app/routes/share/http.service';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Observable, Observer } from 'rxjs';
+import { ManageService } from '../../../../../app/core/api/manage.service';
+import { NzFormatEmitEvent } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-role-new-edit',
@@ -16,26 +18,106 @@ export class RoleNewEditComponent implements OnInit {
     pExtIds: []
   };
   treeDatas = [];
+  // defaultCheckedKeys = ['0-0-0'];
+  // defaultSelectedKeys = ['0-0-0'];
+  // defaultExpandedKeys = ['0-0', '0-0-0', '0-0-1'];
 
-  // @ViewChild('tree') tree: ElementRef
+  nodes = [
+    {
+      title: '0-0',
+      key: '0-0',
+      expanded: true,
+      checked: true,
+      children: [
+        {
+          title: '0-0-0',
+          key: '0-0-0',
+          children: [
+            { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true },
+            { title: '0-0-0-1', key: '0-0-0-1', isLeaf: true },
+            { title: '0-0-0-2', key: '0-0-0-2', isLeaf: true }
+          ]
+        },
+        {
+          title: '0-0-1',
+          key: '0-0-1',
+          children: [
+            { title: '0-0-1-0', key: '0-0-1-0', isLeaf: true },
+            { title: '0-0-1-1', key: '0-0-1-1', isLeaf: true },
+            { title: '0-0-1-2', key: '0-0-1-2', isLeaf: true }
+          ]
+        },
+        {
+          title: '0-0-2', key: '0-0-2', isLeaf: true
+        }
+      ]
+    },
+    {
+      title: '0-1',
+      key: '0-1',
+      children: [
+        { title: '0-1-0-0', key: '0-1-0-0', isLeaf: true },
+        { title: '0-1-0-1', key: '0-1-0-1', isLeaf: true },
+        { title: '0-1-0-2', key: '0-1-0-2', isLeaf: true }
+      ]
+    },
+    {
+      title: '0-2',
+      key: '0-2',
+      isLeaf: true
+    }
+  ];
+
+  nzEvent(event: NzFormatEmitEvent): void {
+    console.log(event);
+    console.log(this.tree.getTreeNodes());
+  }
+
+  validateForm: FormGroup;
+  @ViewChild('tree', { static: false }) tree;
   // hooks: UserSafeHooks
-  constructor(private http: HttpService) { }
+
+  constructor(private manageService: ManageService, private fb: FormBuilder) {
+    this.validateForm = this.fb.group({
+      displayName: ['', [Validators.required]],
+      externalId: ['', [Validators.required]],
+      // pExtIds: [[], [Validators.required]]
+    });
+  }
 
   ngOnInit() {
-    // this.getMenuTree();
+    this.getMenuTree();
   }
 
   // ngAfterViewInit(): void {
-  //   if (!this.tree) return
-  //   this.hooks = (<any>this.tree).userSafeHooks()
+  //   this.tree.getTreeNodes();
   // }
 
-  // getMenuTree() {
-  //   const url = `${environment.apiURl.getMenuTree}/fangshufeng`;
-  //   this.http.get(url).subscribe(res => {
-  //     this.treeDatas = res.result;
-  //   })
-  // }
+  getMenuTree() {
+    const userName = 'fangshufeng';
+    this.manageService.getMenuTree(userName).subscribe(res => {
+      this.treeDatas = res.result;
+    })
+  }
+
+  resetForm(e: MouseEvent): void {
+    e.preventDefault();
+    this.validateForm.reset();
+    for (const key in this.validateForm.controls) {
+      this.validateForm.controls[key].markAsPristine();
+      this.validateForm.controls[key].updateValueAndValidity();
+    }
+  }
+
+  submitForm(value: any): void {
+    for (const key in this.validateForm.controls) {
+      this.validateForm.controls[key].markAsDirty();
+      this.validateForm.controls[key].updateValueAndValidity();
+    }
+    console.log(value);
+  }
+
+
 
   // findTreeModel(): void {
   //   console.log(this.hooks.findWholeModel());

@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ManageService } from './../../core/api/manage.service';
+import { ManageService } from '../../core/api/manage.service';
 import { Router } from '@angular/router';
-import { GlobalState } from '../../../app/global.state';
-import { environment } from '../../..//environments/environment';
+import { GlobalState } from '../../global.state';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   public menuList: any = [];
 
   constructor(private manageSeivice: ManageService, private router: Router, private _state: GlobalState) {

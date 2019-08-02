@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import { HttpService } from '../../../../system/share/http.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-application-link',
@@ -19,7 +19,7 @@ export class ApplicationLinkComponent implements OnInit {
     isView: 1,
   }
 
-  constructor(private http: HttpService, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.getRoles();

@@ -26,8 +26,8 @@ export class ManageService {
         return this.util.get('system/sysmenus/nohome');
     }
 
-    getAccountList() {
-        return this.util.get('system/sysusers?currentNum=1&pagePerNum=100');
+    getAccountList(params) {
+        return this.util.get('system/sysusers', params);
     }
 
     getRoleList(
@@ -41,7 +41,7 @@ export class ManageService {
     }
 
     getMenuTree(params) {
-        return this.util.post('system/syspermission', params);
+        return this.util.get(`system/syspermission/${params}`);
     }
 
     addRole(params) {

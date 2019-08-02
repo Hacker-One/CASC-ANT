@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
@@ -50,7 +49,7 @@ export class RoleComponent implements OnInit {
     label: '一级 3',
   }];
 
-  constructor(private manageService: ManageService, private http: HttpClient, private fb: FormBuilder) {
+  constructor(private manageService: ManageService, private fb: FormBuilder) {
     this.validateForm = this.fb.group({
       userName: ['', [Validators.required], [this.userNameAsyncValidator]],
       // email: ['', [Validators.email, Validators.required]],

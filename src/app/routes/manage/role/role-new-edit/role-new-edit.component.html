@@ -1,26 +1,39 @@
-<div>
-  <div class="form-group row">
-    <label for="directory" class="col-sm-2 col-form-label">角色名称</label>
-    <div class="col-sm-10">
-      <input type="text" [(ngModel)]="roleObj.displayName" class="form-control" id="directory" placeholder="">
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>角色名称</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="roleNameErrorTpl">
+      <input nz-input formControlName="displayName" placeholder="async validate try to write JasonWood" />
+      <ng-template #roleNameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          请输入角色名称!
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>角色编码</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="externalIdErrorTpl">
+      <input nz-input formControlName="externalId" placeholder="externalId" type="externalId" />
+      <ng-template #externalIdErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          请输入角色编码!
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>角色权限</nz-form-label>
+    <div nz-col nzSpan="12">
+      <nz-tree #tree [nzData]="nodes" nzCheckable nzMultiple 
+        (nzClick)="nzEvent($event)" (nzExpandChange)="nzEvent($event)" (nzCheckBoxChange)="nzEvent($event)">
+      </nz-tree>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="des" class="col-sm-2 col-form-label">角色编号</label>
-    <div class="col-sm-10">
-      <input type="text" [(ngModel)]="roleObj.externalId" class="form-control" id="des" placeholder="">
-    </div>
-  </div>
-  <!-- 选择菜单权限 -->
-  <div class="form-group row">
-    <label for="des" class="col-sm-2 col-form-label">角色权限</label>
-    <div class="col-sm-10">
-      <!-- <ql-tree [model]="treeDatas" [show-checkbox]="true" #tree> </ql-tree> -->
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="offset-sm-2 col-sm-10">
-      <button type="success" (click)="save()">保存</button>
-    </div>
-  </div>
-</div>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

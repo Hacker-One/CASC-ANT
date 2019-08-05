@@ -1,4 +1,7 @@
-<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+<div class="page-btn-line">
+  <button nz-button [routerLink]="[ '/manage/role-new-edit' ]" nzType="primary">新建角色</button>
+</div>
+<form class="search-box" nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
     <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
@@ -58,7 +61,7 @@
   <nz-form-item>
     <nz-form-control [nzOffset]="7" [nzSpan]="12">
       <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
-      <button nz-button (click)="resetForm($event)">Reset</button>
+      <button nz-button class="reset-btn" (click)="resetForm($event)">Reset</button>
     </nz-form-control>
   </nz-form-item>
 </form>
@@ -82,7 +85,7 @@
       <td>{{ element.externalId }}</td>
       <td>{{ element.state==1?'有效':'无效' }}</td>
       <td>
-        <button nz-button nzType="primary" nzSize="small">设置权限</button>
+        <button nz-button nzType="primary" nzSize="small">详情</button>
       </td>
     </tr>
   </tbody>

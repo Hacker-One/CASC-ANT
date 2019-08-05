@@ -1,54 +1,28 @@
-<div class="search-box mb-20">
-  <div class="form-group row">
-    <label for="account" class="col-sm-1 col-form-label">账号</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control" id="account" placeholder="">
-    </div>
-    <label for="account" class="col-sm-1 col-form-label">姓名</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control" id="account" placeholder="">
-    </div>
-    <label for="account" class="col-sm-1 col-form-label">邮箱</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control" id="account" placeholder="">
-    </div>
-    <label for="account" class="col-sm-1 col-form-label">电话</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control" id="account" placeholder="">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="account" class="col-sm-1 col-form-label">状态</label>
-    <div class="col-sm-2 sp-pt">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline1">有效</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline2">无效</label>
-      </div>
-    </div>
-    <label for="account" class="col-sm-1 col-form-label">用户角色</label>
-    <div class="col-sm-2">
-      <select class="form-control" id="inputPassword">
-        <!-- <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option> -->
-      </select>
-    </div>
-    <div class="col-sm-6 text-right pr-0">
-      <button class="btn-z primary mr-10"><i class="icon iconfont iconsearch"></i>查询</button>
-      <button class="btn-z primary"><i class="icon iconfont iconrefresh"></i>重置</button>
-    </div>
-  </div>
-</div>
+<form class="search-box" nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>姓名</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+      <input nz-input formControlName="userName" placeholder="async validate try to write JasonWood" />
+      <ng-template #userErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          请输入姓名!
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+      <button nz-button class="reset-btn" (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
 
-<table class="table table-bordered">
-  <thead>
+<nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading"
+  [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="searchData()"
+  (nzPageSizeChange)="searchData(true)">
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
     <tr>
-      <th>序号</th>
       <th>姓名</th>
       <th>工号</th>
       <th>账号</th>
@@ -60,28 +34,23 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let element of accountDatas;let index = index;">
-      <tr>
-        <th scope="row">{{index}}</th>
-        <td>{{element.name}}</td>
-        <td>Otto</td>
-        <td>mdo</td>
-        <td>{{element.email}}</td>
-        <td>{{element.phoneNumber}}</td>
-        <td> <a href="javascript:void(0)" (click)="roleDialog = true;getRoles(element);">设置</a></td>
-        <td></td>
-        <td>
-          <!-- <a href="javascript:void(0)" [routerLink]="['/manage/account-detail',24]">详情</a> -->
-          <!-- <a href="javascript:void(0)" (click)="detailDialog = true">详情</a> -->
-          &nbsp;|&nbsp;
-          <a href="javascript:void(0)">设置无效</a>
-        </td>
-      </tr>
-    </ng-container>
+    <tr *ngFor="let element of ajaxTable.data;let index = index;">
+      <td>{{element.name}}</td>
+      <td></td>
+      <td></td>
+      <td>{{element.email}}</td>
+      <td>{{element.phoneNumber}}</td>
+      <td> <a href="javascript:void(0)" (click)="roleDialog = true;getRoles(element);">设置</a></td>
+      <td></td>
+      <td>
+        <button nz-button nzType="primary" nzSize="small">详情</button>
+      </td>
+    </tr>
   </tbody>
-</table>
+</nz-table>
 
-<ql-dialog [(visible)]="roleDialog">
+
+<!-- <ql-dialog [(visible)]="roleDialog">
   <ng-template #title>
     <span>用户角色选择</span>
   </ng-template>
@@ -91,7 +60,8 @@
       <div class="row">
         <div class="col-sm-4" *ngFor="let element of roleCheckBoxArr;let idx = index;">
           <label>
-            <input type="checkbox" [checked]="element.selected" [value]="element.selected" (click)="checkboxClicked(idx,$event)">
+            <input type="checkbox" [checked]="element.selected" [value]="element.selected"
+              (click)="checkboxClicked(idx,$event)">
             {{element.displayName}}
           </label>
         </div>
@@ -99,43 +69,7 @@
     </div>
   </div>
   <ng-template #footer>
-    <button type="success" (click)="roleDialog = false;saveUserRole()">确定</button>
-    <button (click)="roleDialog = false">取消</button>
+    <ql-button type="success" (click)="roleDialog = false;saveUserRole()">确定</ql-button>
+    <ql-button (click)="roleDialog = false">取消</ql-button>
   </ng-template>
-</ql-dialog>
-
-<ql-dialog [(visible)]="detailDialog">
-  <ng-template #title>
-    <span>详细信息</span>
-  </ng-template>
-  <div class="detail-content">
-    <div class="row">
-      <div class="col-sm-2">序号</div>
-      <div class="col-sm-4">7879879</div>
-      <div class="col-sm-2">姓名</div>
-      <div class="col-sm-4">LILEI</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">工号</div>
-      <div class="col-sm-4">7879879</div>
-      <div class="col-sm-2">账号</div>
-      <div class="col-sm-4">LILEI</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">邮件</div>
-      <div class="col-sm-4">7879879</div>
-      <div class="col-sm-2">电话</div>
-      <div class="col-sm-4">LILEI</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">已分配角色</div>
-      <div class="col-sm-4">7879879</div>
-      <div class="col-sm-2">状态</div>
-      <div class="col-sm-4">LILEI</div>
-    </div>
-  </div>
-  <ng-template #footer>
-    <button type="success" (click)="detailDialog = false">确定</button>
-    <button (click)="detailDialog = false">取消</button>
-  </ng-template>
-</ql-dialog>
+</ql-dialog> -->

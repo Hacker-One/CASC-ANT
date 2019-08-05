@@ -1,68 +1,68 @@
 <div>
-  <div class="form-group row">
-    <label for="inputPassword" class="col-sm-2 col-form-label">应用目录</label>
-    <div class="col-sm-10">
-      <select class="form-control" id="inputPassword" [(ngModel)]="linkObj.parentId"
-        (ngModelChange)="directorySelected($event)">
-        <option *ngFor="let element of directorySelectArr" [value]="element.id">{{element.menuName}}</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword" class="col-sm-2 col-form-label">应用名称</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputPassword" [(ngModel)]="linkObj.desc" placeholder="">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword" class="col-sm-2 col-form-label">排序</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputPassword" [(ngModel)]="linkObj.sortNum" placeholder="">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword" class="col-sm-2 col-form-label">应用地址</label>
-    <div class="col-sm-10">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" [value]="true" id="customRadioInline1" name="addressRadio" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline1">从已注册应用库中选择</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" [value]="false" id="customRadioInline2" name="addressRadio" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline2">手动输入URL</label>
-      </div>
-      <input type="text" (change)="urlChange($event)" class="form-control" id="inputPassword" placeholder="">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword" class="col-sm-2 col-form-label">强制显示</label>
-    <div class="col-sm-10">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" [value]="1" [(ngModel)]="linkObj.isView" (ngModelChange)="radioChange($event)"
-          id="customRadioInline3" name="isViewRadio" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline3">是</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" [value]="0" [(ngModel)]="linkObj.isView" (ngModelChange)="radioChange($event)"
-          id="customRadioInline4" name="isViewRadio" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline4">否</label>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">应用目录</label>
+      <div class="col-sm-10">
+        <select class="form-control" id="inputPassword" [(ngModel)]="linkObj.parentId"
+          (ngModelChange)="directorySelected($event)">
+          <option *ngFor="let element of directorySelectArr" [value]="element.id">{{element.desc}}</option>
+        </select>
       </div>
     </div>
-  </div>
-  <!-- <div class="form-group row">
-    <label for="des" class="col-sm-2 col-form-label">访问权限</label>
-    <div class="col-sm-10">
-      <div class="checkbox" *ngFor="let element of roleCheckBoxArr;let idx = index;">
-        <label>
-          <input type="checkbox" [value]="element.selected" (click)="checkboxClicked(idx,$event)">
-          {{element.displayName}}
-        </label>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">应用名称</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputPassword" [(ngModel)]="linkObj.desc" placeholder="">
       </div>
     </div>
-  </div> -->
-  <div class="form-group">
-    <div class="offset-sm-2 col-sm-10">
-      <button type="success" (click)="save()">保存</button>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">排序</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputPassword" [(ngModel)]="linkObj.sortNum" placeholder="">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">应用地址</label>
+      <div class="col-sm-10">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" [value]="true" id="customRadioInline1" name="addressRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadioInline1">从已注册应用库中选择</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" [value]="false" id="customRadioInline2" name="addressRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadioInline2">手动输入URL</label>
+        </div>
+        <input type="text" (change)="urlChange($event)" class="form-control" id="inputPassword" placeholder="">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">强制显示</label>
+      <div class="col-sm-10">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" [value]="1" [(ngModel)]="linkObj.isView" (ngModelChange)="radioChange($event)"
+            id="customRadioInline3" name="isViewRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadioInline3">是</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" [value]="0" [(ngModel)]="linkObj.isView" (ngModelChange)="radioChange($event)"
+            id="customRadioInline4" name="isViewRadio" class="custom-control-input">
+          <label class="custom-control-label" for="customRadioInline4">否</label>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="form-group row">
+      <label for="des" class="col-sm-2 col-form-label">访问权限</label>
+      <div class="col-sm-10">
+        <div class="checkbox" *ngFor="let element of roleCheckBoxArr;let idx = index;">
+          <label>
+            <input type="checkbox" [value]="element.selected" (click)="checkboxClicked(idx,$event)">
+            {{element.displayName}}
+          </label>
+        </div>
+      </div>
+    </div> -->
+    <div class="form-group">
+      <div class="offset-sm-2 col-sm-10">
+        <ql-button type="success" (click)="save()">保存</ql-button>
+      </div>
     </div>
   </div>
-</div>

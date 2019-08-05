@@ -1,11 +1,16 @@
 {
   "/system": {
-
-    "target": "http://192.168.10.18:8085/",
+    "target": "http://192.168.10.23:8085/",
     "secure": false,
+    "changeOrigin": true,
     "router" : {
       "/v1/index": "http://localhost:8080",
       "/v1/finances": "http://localhost:8080"
+    },
+    "/applications": {
+      "target": "http://qmsauthz.qloud-qloud.service.sd/",
+      "secure": false,
+      "changeOrigin": true
     }
   }
 }

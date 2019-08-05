@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ManageService } from '../../../../core';
+import {LoadingService, ManageService} from '../../../../core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-application-directory',
@@ -10,21 +11,24 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ApplicationDirectoryComponent implements OnInit {
   public buildForm: FormGroup;
-  directoryObj = {
-    desc: '',
-    pdesc: '',
-    sortNum: null,
-    rExtIds: []
+  public roleList = []; // 角色列表
+  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return { required: true };
+    } else if (control.value.every(item => item.checked === false)) {
+      return { error: true };
+    }
+    return {};
   }
-  roleCheckBoxArr: Array<any> = [];
+
   constructor(
     private fb: FormBuilder,
     private manageService: ManageService,
+    private messageService: NzMessageService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    // this.getRoles();
     this.initParams();
     this.getRoleList();
   }
@@ -34,67 +38,46 @@ export class ApplicationDirectoryComponent implements OnInit {
     this.buildForm = this.fb.group({
       desc: [{value: null, disabled: false}, [Validators.required]],
       pdesc: [null, [Validators.required]],
-      sortNum: [null, [Validators.required]],
-      roleCheckBoxArr: [[], [Validators.required]],
-      rExtId: [[], [Validators.required]],
+      sortNum: [null],
+      rExtId: [null, [this.confirmationValidator]],
     });
   }
 
+  // 获取角色列表
   getRoleList() {
+    const arr = [];
     this.manageService.getRoleListApi({currentNum: 1, pagePerNum: 100}).subscribe(resp => {
-      console.log(resp.resources);
-      // this.roleCheckBoxArr =
+      this.roleList = resp.resources;
       resp.resources.forEach(item => {
         const node = {
           label: item.displayName,
-          value: item.id,
+          value: item.externalId,
           checked: false
         };
-        this.roleCheckBoxArr.push(node);
+        arr.push(node);
       });
-      console.log(this.roleCheckBoxArr);
       this.buildForm.patchValue({
-        rExtId: this.roleCheckBoxArr
+        rExtId: arr
       });
     });
   }
 
-  log(value) {
-    console.log(value);
+  // 添加目录请求
+  submit() {
+    const rExtIds = [];
+    this.buildForm.value.rExtId.forEach(item => {
+      if (item.checked) { rExtIds.push(item.value); }
+    });
+    const params = Object.assign({rExtIds: rExtIds}, this.buildForm.value);
+    LoadingService.show();
+    this.manageService.addSysMenuApi(params).subscribe(resp => {
+      LoadingService.close();
+      if (resp.resultCode === '0') {
+        this.messageService.success('添加目录成功');
+        setTimeout(() => {
+          this.router.navigateByUrl('manage/applicat-list');
+        }, 2000);
+      }
+    });
   }
-
-  // getRoles() {
-  //   const url = `${environment.apiURl.getRoleList}`;
-  //   this.http.get(url).subscribe(res => {
-  //     console.log(res);
-  //     this.roleCheckBoxArr = res.resources;
-  //     this.roleCheckBoxArr.map(item => {
-  //       return item['selected'] = false;
-  //     })
-  //   })
-  // }
-
-  // checkboxClicked(idx, evt) {
-  //   console.log(evt);
-  //   this.roleCheckBoxArr[idx].selected = event.target['value'];
-  //   console.log(this.roleCheckBoxArr);
-  // }
-
-  // save() {
-  //   for (let item of this.roleCheckBoxArr) {
-  //     if (item.selected) {
-  //       this.directoryObj.rExtIds.push(item.externalId);
-  //     }
-  //   };
-  //   console.log(this.directoryObj);
-
-  //   const url = `${environment.apiURl.saveDirectory}`;
-  //   this.http.post(url, this.directoryObj).subscribe(res => {
-  //     console.log(res);
-  //     alert('save success');
-  //     this.router.navigate(['/manage/applicat-list']);
-  //   })
-  // }
-
-
 }

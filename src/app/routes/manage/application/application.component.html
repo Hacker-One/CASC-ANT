@@ -36,8 +36,11 @@
         <td></td>
         <td>{{item.action}}</td>
         <td></td>
-        <td>{{item.state}}</td>
-        <td><span>详情</span></td>
+        <td>
+          <ng-container *ngIf="item.state === '1'">有效</ng-container>
+          <ng-container *ngIf="item.state === '0'">无效</ng-container>
+        </td>
+        <td><span class="primary-color" (click)="findDetail(item)">详情</span></td>
       </tr>
     </ng-container>
   </ng-container>

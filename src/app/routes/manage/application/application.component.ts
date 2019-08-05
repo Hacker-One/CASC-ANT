@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../share/http.service';
 import { GlobalState } from '../../../global.state';
 import { ManageService } from '../../../core';
+import { Router } from '@angular/router';
 
 export interface TreeNodeInterface {
   desc: string;
@@ -31,7 +32,8 @@ export class ApplicationComponent implements OnInit {
   constructor(
     private http: HttpService,
     private _state: GlobalState,
-    private manageService: ManageService
+    private manageService: ManageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -88,6 +90,11 @@ export class ApplicationComponent implements OnInit {
       hashMap[node.id] = true;
       array.push(node);
     }
+  }
+
+  // 查看详情
+  findDetail(item: any) {
+    this.router.navigateByUrl('/manage/applicat-directory');
   }
 
 

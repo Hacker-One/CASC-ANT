@@ -16,7 +16,7 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="sortNum">排序</nz-form-label>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="sortNum">排序</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入排序数字!">
       <nz-input-group >
         <input formControlName="sortNum" nz-input placeholder="请输入排序数字" />
@@ -27,17 +27,15 @@
     <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="rExtId">访问权限</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请勾选访问权限!">
       <nz-input-group >
-        <nz-checkbox-group formControlName="rExtId" (ngModelChange)="log(roleCheckBoxArr)"></nz-checkbox-group>
+        <nz-skeleton [nzActive]="true" *ngIf="roleList.length === 0"></nz-skeleton>
+        <nz-checkbox-group formControlName="rExtId"></nz-checkbox-group>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control>
-      <div nz-row>
-        <span nzSm="2">d</span>
-        <div nzSm="6">
-          <button  nz-button nzType="primary" [disabled]="this.buildForm.invalid">添加节点</button>
-        </div>
+    <nz-form-control nz-row>
+      <div nz-col nzSpan="14" nzOffset="2">
+        <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">添加目录</button>
       </div>
     </nz-form-control>
   </nz-form-item>

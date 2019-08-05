@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
+import {ApplicationLinkComponent} from './routes/manage/application/application-link/application-link.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
       },
       {
         path: 'manage',
-        loadChildren: './routes/manage/manage.module#ManageModule'
+        loadChildren: './routes/manage/manage.module#ManageModule',
+        data: { breadcrumb: '管理工具' }
       }
     ]
   }

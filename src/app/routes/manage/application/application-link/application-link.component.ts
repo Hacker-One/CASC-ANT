@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import {FormGroup, Validators, FormBuilder} from '@angular/forms';
+import { ManageService, LoadingService } from '../../../../core';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-application-link',
@@ -9,60 +10,66 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./application-link.component.scss']
 })
 export class ApplicationLinkComponent implements OnInit {
-  roleCheckBoxArr: Array<any> = [];
-  directorySelectArr: Array<any> = [];
-  linkObj = {
-    parentId: '',
-    desc: '',
-    sortNum: null,
-    action: '',
-    isView: 1,
-  }
+  public buildForm: FormGroup;
+  public menuSelectList = [];
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private manageService: ManageService,
+    private router: Router,
+    private messageService: NzMessageService,
+  ) { }
 
   ngOnInit() {
-    this.getRoles();
+    this.initParams();
     this.getMenuNoHome();
+    // this.getRegistUrl();
   }
 
-  getRoles() {
-    const url = `${environment.apiURl.getRoleList}`;
-    this.http.get(url).subscribe(res => {
-      console.log(res);
-      this.roleCheckBoxArr = res.resources;
-      this.roleCheckBoxArr.map(item => {
-        return item['selected'] = false;
-      })
-    })
+  // 初始化参数和表单
+  initParams() {
+    this.buildForm = this.fb.group({
+      parentId: [{value: null, disabled: false}, [Validators.required]],
+      desc: [null, [Validators.required]],
+      sortNum: [null],
+      addressType: [null, [Validators.required]],
+      action: [null, [Validators.required]],
+      isView: [null, [Validators.required]],
+    });
+    this.buildForm.patchValue({
+      addressType: '1'
+    });
   }
 
+  // 获取目录下拉
   getMenuNoHome() {
-    const url = `${environment.apiURl.getMenuNohome}`;
-    this.http.get(url).subscribe(res => {
-      this.directorySelectArr = res.result;
-    })
+    this.menuSelectList = [];
+    this.manageService.getNoHomeMenusApi().subscribe(resp => {
+      if (resp.resultCode === '0') {
+        this.menuSelectList = resp.result;
+      }
+    });
   }
 
-  directorySelected(evt) {
-    console.log(evt);
+  // 已注册url下拉
+  getRegistUrl() {
+    this.manageService.alreadyUrlApi().subscribe(resp => {
+      console.log(resp);
+    });
   }
 
-  urlChange(evt) {
-    console.log(evt);
-    this.linkObj.action = evt.target.value;
-  }
-  radioChange(evt) {
-    console.log(evt);
-  }
-
-  save() {
-    const url = `${environment.apiURl.saveLink}`;
-    this.http.post(url, this.linkObj).subscribe(res => {
-      console.log(res);
-      alert('save success');
-      this.router.navigate(['/manage/applicat-list']);
-    })
+  submit() {
+    console.log(this.buildForm.value);
+    LoadingService.show();
+    this.manageService.addSysLinkApi(this.buildForm.value).subscribe(resp => {
+      LoadingService.close();
+      if (resp.resultCode === '0') {
+        this.messageService.success('添加链接成功');
+        setTimeout(() => {
+          this.router.navigateByUrl('manage/applicat-list');
+        }, 2000);
+      }
+    });
   }
 
 }

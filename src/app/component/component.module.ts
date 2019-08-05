@@ -18,7 +18,10 @@ import {
   NzDropDownModule,
   NzTreeModule,
   NzTableModule,
-  NzCheckboxModule
+  NzCheckboxModule,
+  NzMessageModule,
+  NzSkeletonModule,
+  NzBreadCrumbModule,
 } from 'ng-zorro-antd';
 import { LoadingComponent } from './loading/loading.component';
 
@@ -39,7 +42,10 @@ const ZORROCOMPONENTS = [
   NzDropDownModule,
   NzTreeModule,
   NzTableModule,
-  NzCheckboxModule
+  NzCheckboxModule,
+  NzMessageModule,
+  NzSkeletonModule,
+  NzBreadCrumbModule,
 ];
 
 @NgModule({

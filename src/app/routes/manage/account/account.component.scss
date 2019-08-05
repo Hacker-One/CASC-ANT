@@ -13,3 +13,11 @@
 .sp-pt {
     padding-top: calc(0.375rem + 1px);
 }
+
+.role-column {
+    max-width: 12vw;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    overflow-x: auto;
+    white-space: nowrap;
+}

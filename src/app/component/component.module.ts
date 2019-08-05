@@ -18,11 +18,16 @@ import {
   NzDropDownModule,
   NzTreeModule,
   NzTableModule,
+<<<<<<< Updated upstream
   NzCheckboxModule,
   NzMessageModule,
   NzSkeletonModule,
   NzBreadCrumbModule,
+=======
+  NzCheckboxModule
+>>>>>>> Stashed changes
 } from 'ng-zorro-antd';
+
 import { LoadingComponent } from './loading/loading.component';
 
 // zorro组件

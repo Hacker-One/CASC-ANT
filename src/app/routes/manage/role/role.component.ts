@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
 import { ManageService } from '../../../../app/core/api/manage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-role',
@@ -19,37 +20,8 @@ export class RoleComponent implements OnInit {
   validateForm: FormGroup;
 
   authorityDialog = false;
-  data3: any = [{
-    label: '一级 1',
-    id: '1.1.1',
-    children: [{
-      label: '二级 1-1',
-      id: '2.1.1',
-      children: [{
-        id: '3.1.1',
-        label: '三级 1-1-1',
-        checked: true,
-        expanded: true,
-      }, {
-        id: '3.1.2',
-        label: '三级 1-1-2',
-        checked: true,
-        expanded: true,
-      }]
-    }]
-  }, {
-    label: '一级 2',
-    id: '1.2.1',
-    children: [{
-      id: '2.2.1',
-      label: '二级 2-1',
-    }]
-  }, {
-    id: '1.3.1',
-    label: '一级 3',
-  }];
 
-  constructor(private manageService: ManageService, private fb: FormBuilder) {
+  constructor(private manageService: ManageService, private fb: FormBuilder, private router: Router) {
     this.validateForm = this.fb.group({
       userName: ['', [Validators.required], [this.userNameAsyncValidator]],
       // email: ['', [Validators.email, Validators.required]],
@@ -132,6 +104,10 @@ export class RoleComponent implements OnInit {
     this.authorityDialog = false;
   }
 
+  goDetail(item) {
+    console.log(item);
+    this.router.navigate(['/manage/role-new-edit', { action: 'edit', externalId: item.externalId }])
+  }
 
 
 }

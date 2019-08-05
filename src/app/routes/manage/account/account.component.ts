@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
 import { ManageService } from '../../../core/api/manage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -24,7 +25,7 @@ export class AccountComponent implements OnInit {
   roleCheckBoxArr = [];
   editAccountItem = { id: '', vo: [] };
 
-  constructor(private manageService: ManageService, private fb: FormBuilder) {
+  constructor(private manageService: ManageService, private fb: FormBuilder, private router: Router) {
     this.validateForm = this.fb.group({
       userName: ['', [Validators.required], [this.userNameAsyncValidator]],
       // email: ['', [Validators.email, Validators.required]],
@@ -92,6 +93,10 @@ export class AccountComponent implements OnInit {
       this.total = res.result.totalResults;
       this.listOfData = res.result.resources;
     })
+  }
+
+  toDetail(item) {
+    this.router.navigate(['/manage/account-detail', { userId: item.id }])
   }
 
   // getList() {

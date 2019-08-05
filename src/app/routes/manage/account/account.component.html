@@ -28,7 +28,7 @@
       <th>账号</th>
       <th>邮件</th>
       <th>电话</th>
-      <th>已分配角色</th>
+      <th class="role-column">已分配角色</th>
       <th>状态</th>
       <th>操作</th>
     </tr>
@@ -40,10 +40,13 @@
       <td></td>
       <td>{{element.email}}</td>
       <td>{{element.phoneNumber}}</td>
-      <td> <a href="javascript:void(0)" (click)="roleDialog = true;getRoles(element);">设置</a></td>
+      <td class="role-column">
+        <span *ngFor="let item of element['rolevos']">{{item.displayName}}&nbsp;</span>
+        <!-- <a href="javascript:void(0)" (click)="roleDialog = true;getRoles(element);">设置</a> -->
+      </td>
       <td></td>
       <td>
-        <button nz-button nzType="primary" nzSize="small">详情</button>
+        <button nz-button (click)="toDetail(element)" nzType="primary" nzSize="small">详情</button>
       </td>
     </tr>
   </tbody>

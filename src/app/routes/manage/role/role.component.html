@@ -1,5 +1,5 @@
 <div class="page-btn-line">
-  <button nz-button [routerLink]="[ '/manage/role-new-edit' ]" nzType="primary">新建角色</button>
+  <button nz-button [routerLink]="[ '/manage/role-new-edit',{action:'create'} ]" nzType="primary">新建角色</button>
 </div>
 <form class="search-box" nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
   <nz-form-item>
@@ -81,11 +81,11 @@
   <tbody>
     <tr *ngFor="let element of ajaxTable.data;let index = index;">
       <td>{{ element.displayName }}</td>
-      <td>{{ element.appExtId }}</td>
       <td>{{ element.externalId }}</td>
+      <td>{{ element.appExtId }}</td>
       <td>{{ element.state==1?'有效':'无效' }}</td>
       <td>
-        <button nz-button nzType="primary" nzSize="small">详情</button>
+        <button nz-button (click)="goDetail(element)" nzType="primary" nzSize="small">详情</button>
       </td>
     </tr>
   </tbody>

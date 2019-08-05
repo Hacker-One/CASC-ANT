@@ -7,7 +7,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutComponent } from './layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NzPopoverModule, NzMenuModule, NzDropDownModule, NzBreadCrumbModule, NzModalModule } from 'ng-zorro-antd';
+import { NzPopoverModule, NzMenuModule, NzDropDownModule, NzBreadCrumbModule, NzModalModule, NzCheckboxModule, NzMessageModule, NzMessageService } from 'ng-zorro-antd';
 import { PathNavComponent } from './path-nav/path-nav.component';
 
 const COMPONENTS = [HeaderComponent, SidebarComponent, PathNavComponent, LayoutComponent];
@@ -26,10 +26,13 @@ const COMPONENTS = [HeaderComponent, SidebarComponent, PathNavComponent, LayoutC
     NzBreadCrumbModule,
     NzModalModule,
     BrowserAnimationsModule,
-    RouterModule
+    RouterModule,
+    NzCheckboxModule,
+    NzMessageModule
   ],
   exports: [
     ...COMPONENTS
-  ]
+  ],
+  providers: [NzMessageService]
 })
 export class LayoutModule { }

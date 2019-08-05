@@ -17,4 +17,8 @@ export class UtilService {
     return this.http.post(path, body);
   }
 
+  put(path: string, body?: any): Observable<any> {
+    return this.http.put(path, body);
+  }
+
 }

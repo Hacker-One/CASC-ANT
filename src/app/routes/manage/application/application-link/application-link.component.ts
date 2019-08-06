@@ -23,7 +23,7 @@ export class ApplicationLinkComponent implements OnInit {
   ngOnInit() {
     this.initParams();
     this.getMenuNoHome();
-    // this.getRegistUrl();
+    this.getRegistUrl();
   }
 
   // 初始化参数和表单
@@ -32,12 +32,12 @@ export class ApplicationLinkComponent implements OnInit {
       parentId: [{value: null, disabled: false}, [Validators.required]],
       desc: [null, [Validators.required]],
       sortNum: [null],
-      addressType: [null, [Validators.required]],
+      sourceType: [null, [Validators.required]],
       action: [null, [Validators.required]],
       isView: [null, [Validators.required]],
     });
     this.buildForm.patchValue({
-      addressType: '1'
+      sourceType: 'N'
     });
   }
 
@@ -55,6 +55,7 @@ export class ApplicationLinkComponent implements OnInit {
   getRegistUrl() {
     this.manageService.alreadyUrlApi().subscribe(resp => {
       console.log(resp);
+      this.menuSelectList = resp.resources;
     });
   }
 

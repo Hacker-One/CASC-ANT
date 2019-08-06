@@ -3,7 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { GlobalState } from '../../../app/global.state';
 
 @Component({
-  selector: 'path-nav',
+  selector: 'app-path-nav',
   templateUrl: './path-nav.component.html',
   styleUrls: ['./path-nav.component.scss']
 })

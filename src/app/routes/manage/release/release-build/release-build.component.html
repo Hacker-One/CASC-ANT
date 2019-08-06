@@ -1,0 +1,67 @@
+<form nz-form [formGroup]="buildForm">
+  <nz-form-item>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入标题名称!">
+      <nz-input-group>
+        <input formControlName="title" nz-input placeholder="请输入标题名称" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="deputyTitle">副标题</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入副标题!">
+      <nz-input-group >
+        <input formControlName="deputyTitle" nz-input placeholder="请输入副标题" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="beginDate">有效期</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择有效期!">
+      <!--<nz-date-picker formControlName="beginDate"></nz-date-picker>-->
+       <!--～-->
+      <!--<nz-date-picker formControlName="endDate"></nz-date-picker>-->
+      <nz-range-picker style="width: 100%" formControlName="beginDate" nzShowTime></nz-range-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="publisherObj">发布对象</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择发布对象!">
+      <nz-select style="width: 100%" formControlName="publisherObj" nzPlaceHolder="请选择发布对象">
+        <nz-option nzValue="1" nzLabel="本部门"></nz-option>
+        <nz-option nzValue="0" nzLabel="全部"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="publisherObj">发布类型</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择发布类型!">
+      <nz-select style="width: 100%" formControlName="publisherObj" nzPlaceHolder="请选择发布对象">
+        <nz-option nzValue="2" nzLabel="图片新闻"></nz-option>
+        <nz-option nzValue="1" nzLabel="通知公告"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired>附件</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择访问权限!">
+      <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+        <button nz-button><i nz-icon nzType="upload"></i><span>Select File</span></button>
+      </nz-upload>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="content">正文内容</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择访问权限!">
+      <textarea rows="4" nz-input formControlName="content"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nz-row>
+      <div nz-col nzSpan="14" nzOffset="2">
+        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid" (click)="submit()">添加目录</button>
+        <button nz-button nzType="default">取消</button>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+</form>

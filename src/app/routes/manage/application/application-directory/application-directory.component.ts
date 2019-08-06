@@ -68,7 +68,7 @@ export class ApplicationDirectoryComponent implements OnInit {
     this.buildForm.value.rExtId.forEach(item => {
       if (item.checked) { rExtIds.push(item.value); }
     });
-    const params = Object.assign({rExtIds: rExtIds}, this.buildForm.value);
+    const params = Object.assign({rExtIds}, this.buildForm.value, {sourceType: 'Y'});
     LoadingService.show();
     this.manageService.addSysMenuApi(params).subscribe(resp => {
       LoadingService.close();

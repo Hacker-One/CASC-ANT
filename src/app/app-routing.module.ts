@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
-import {ApplicationLinkComponent} from './routes/manage/application/application-link/application-link.component';
 
 const routes: Routes = [
   {

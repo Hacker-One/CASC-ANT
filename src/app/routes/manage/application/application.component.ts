@@ -24,8 +24,8 @@ export interface TreeNodeInterface {
   styleUrls: ['./application.component.scss'],
 })
 export class ApplicationComponent implements OnInit {
-
-  tableData = [];
+  public tableLoading = false;    // table loading
+  public tableData = [];          // table data
   mapOfExpandedData: { [key: string]: TreeNodeInterface[] } = {};
 
 
@@ -42,14 +42,16 @@ export class ApplicationComponent implements OnInit {
 
   getList() {
     this.tableData = [];
+    this.tableLoading = true;
     this.manageService.getSysMenus('fangshufeng').subscribe(resp => {
+      this.tableLoading = false;
       if (resp.resultCode === '0') {
         this.tableData = resp.result;
         this.tableData.forEach(item => {
           this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
         });
       }
-    });
+    }, () => this.tableLoading = false);
   }
 
   collapse(array: TreeNodeInterface[], data: TreeNodeInterface, $event: boolean): void {

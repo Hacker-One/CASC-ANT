@@ -21,4 +21,8 @@ export class UtilService {
     return this.http.put(path, body);
   }
 
+  delete(path: string): Observable<any> {
+    return this.http.delete(path);
+  }
+
 }

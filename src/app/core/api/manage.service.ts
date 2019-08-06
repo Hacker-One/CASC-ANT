@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UtilService } from './util.service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import qs from 'qs';
 
 @Injectable({
     providedIn: 'root'
@@ -9,6 +10,8 @@ import { HttpParams } from '@angular/common/http';
 export class ManageService {
 
     constructor(private util: UtilService) { }
+
+    randomUserUrl = 'https://api.randomuser.me/';
 
     /**
      * 获取系统菜单
@@ -49,7 +52,7 @@ export class ManageService {
      * 已注册url
      */
     alreadyUrlApi() {
-        return this.util.get(`applications/7012984/roles`);
+        return this.util.get(`applications`);
     }
 
     /**
@@ -59,7 +62,27 @@ export class ManageService {
         return this.util.post(`system/resource/syslink`, params);
     }
 
-    randomUserUrl = 'https://api.randomuser.me/';
+    /************信息发布*****************/
+
+    /**
+     * 信息发布列表
+     * @params currentNum int 当前页
+     * @params pagePertNum int 每页数量
+     * 5/system/news/page
+     */
+    infoListApi(params): Observable<any>  {
+      return this.util.get(`system/news/page`, params);
+    }
+
+  /**
+   * 信息发布设置无效
+   * @params currentNum int 当前页
+   * @params pagePertNum int 每页数量
+   * 5/system/news/page
+   */
+  infoSetInvalidApi(id: string): Observable<any>  {
+    return this.util.delete(`system/news/${id}`);
+  }
 
     getUsers(
         pageIndex: number = 1,
@@ -78,7 +101,7 @@ export class ManageService {
         });
         return this.util.get(`${this.randomUserUrl}`,
             params
-        )
+        );
     }
 
     getMenuNohome() {
@@ -97,9 +120,9 @@ export class ManageService {
         pageIndex: number = 1,
         pageSize: number = 10,
     ): Observable<any> {
-        let params = new HttpParams()
+        const params = new HttpParams()
             .append('currentNum', `${pageIndex}`)
-            .append('pagePerNum', `${pageSize}`)
+            .append('pagePerNum', `${pageSize}`);
         return this.util.get('system/sysroles', params);
     }
 

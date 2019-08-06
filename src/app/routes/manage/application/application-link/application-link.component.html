@@ -20,26 +20,18 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="addressType">应用地址</nz-form-label>
+    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="sourceType">应用地址</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请勾选访问权限!">
-      <nz-radio-group formControlName="addressType">
-        <label nz-radio [nzValue]="'0'">从已注册应用库中选择</label>
-        <label nz-radio [nzValue]="'1'">手动输入URL</label>
+      <nz-radio-group formControlName="sourceType">
+        <label nz-radio [nzValue]="'Y'">从已注册应用库中选择</label>
+        <label nz-radio [nzValue]="'N'">手动输入URL</label>
       </nz-radio-group>
-      <input formControlName="action" *ngIf="buildForm.value.addressType === '1'" nz-input placeholder="请输入url" />
-      <nz-select style="width: 100%" *ngIf="buildForm.value.addressType === '0'" formControlName="action" nzAllowClear nzPlaceHolder="请选择url">
-        <nz-option [nzValue]="item.id" [nzLabel]="item.desc" *ngFor="let item of menuSelectList"></nz-option>
+      <input formControlName="action" *ngIf="buildForm.value.sourceType === 'N'" nz-input placeholder="请输入url" />
+      <nz-select style="width: 100%" *ngIf="buildForm.value.sourceType === 'Y'" formControlName="action" nzAllowClear nzPlaceHolder="请选择url">
+        <nz-option [nzValue]="item.externalId" [nzLabel]="item.displayName" *ngFor="let item of menuSelectList"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
-  <!--<nz-form-item *ngIf="buildForm.value.addressType">-->
-    <!--<nz-form-control [nzSm]="10" [nzOffset]="2" [nzXs]="24" nzErrorTip="请选择或输入url!">-->
-      <!--<input formControlName="action" *ngIf="buildForm.value.addressType === '1'" nz-input placeholder="请输入url" />-->
-      <!--<nz-select style="width: 100%" *ngIf="buildForm.value.addressType === '0'" formControlName="action" nzAllowClear nzPlaceHolder="请选择url">-->
-        <!--<nz-option [nzValue]="item.id" [nzLabel]="item.desc" *ngFor="let item of menuSelectList"></nz-option>-->
-      <!--</nz-select>-->
-    <!--</nz-form-control>-->
-  <!--</nz-form-item>-->
   <nz-form-item>
     <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="isView">强制显示</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择是否强制显示!">

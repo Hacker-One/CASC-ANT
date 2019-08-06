@@ -8,7 +8,8 @@
   #applicationTable
   [nzData]="tableData"
   nzSize="middle"
-  [nzBordered]="true">
+  [nzLoading]="tableLoading"
+  >
   <thead>
   <tr>
     <th width="12%">名称</th>
@@ -32,15 +33,21 @@
         >
           {{item.desc}}
         </td>
-        <td></td>
-        <td></td>
+        <td>{{item.resourceType}}</td>
+        <td>{{item.sortNum}}</td>
         <td>{{item.action}}</td>
-        <td></td>
+        <td>
+          <ng-container *ngIf="item.sourceType === 'Y'">应用库</ng-container>
+          <ng-container *ngIf="item.sourceType === 'N'">手动输入</ng-container>
+        </td>
         <td>
           <ng-container *ngIf="item.state === '1'">有效</ng-container>
           <ng-container *ngIf="item.state === '0'">无效</ng-container>
         </td>
-        <td><span class="primary-color" (click)="findDetail(item)">详情</span></td>
+        <td>
+          <!--<span class="primary-color cp" (click)="findDetail(item)">详情</span>-->
+          <span class="primary-color cp">详情</span>
+        </td>
       </tr>
     </ng-container>
   </ng-container>

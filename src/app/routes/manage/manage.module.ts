@@ -13,6 +13,8 @@ import { RoleComponent } from './role/role.component';
 import { RoleNewEditComponent } from './role/role-new-edit/role-new-edit.component';
 import { ComponentModule } from '../../component';
 import { ShareModule } from '../share/share.module';
+import { ReleaseComponent } from './release/release.component';
+import { ReleaseBuildComponent } from './release/release-build/release-build.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,14 @@ import { ShareModule } from '../share/share.module';
     ApplicationComponent,
     ApplicationDirectoryComponent,
     ApplicationLinkComponent,
-    RoleComponent, RoleNewEditComponent,
-    AccountDetailComponent,AccountComponent, RoleComponent, RoleNewEditComponent]
+    RoleComponent,
+    RoleNewEditComponent,
+    AccountDetailComponent,
+    AccountComponent,
+    RoleComponent,
+    RoleNewEditComponent,
+    ReleaseComponent,
+    ReleaseBuildComponent,
+  ]
 })
 export class ManageModule { }

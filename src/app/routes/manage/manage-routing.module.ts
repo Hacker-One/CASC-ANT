@@ -7,6 +7,8 @@ import { AccountComponent } from './account/account.component';
 import { AccountDetailComponent } from './account/account-detail/account-detail.component';
 import { RoleComponent } from './role/role.component';
 import { RoleNewEditComponent } from './role/role-new-edit/role-new-edit.component';
+import { ReleaseComponent } from './release/release.component';
+import { ReleaseBuildComponent } from './release/release-build/release-build.component';
 
 const routes: Routes = [
   // { path: '', component: ApplicationComponent },
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'account-detail', component: AccountDetailComponent },
   { path: 'role-list', component: RoleComponent },
   { path: 'role-new-edit', component: RoleNewEditComponent },
+  { path: 'info-release', component: ReleaseComponent },
+  { path: 'release-build', component: ReleaseBuildComponent },
 ];
 
 @NgModule({

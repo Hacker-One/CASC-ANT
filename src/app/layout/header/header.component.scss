@@ -74,7 +74,7 @@ header {
       transition: .3s;
       font-weight: normal;
 
-      &:hover {
+      &:hover, &.active {
         background: #2b7ac3;
       }
     }

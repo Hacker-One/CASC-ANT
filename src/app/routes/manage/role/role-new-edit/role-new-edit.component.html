@@ -1,39 +1,64 @@
-<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>角色名称</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="roleNameErrorTpl">
-      <input nz-input formControlName="displayName" placeholder="async validate try to write JasonWood" />
-      <ng-template #roleNameErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">
-          请输入角色名称!
-        </ng-container>
-      </ng-template>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>角色编码</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="externalIdErrorTpl">
-      <input nz-input formControlName="externalId" placeholder="externalId" type="externalId" />
-      <ng-template #externalIdErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">
-          请输入角色编码!
-        </ng-container>
-      </ng-template>
-    </nz-form-control>
-  </nz-form-item>
+<div *ngIf="pageAction!=='detail'">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>角色名称</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="roleNameErrorTpl">
+        <input nz-input formControlName="displayName" placeholder="async validate try to write JasonWood" />
+        <ng-template #roleNameErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            请输入角色名称!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>角色编码</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="externalIdErrorTpl">
+        <input nz-input formControlName="externalId" placeholder="externalId" type="externalId" />
+        <ng-template #externalIdErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            请输入角色编码!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>角色权限</nz-form-label>
-    <div nz-col nzSpan="12">
-      <nz-tree #tree [nzCheckStrictly]="true" [nzData]="nodes" nzCheckable nzMultiple 
-        (nzClick)="nzEvent($event)" (nzExpandChange)="nzEvent($event)" (nzCheckBoxChange)="nzEvent($event)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>角色权限</nz-form-label>
+      <div nz-col nzSpan="12">
+        <nz-tree #tree [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
+          (nzCheckBoxChange)="nzEvent($event)">
+        </nz-tree>
+      </div>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">保存</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<div *ngIf="pageAction=='detail'" class="detail-box">
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">角色名称：</div>
+    <div nz-col nzSpan="8">{{detailItem?.displayName}}</div>
+    <div nz-col nzSpan="4" class="title">角色编码：</div>
+    <div nz-col nzSpan="8">{{detailItem?.externalId}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">域：</div>
+    <div nz-col nzSpan="8">{{detailItem?.appExtId}}</div>
+    <div nz-col nzSpan="4" class="title">创建时间：</div>
+    <div nz-col nzSpan="8">{{detailItem?.createTime | date}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">角色权限：</div>
+    <div nz-col nzSpan="16">
+      <nz-tree #tree [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
+        (nzCheckBoxChange)="nzEvent($event)">
       </nz-tree>
     </div>
-  </nz-form-item>
-
-  <nz-form-item>
-    <nz-form-control [nzOffset]="7" [nzSpan]="12">
-      <button nz-button nzType="primary" [disabled]="!validateForm.valid">保存</button>
-    </nz-form-control>
-  </nz-form-item>
-</form>
+  </div>
+</div>

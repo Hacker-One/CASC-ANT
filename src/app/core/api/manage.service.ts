@@ -131,6 +131,10 @@ export class ManageService {
         return this.util.get('system/sysusers', params);
     }
 
+    updateAccount(userId, params) {
+        return this.util.put(`system/sysuser/${userId}`, params);
+    }
+
     getAccountDetail(params) {
         return this.util.get(`system/sysuser/${params}`);
     }

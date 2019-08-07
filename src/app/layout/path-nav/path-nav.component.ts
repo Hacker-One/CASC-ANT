@@ -34,21 +34,23 @@ export class PathNavComponent implements OnInit {
 
   setPathArr(url, menuArr) {
     if (!url) { url = '/home-right' };
-    this.pathArr = [];
     for (let elementLV1 of menuArr) {
-      if (elementLV1.action == url) {
+      if (url.indexOf(elementLV1.action) > -1) {
+        this.pathArr = [];
         this.pathArr.push({ name: elementLV1.desc, url: elementLV1.action });
         break;
       } else {
         if (elementLV1.hasOwnProperty('resourcess')) {
           for (let elementLV2 of elementLV1.resourcess) {
-            if (elementLV2.action == url) {
+            if (url.indexOf(elementLV2.action) > -1) {
+              this.pathArr = [];
               this.pathArr.push({ name: elementLV1.desc, url: elementLV1.action }, { name: elementLV2.desc, url: elementLV2.action });
               break;
             } else {
               if (elementLV2.hasOwnProperty('resourcessButton')) {
                 for (let elementLV3 of elementLV2.resourcessButton) {
-                  if (elementLV3.action == url) {
+                  if (url.indexOf(elementLV3.action) > -1) {
+                    this.pathArr = [];
                     this.pathArr.push({ name: elementLV1.desc, url: elementLV1.action }, { name: elementLV2.desc, url: elementLV2.action }, { name: elementLV3.desc, url: elementLV3.action });
                     break;
                   }

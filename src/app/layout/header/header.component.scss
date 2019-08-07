@@ -98,3 +98,9 @@ header {
     }
   }
 }
+
+::ng-deep {
+  .cdk-overlay-container {
+    z-index: 3333;
+  }
+}

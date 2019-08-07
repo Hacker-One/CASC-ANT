@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GlobalState } from '../../../app/global.state';
 import { ManageService } from '../../../app/core/api/manage.service';
 import { NzMessageService } from 'ng-zorro-antd';
+import { all } from 'q';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,6 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class SidebarComponent implements OnInit {
   collectionList = [];
   menuList = [];
+  allCollections = [];
   collectCboxsArr = [];
   collectDialog = false;
   modalOkLoading = false;
@@ -26,10 +28,12 @@ export class SidebarComponent implements OnInit {
     this.getList();
   }
 
+  // 获取已选收藏列表
   getList() {
     const userName = 'fangshufeng';
     this.manageService.getCollections(userName).subscribe(res => {
       this.collectionList = res.result;
+      this.mapCboxsChecked(this.allCollections);
     })
   }
 
@@ -42,17 +46,23 @@ export class SidebarComponent implements OnInit {
         }
       }
     };
-    arr.map(item => {
-      return item['selected'] = false;
-    });
-    this.collectCboxsArr = arr;
+    this.allCollections = arr;
   }
 
-  collect() {
-
+  mapCboxsChecked(allCollections) {
+    allCollections.map(item => {
+      item['checked'] = false;
+      for (let tm of this.collectionList) {
+        if (item.resourceId == tm.resourceId) {
+          item['checked'] = true;
+        }
+      }
+    })
+    this.collectCboxsArr = allCollections;
   }
 
   showModal(): void {
+    this.getList();
     this.collectDialog = true;
   }
 
@@ -63,7 +73,7 @@ export class SidebarComponent implements OnInit {
       resourceIds: []
     };
     for (let element of this.collectCboxsArr) {
-      if (element.selected) {
+      if (element.checked) {
         params.resourceIds.push(element.resourceId);
       }
     };

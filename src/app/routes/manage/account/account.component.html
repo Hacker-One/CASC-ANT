@@ -37,42 +37,18 @@
     <tr *ngFor="let element of ajaxTable.data;let index = index;">
       <td>{{element.name}}</td>
       <td></td>
-      <td></td>
+      <td>{{element.id}}</td>
       <td>{{element.email}}</td>
       <td>{{element.phoneNumber}}</td>
       <td class="role-column">
         <span *ngFor="let item of element['rolevos']">{{item.displayName}}&nbsp;</span>
         <!-- <a href="javascript:void(0)" (click)="roleDialog = true;getRoles(element);">设置</a> -->
       </td>
-      <td></td>
+      <td>有效</td>
       <td>
-        <button nz-button (click)="toDetail(element)" nzType="primary" nzSize="small">详情</button>
+        <button nz-button (click)="toDetail(element,'detail')" nzType="primary" nzSize="small">详情</button>&nbsp;
+        <button [appAuthority]="'AccountUbd'" nz-button (click)="toDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
       </td>
     </tr>
   </tbody>
 </nz-table>
-
-
-<!-- <ql-dialog [(visible)]="roleDialog">
-  <ng-template #title>
-    <span>用户角色选择</span>
-  </ng-template>
-  <div style="width:100%;" class="row">
-    <label for="des" class="col-sm-2 col-form-label">访问权限</label>
-    <div class="col-sm-10">
-      <div class="row">
-        <div class="col-sm-4" *ngFor="let element of roleCheckBoxArr;let idx = index;">
-          <label>
-            <input type="checkbox" [checked]="element.selected" [value]="element.selected"
-              (click)="checkboxClicked(idx,$event)">
-            {{element.displayName}}
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ng-template #footer>
-    <ql-button type="success" (click)="roleDialog = false;saveUserRole()">确定</ql-button>
-    <ql-button (click)="roleDialog = false">取消</ql-button>
-  </ng-template>
-</ql-dialog> -->

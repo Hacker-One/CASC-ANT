@@ -1,22 +1,61 @@
-<div class="gutter-example">
-  <div nz-row nzGutter="16">
-    <div nz-col class="gutter-row" nzSpan="4">
-      <div class="gutter-box">账号</div>
-    </div>
-    <div nz-col class="gutter-row" nzSpan="8">
-      <div class="gutter-box">{{detailDatas.id}}</div>
-    </div>
-    <div nz-col class="gutter-row" nzSpan="4">
-      <div class="gutter-box">姓名</div>
-    </div>
-    <div nz-col class="gutter-row" nzSpan="8">
-      <div class="gutter-box">{{detailDatas.name}}</div>
-    </div>
-    <div nz-col class="gutter-row" nzSpan="4">
-      <div class="gutter-box">邮件</div>
-    </div>
-    <div nz-col class="gutter-row" nzSpan="8">
-      <div class="gutter-box">{{detailDatas.email}}</div>
+<div *ngIf="pageAction!=='detail'">
+  <form nz-form [formGroup]="buildForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="id">账号</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入账号!">
+        <nz-input-group>
+          <input formControlName="id" nz-input placeholder="请输入账号" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="name">姓名</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入目录姓名!">
+        <nz-input-group>
+          <input formControlName="name" nz-input placeholder="请输入目录姓名" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="email">邮箱</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入邮箱!">
+        <nz-input-group>
+          <input formControlName="email" nz-input placeholder="请输入邮箱" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="vo">角色信息</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请勾选角色!">
+        <nz-input-group>
+          <nz-skeleton [nzActive]="true" *ngIf="roleList.length === 0"></nz-skeleton>
+          <nz-checkbox-group formControlName="vo"></nz-checkbox-group>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nz-row>
+        <div nz-col nzSpan="14" nzOffset="2">
+          <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">保存</button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<div *ngIf="pageAction=='detail'" class="detail-box">
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">账号：</div>
+    <div nz-col nzSpan="8">{{detailItem?.id}}</div>
+    <div nz-col nzSpan="4" class="title">姓名：</div>
+    <div nz-col nzSpan="8">{{detailItem?.name}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">邮箱：</div>
+    <div nz-col nzSpan="8">{{detailItem?.email}}</div>
+    <div nz-col nzSpan="4" class="title">角色权限：</div>
+    <div nz-col nzSpan="8">
+      <label class="no-margin" *ngFor="let element of detailItem?.rolevos" nz-checkbox [(ngModel)]="checked">{{element.displayName}}</label>
     </div>
   </div>
 </div>

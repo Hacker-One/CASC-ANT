@@ -104,9 +104,9 @@ export class RoleComponent implements OnInit {
     this.authorityDialog = false;
   }
 
-  goDetail(item) {
+  goDetail(item, act) {
     console.log(item);
-    this.router.navigate(['/manage/role-new-edit', { action: 'edit', externalId: item.externalId }])
+    this.router.navigate(['/manage/role-new-edit', { action: act, externalId: item.externalId }])
   }
 
 

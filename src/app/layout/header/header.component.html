@@ -3,7 +3,7 @@
   <ul class="p-menu clearfix">
     <ng-container *ngFor="let item of menuList">
       <li class="fir-nav">
-        <a nz-dropdown [nzDropdownMenu]="menu">{{item.desc}}</a>
+        <a (click)="goPage(item)" nz-dropdown [nzDropdownMenu]="menu">{{item.desc}}</a>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul class="sec-nav">
             <li *ngFor="let tem of item.resourcess;">

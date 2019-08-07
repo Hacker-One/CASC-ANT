@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@notadd/ngx-neditor": "^1.0.2",
     "@tinymce/tinymce-angular": "^3.2.0",
     "ng-zorro-antd": "^8.1.2",
     "qs": "^6.7.0",

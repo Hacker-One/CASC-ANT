@@ -73,19 +73,16 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="content">正文内容</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择访问权限!">
-      <!--<textarea rows="4" nz-input formControlName="content"></textarea>-->
-      <editor apiKey="test" [init]="{plugins: 'link'}"></editor>
-      <!--<app-tiny [elementId]="'ddd'" (onEditorKeyup)="keyUpHandler($event)"></app-tiny>-->
+    <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="请输入正文内容!">
+      <ngx-neditor formControlName="content" loadingTip="编辑器加载中···" #neditor [config]="config"></ngx-neditor>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nz-row>
       <div nz-col nzSpan="14" nzOffset="2">
-        <button nz-button nzType="primary" class="mr15" (click)="submit()">添加目录</button>
-        <button nz-button nzType="default">取消</button>
+        <button nz-button nzType="primary" class="mr15" (click)="submit('save')">保存</button>
+        <button nz-button nzType="primary" class="mr15" (click)="submit('submit')">提交</button>
       </div>
     </nz-form-control>
   </nz-form-item>
 </form>
-<!--<editor [(ngModel)]="dataModel"></editor>-->

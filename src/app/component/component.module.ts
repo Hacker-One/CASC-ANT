@@ -26,8 +26,9 @@ import {
 } from 'ng-zorro-antd';
 
 import { LoadingComponent } from './loading/loading.component';
-// import { MyEditorComponent } from './my-editor/my-editor.component';
-import { EditorModule } from '@tinymce/tinymce-angular';
+
+// 文本编辑器
+import { NgxNeditorModule } from '@notadd/ngx-neditor';
 
 // zorro组件
 const ZORROCOMPONENTS = [
@@ -63,7 +64,7 @@ const ZORROCOMPONENTS = [
     RouterModule,
     ReactiveFormsModule,
     ...ZORROCOMPONENTS,
-    EditorModule
+    NgxNeditorModule
   ],
   exports: [
     CommonModule,
@@ -72,7 +73,7 @@ const ZORROCOMPONENTS = [
     ReactiveFormsModule,
     ...ZORROCOMPONENTS,
     LoadingComponent,
-    EditorModule
+    NgxNeditorModule
   ]
 })
 export class ComponentModule {}

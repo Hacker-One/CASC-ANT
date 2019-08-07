@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {LoadingService, ManageService} from '../../../../core';
+import { LoadingService, ManageService} from '../../../../core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import {NzMessageService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {NzMessageService, UploadXHRArgs} from 'ng-zorro-antd';
 import {HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
 import qs from 'qs';
 
@@ -15,6 +15,8 @@ export class ReleaseBuildComponent implements OnInit {
   public buildForm: FormGroup;
   public fileList = [];     // 上传文件列表
   public uploadUrl = '/system/uploadfile?';   // 上传文件地址
+  config = {};
+
   constructor(
     private fb: FormBuilder,
     private manageService: ManageService,
@@ -38,14 +40,6 @@ export class ReleaseBuildComponent implements OnInit {
       content: [null, [Validators.required]],         // 内容
       top: [null, [Validators.required]],             // 置顶天数
       Priority: [null, [Validators.required]],        // 重要度
-    });
-  }
-
-  // 添加目录请求
-  submit() {
-    console.log(this.buildForm.value);
-    this.fileList.forEach(item => {
-      console.log(item.response.result);
     });
   }
 
@@ -95,7 +89,22 @@ export class ReleaseBuildComponent implements OnInit {
     });
   }
 
-  keyUpHandler(event) {
-    console.log(event);
+  // 添加目录请求
+  submit(requestType: string) {
+    console.log(this.buildForm.value);
+    const enclosureJson = this.fileList.map(item => item.response.result);
+    const params: any = Object.assign({enclosureJson}, this.buildForm.value);
+    params.beginData = params.rangeDate[0].getTime();
+    params.endData = params.rangeDate[1].getTime();
+    params.requestType = requestType;
+    console.log(params);
+    LoadingService.show();
+    this.manageService.saveInfoApi(params).subscribe(resp => {
+      LoadingService.show();
+      if (resp.resultCode === '0') {
+        this.messageService.success('保存成功');
+        this.router.navigate(['/manage/info-release']);
+      }
+    }, () => LoadingService.close());
   }
 }

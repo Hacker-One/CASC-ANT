@@ -21,10 +21,13 @@ import {
   NzMessageModule,
   NzSkeletonModule,
   NzBreadCrumbModule,
-  NzCheckboxModule
+  NzCheckboxModule,
+  NzIconModule,
 } from 'ng-zorro-antd';
 
 import { LoadingComponent } from './loading/loading.component';
+// import { MyEditorComponent } from './my-editor/my-editor.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 // zorro组件
 const ZORROCOMPONENTS = [
@@ -47,6 +50,7 @@ const ZORROCOMPONENTS = [
   NzMessageModule,
   NzSkeletonModule,
   NzBreadCrumbModule,
+  NzIconModule,
 ];
 
 @NgModule({
@@ -59,6 +63,7 @@ const ZORROCOMPONENTS = [
     RouterModule,
     ReactiveFormsModule,
     ...ZORROCOMPONENTS,
+    EditorModule
   ],
   exports: [
     CommonModule,
@@ -67,6 +72,7 @@ const ZORROCOMPONENTS = [
     ReactiveFormsModule,
     ...ZORROCOMPONENTS,
     LoadingComponent,
+    EditorModule
   ]
 })
 export class ComponentModule {}

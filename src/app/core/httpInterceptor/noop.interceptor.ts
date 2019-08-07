@@ -16,10 +16,27 @@ export class NoopInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpHeaderResponse | HttpResponse<any>> {
+    function urlSplit() {
+      if (req.url.includes('?')) {
+        return req.url.split('?')[0];
+      } else {
+        return req.url;
+      }
+    }
 
-    const headersConfig = {
-      'Content-Type': 'application/json',
-    };
+    let headersConfig = {};
+
+    // 上传修改Content-Type
+    const formType = new Set([
+      '/system/uploadfile'
+    ]);
+    if (formType.has(urlSplit())) {
+      headersConfig = {};
+    } else {
+      headersConfig = {
+        'Content-Type': 'application/json',
+      };
+    }
 
     const customerRequest = req.clone({
       setHeaders: headersConfig,

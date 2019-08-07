@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {LoadingService, ManageService} from '../../../../core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService, UploadFile } from 'ng-zorro-antd';
-import { HttpRequest, HttpResponse, HttpClient} from '@angular/common/http';
-import {filter} from 'rxjs/operators';
+import {NzMessageService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
+import {HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
+import qs from 'qs';
 
 @Component({
   selector: 'app-release-build',
@@ -13,13 +13,8 @@ import {filter} from 'rxjs/operators';
 })
 export class ReleaseBuildComponent implements OnInit {
   public buildForm: FormGroup;
-  public roleList = []; // 角色列表
-  fileList = [];
-  beforeUpload = (file: UploadFile): boolean => {
-    this.fileList = this.fileList.concat(file);
-    return false;
-  }
-
+  public fileList = [];     // 上传文件列表
+  public uploadUrl = '/system/uploadfile?';   // 上传文件地址
   constructor(
     private fb: FormBuilder,
     private manageService: ManageService,
@@ -30,86 +25,77 @@ export class ReleaseBuildComponent implements OnInit {
 
   ngOnInit() {
     this.initParams();
-    this.getRoleList();
   }
 
   // 初始化参数和表单
   initParams() {
     this.buildForm = this.fb.group({
       title: [{value: null, disabled: false}, [Validators.required]],
-      deputyTitle: [null, [Validators.required]],
-      beginDate: [null, [Validators.required]],
-      endDate: [null, [Validators.required]],
-      publisherObj: [null, [Validators.required]],
-      type: [null, [Validators.required]],
-      content: [null, [Validators.required]],
-      top: [null, [Validators.required]],
-      Priority: [null, [Validators.required]],
-    });
-  }
-
-  // 获取角色列表
-  getRoleList() {
-    const arr = [];
-    this.manageService.getRoleListApi({currentNum: 1, pagePerNum: 100}).subscribe(resp => {
-      this.roleList = resp.resources;
-      resp.resources.forEach(item => {
-        const node = {
-          label: item.displayName,
-          value: item.externalId,
-          checked: false
-        };
-        arr.push(node);
-      });
-      this.buildForm.patchValue({
-        rExtId: arr
-      });
+      deputyTitle: [null, [Validators.required]],     // 副标题
+      rangeDate: [null, [Validators.required]],       // 有效期
+      publisherObj: [null, [Validators.required]],    // 发布对象
+      type: [null, [Validators.required]],            // 发布类型
+      content: [null, [Validators.required]],         // 内容
+      top: [null, [Validators.required]],             // 置顶天数
+      Priority: [null, [Validators.required]],        // 重要度
     });
   }
 
   // 添加目录请求
   submit() {
-    const rExtIds = [];
-    this.buildForm.value.rExtId.forEach(item => {
-      if (item.checked) { rExtIds.push(item.value); }
-    });
-    const params = Object.assign({rExtIds}, this.buildForm.value, {sourceType: 'Y'});
-    LoadingService.show();
-    this.manageService.addSysMenuApi(params).subscribe(resp => {
-      LoadingService.close();
-      if (resp.resultCode === '0') {
-        this.messageService.success('添加目录成功');
-        setTimeout(() => {
-          this.router.navigateByUrl('manage/applicat-list');
-        }, 2000);
-      }
+    console.log(this.buildForm.value);
+    this.fileList.forEach(item => {
+      console.log(item.response.result);
     });
   }
 
-  handleUpload(): void {
+  // 上传文件
+  handleChange({ file, fileList }): void {
+    const status = file.status;
+    if (status !== 'uploading') {
+      console.log(file, fileList);
+      this.fileList = fileList;
+    }
+    if (status === 'done') {
+      if (file.response.resultCode === '0') {
+        this.messageService.success(`上传 ${file.name} 成功`);
+      } else {
+        this.messageService.error(`上传文件失败`);
+      }
+    } else if (status === 'error') {
+      this.messageService.error(`上传文件失败`);
+    }
+  }
+
+  // 自定义上传
+  customReq = (item: UploadXHRArgs) => {
     const formData = new FormData();
-    // tslint:disable-next-line:no-any
-    this.fileList.forEach((file: any) => {
-      formData.append('files[]', file);
+    formData.append('file', item.file as any);
+    const fileInfo = (item.file.name as string).split('.');
+    const uploadParams = {
+      fileName: fileInfo[0],
+      modelName: fileInfo[1],
+    };
+    const req = new HttpRequest('POST', item.action + qs.stringify(uploadParams), formData, {
+      reportProgress : true,
+      withCredentials: true
     });
-    // this.uploading = true;
-    // You can use any AJAX library you like
-    const req = new HttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts/', formData, {
-      // reportProgress: true
-    });
-    this.http
-      .request(req)
-      .pipe(filter(e => e instanceof HttpResponse))
-      .subscribe(
-        () => {
-          // this.uploading = false;
-          this.fileList = [];
-          this.messageService.success('upload successfully.');
-        },
-        () => {
-          // this.uploading = false;
-          this.messageService.error('upload failed.');
+    return this.http.request(req).subscribe((event: HttpEvent<{}>) => {
+      if (event.type === HttpEventType.UploadProgress) {
+        if (event.total > 0) {
+          (event as any).percent = event.loaded / event.total * 100;
         }
-      );
+        // 处理上传进度条，必须指定 `percent` 属性来表示进度
+        item.onProgress(event, item.file);
+      } else if (event instanceof HttpResponse) {
+        item.onSuccess(event.body, item.file, event);
+      }
+    }, (err) => {
+      item.onError(err, item.file);
+    });
+  }
+
+  keyUpHandler(event) {
+    console.log(event);
   }
 }

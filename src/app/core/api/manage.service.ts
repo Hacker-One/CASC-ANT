@@ -94,13 +94,48 @@ export class ManageService {
   }
 
   /**
+   * 编辑信息发布
+   * @params id
+   * @params beginDate
+   * @params content
+   * @params endDate
+   * @params publisher
+   * @params publisherObj
+   * @params status
+   * @params title
+   * @params topDate
+   * @params top
+   * @params requestType
+   * @params Priority
+   * @params deputyTitle
+   */
+  editInfoApi(params): Observable<any>  {
+    return this.util.put(`system/news`, params);
+  }
+
+  /**
+   * 审核信息
+   * @params id: 公告id
+   */
+  infoReviewApi(id: string): Observable<any>  {
+    return this.util.put(`system/news/approval`);
+  }
+
+  /**
    * 信息发布设置无效
    * @params currentNum int 当前页
    * @params pagePertNum int 每页数量
-   * 5/system/news/page
    */
   infoSetInvalidApi(id: string): Observable<any>  {
     return this.util.delete(`system/news/${id}`);
+  }
+
+  /**
+   * 信息发布详情
+   * @params id: 公告id
+   */
+  infoByIdApi(id: string): Observable<any>  {
+    return this.util.get(`system/news/${id}`);
   }
 
     getUsers(

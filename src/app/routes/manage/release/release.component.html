@@ -6,7 +6,7 @@
   class="application-table"
   #infoTable
   [nzData]="tableData.result"
-  nzSize="middle"
+  [nzSize]="'middle'"
   [nzLoading]="tableLoading"
   [nzFrontPagination]="false"
   [nzTotal]="tableData.totalNum"
@@ -53,6 +53,7 @@
     </td>
     <td>
       <button nz-button nzType="link" (click)="setInvalid(data.id)" [disabled]="data.status === '0'">设置无效</button>
+      <button nz-button nzType="link" routerLink="../release-build" [queryParams]="{id: data.id}">详情</button>
     </td>
   </tr>
   </tbody>

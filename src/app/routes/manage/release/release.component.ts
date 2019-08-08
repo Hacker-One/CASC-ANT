@@ -61,6 +61,7 @@ export class ReleaseComponent implements OnInit {
     }, () => this.tableLoading = false);
   }
 
+  // 设置无效
   setInvalid(id: string) {
     this.modalService.confirm({
       nzTitle: '确定设置无效么？',
@@ -68,6 +69,7 @@ export class ReleaseComponent implements OnInit {
     });
   }
 
+  // 无效请求服务
   invalidService(id: string) {
     this.manageService.infoSetInvalidApi(id).subscribe(resp => {
       if (resp.resultCode === '0') {
@@ -76,6 +78,5 @@ export class ReleaseComponent implements OnInit {
       }
     });
   }
-
 
 }

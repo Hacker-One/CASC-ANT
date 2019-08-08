@@ -34,9 +34,27 @@
     <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="type">发布类型</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择发布类型!">
       <nz-select style="width: 100%" formControlName="type" nzPlaceHolder="请选择发布类型">
-        <nz-option nzValue="2" nzLabel="图片新闻"></nz-option>
         <nz-option nzValue="1" nzLabel="通知公告"></nz-option>
+        <nz-option nzValue="2" nzLabel="图片新闻"></nz-option>
       </nz-select>
+      <div class="clearfix" *ngIf="buildForm.value.type === '2'">
+        <nz-upload
+          nzAction={{uploadUrl}}
+          nzListType="picture"
+          (nzChange)="imgHandleChange($event)"
+          [nzCustomRequest]="customReq"
+          [nzBeforeUpload]="imgBeforeUpload"
+        >
+          <button nz-button [disabled]="imgFileList.length >= 4">
+            <span><i nz-icon nzType="upload"></i> Upload</span>
+          </button>
+        </nz-upload>
+        <div class="mt10" *ngFor="let item of imagesJsons">
+          <button nz-button nzType="primary" (click)="fileDownload(item.enclosureUrl)">
+            <i nz-icon nzType="download"></i>{{item.enclosureName}}</button>
+          <button nz-button nzType="link" (click)="deleteFile(item.enclosureName)">删除</button>
+        </div>
+      </div>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
@@ -48,10 +66,13 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="Priority">重要度</nz-form-label>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="priority">重要度</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入重要度!">
       <nz-input-group >
-        <input formControlName="Priority" nz-input placeholder="请输入重要度" />
+        <nz-select style="width: 100%" formControlName="priority" nzPlaceHolder="请选择重要度">
+          <nz-option nzValue="1" nzLabel="重要"></nz-option>
+          <nz-option nzValue="2" nzLabel="不重要"></nz-option>
+        </nz-select>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
@@ -69,6 +90,11 @@
         </p>
         <p class="ant-upload-text">点击或拖拽文件上传</p>
       </nz-upload>
+      <div class="mt10" *ngFor="let item of enclosureJsons">
+        <button nz-button nzType="primary" (click)="fileDownload(item.enclosureUrl)">
+          <i nz-icon nzType="download"></i>{{item.enclosureName}}</button>
+        <button nz-button nzType="link" (click)="deleteFile(item.enclosureName)">删除</button>
+      </div>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
@@ -80,8 +106,10 @@
   <nz-form-item>
     <nz-form-control nz-row>
       <div nz-col nzSpan="14" nzOffset="2">
-        <button nz-button nzType="primary" class="mr15" (click)="submit('save')">保存</button>
-        <button nz-button nzType="primary" class="mr15" (click)="submit('submit')">提交</button>
+        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('save')">保存</button>
+        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('submit')">提交</button>
+        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" *ngIf="this.paramsId" (click)="update('save')">更新保存</button>
+        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" (click)="update('submit')">更新提交</button>
       </div>
     </nz-form-control>
   </nz-form-item>

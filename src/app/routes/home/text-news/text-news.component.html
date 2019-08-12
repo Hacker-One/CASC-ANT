@@ -1,4 +1,20 @@
-<p>
-  text-news works!
-  I AM INPUT VALUE : {{serverUrl}}
-</p>
+<div class="text-news">
+  <div class="title">
+    <span>通知公告</span>
+  </div>
+  <div class="content">
+    <ul>
+      <li *ngFor="let element of list">
+        <div class="item">
+          <img src="../../../../assets/images/trumpet.png" alt="">
+        </div>
+        <div class="item text" nz-tooltip nzTitle="人力资源部关于办理社会保险个人权益的处理办法发布">
+          人力资源部关于办理社会保险个人权益的处理办法发布
+        </div>
+        <div class="item date">
+          <p>2019-9-8</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -32,13 +32,12 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  goPage(tem, item) {
-    console.log(item);
-    if (item.parentId === 'Root') {
-      localStorage.setItem('primaryDirectory', item.pdesc);
-    } else if (item.resourcess) {
-
-    }
-    this.router.navigate([`${tem.action}`]);
+  goPage(element) {
+    console.log(element);
+    if (element.resourceType === 'Root' && element.resourceId !== '8shome') {
+      return
+    };
+    this.router.navigate([`${element.action}`]);
   }
+
 }

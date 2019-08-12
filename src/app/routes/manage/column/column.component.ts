@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./column.component.scss']
 })
 export class ColumnComponent implements OnInit {
+  colMap = {
+    oneOfCol: 24,
+    twoOfCol: 12,
+    threeOfCol: 8,
+    fourOfCol: 6,
+  }
 
   constructor() { }
 

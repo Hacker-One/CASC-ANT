@@ -8,10 +8,16 @@ import { TextNewsComponent } from './text-news/text-news.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
 
+export class HomeComponent implements OnInit {
+  colMap = {
+    oneOfCol: 24,
+    twoOfCol: 12,
+    threeOfCol: 8,
+    fourOfCol: 6,
+  }
   constructor(private http: HttpService, private factoryResolver: ComponentFactoryResolver) { }
-  
+
   // @ViewChild('dynamicContainer', { read: ViewContainerRef }) dynamicContainer: ViewContainerRef
 
   // @ViewChild('tpl',null) tpl: TemplateRef<any>;

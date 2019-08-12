@@ -11,4 +11,18 @@
   //    background: #fff;
   //  }
   //}
+
+  .detail-box {
+    .title {
+        text-align: right;
+        padding-right: 10px;
+    }
+    .ant-row {
+        margin: 20px 0;
+    }
+  }
+}
+
+.no-margin{
+  margin: 0 0 10px 0;
 }

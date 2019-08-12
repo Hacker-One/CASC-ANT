@@ -1,6 +1,6 @@
 {
   "/system": {
-    "target": "http://192.168.10.111:8085/",
+    "target": "http://192.168.10.19:8085/",
     "secure": false,
     "changeOrigin": true,
     "router" : {
@@ -9,6 +9,16 @@
     }
   },
   "/applications": {
+    "target": "http://qmsauthz.qloud-qloud.service.sd/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/apps": {
+    "target": "http://qmsauthz.qloud-qloud.service.sd/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/users": {
     "target": "http://qmsauthz.qloud-qloud.service.sd/",
     "secure": false,
     "changeOrigin": true

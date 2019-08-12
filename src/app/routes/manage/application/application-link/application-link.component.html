@@ -1,51 +1,93 @@
-<form nz-form [formGroup]="buildForm">
-  <nz-form-item>
-    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="parentId">应用目录</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择目录名称!">
-      <nz-select style="width: 100%" formControlName="parentId" nzAllowClear nzPlaceHolder="请选择目录名称">
-        <nz-option [nzValue]="item.id" [nzLabel]="item.desc" *ngFor="let item of menuSelectList"></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="desc">应用名称</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入应用名称!">
-      <input formControlName="desc" nz-input placeholder="请输入应用名称" />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="sortNum">排序</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入排序数字!">
-      <input formControlName="sortNum" nz-input placeholder="请输入排序数字" />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="sourceType">应用地址</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请勾选访问权限!">
-      <nz-radio-group formControlName="sourceType">
-        <label nz-radio [nzValue]="'Y'">从已注册应用库中选择</label>
-        <label nz-radio [nzValue]="'N'">手动输入URL</label>
-      </nz-radio-group>
-      <input formControlName="action" *ngIf="buildForm.value.sourceType === 'N'" nz-input placeholder="请输入url" />
-      <nz-select style="width: 100%" *ngIf="buildForm.value.sourceType === 'Y'" formControlName="action" nzAllowClear nzPlaceHolder="请选择url">
-        <nz-option [nzValue]="item.externalId" [nzLabel]="item.displayName" *ngFor="let item of menuSelectList"></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="isView">强制显示</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择是否强制显示!">
-      <nz-radio-group formControlName="isView">
-        <label nz-radio nzValue="1">是</label>
-        <label nz-radio nzValue="0">否</label>
-      </nz-radio-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control nz-row>
-      <div nz-col nzSpan="14" nzOffset="2">
-        <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">添加链接</button>
-      </div>
-    </nz-form-control>
-  </nz-form-item>
-</form>
+<div *ngIf="pageAction!=='detail'" class="detail-box">
+  <form nz-form [formGroup]="buildForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="parentId">应用目录</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择目录名称!">
+        <nz-select [nzDisabled]="pageAction=='edit'?true:false" style="width: 100%" formControlName="parentId"
+          nzAllowClear nzPlaceHolder="请选择目录名称" (ngModelChange)="menuChanged($event)">
+          <nz-option [nzValue]="item.id" [nzLabel]="item.desc" *ngFor="let item of menuSelectList"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="desc">应用名称</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入应用名称!">
+        <input formControlName="desc" nz-input placeholder="请输入应用名称" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzFor="sortNum">排序</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入排序数字!">
+        <input formControlName="sortNum" nz-input placeholder="请输入排序数字" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="sourceType">应用地址</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请勾选访问权限!">
+        <nz-radio-group formControlName="sourceType" (ngModelChange)="sourceTypeChanged($event)">
+          <label nz-radio [nzValue]="'Y'">从已注册应用库中选择</label>
+          <label nz-radio [nzValue]="'N'">手动输入URL</label>
+        </nz-radio-group>
+        <input formControlName="action" *ngIf="buildForm.value.sourceType === 'N'" nz-input placeholder="请输入url" />
+        <nz-select style="width: 100%" *ngIf="buildForm.value.sourceType === 'Y'" formControlName="action" nzAllowClear
+          nzPlaceHolder="请选择url">
+          <nz-option [nzValue]="item.externalId" [nzLabel]="item.desc" *ngFor="let item of applicationLibArr">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="isView">强制显示</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择是否强制显示!">
+        <nz-radio-group formControlName="isView">
+          <label nz-radio nzValue="1">是</label>
+          <label nz-radio nzValue="0">否</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="roleVOs">访问权限</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请勾选访问权限!">
+        <nz-input-group>
+          <!-- <nz-skeleton [nzActive]="true" *ngIf="roleList.length === 0"></nz-skeleton> -->
+          <nz-checkbox-group formControlName="roleVOs"></nz-checkbox-group>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nz-row>
+        <div nz-col nzSpan="14" nzOffset="2">
+          <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
+            <span *ngIf="pageAction==='create'">添加链接</span>
+            <span *ngIf="pageAction==='edit'">修改链接</span>
+          </button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<div *ngIf="pageAction=='detail'" class="detail-box">
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">应用目录：</div>
+    <div nz-col nzSpan="8">{{detailItem.parentId}}</div>
+    <div nz-col nzSpan="4" class="title">应用名称：</div>
+    <div nz-col nzSpan="8">{{detailItem.desc}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">应用地址：</div>
+    <div nz-col nzSpan="8">{{detailItem.action}}</div>
+    <div nz-col nzSpan="4" class="title">强制显示：</div>
+    <div nz-col nzSpan="8">{{detailItem.isView?'是':'否'}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">排序：</div>
+    <div nz-col nzSpan="8">{{detailItem.sortNum}}</div>
+    <div nz-col nzSpan="4" class="title">访问权限：</div>
+    <div nz-col nzSpan="8">
+      <nz-input-group>
+        <label class="no-margin" *ngFor="let element of buildForm.value.roleVOs" nz-checkbox [(ngModel)]="element.checked">{{element.label}}</label>
+      </nz-input-group>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,24 @@
-<p>
-  column works!
-</p>
+<div class="page-btn-line">
+  <button [appAuthority]="'ColumnAdd'" nz-button [routerLink]="[ '/manage/column-new-edit',{action:'create'} ]"
+    nzType="primary">新建栏目</button>
+</div>
+<div class="column-wrapper">
+  <div nz-row nzGutter="16">
+    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+      <div class="gutter-box">
+        
+      </div>
+    </div>
+    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+      <div class="gutter-box">
+        
+      </div>
+    </div>
+    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+      <div class="gutter-box">col-8</div>
+    </div>
+    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+      <div class="gutter-box">col-8</div>
+    </div>
+  </div>
+</div>

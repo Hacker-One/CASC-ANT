@@ -39,7 +39,6 @@ export class AuthorityDirective {
   }
 
   action() {
-    // console.log(this.authrityId);
     const val = this.authrityArr.indexOf(this.authrityId) > -1;
     this.el.nativeElement.style.display = val ? 'bolok' : 'none';
   }

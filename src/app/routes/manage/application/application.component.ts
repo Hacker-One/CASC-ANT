@@ -3,6 +3,7 @@ import { HttpService } from '../../share/http.service';
 import { GlobalState } from '../../../global.state';
 import { ManageService } from '../../../core';
 import { Router } from '@angular/router';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 
 export interface TreeNodeInterface {
   desc: string;
@@ -27,13 +28,15 @@ export class ApplicationComponent implements OnInit {
   public tableLoading = false;    // table loading
   public tableData = [];          // table data
   mapOfExpandedData: { [key: string]: TreeNodeInterface[] } = {};
-
+  deleteDialog = false;
 
   constructor(
     private http: HttpService,
     private _state: GlobalState,
     private manageService: ManageService,
-    private router: Router
+    private router: Router,
+    private message: NzMessageService,
+    private modalService: NzModalService
   ) { }
 
   ngOnInit() {
@@ -94,9 +97,32 @@ export class ApplicationComponent implements OnInit {
     }
   }
 
-  // 查看详情
-  findDetail(item: any) {
-    this.router.navigateByUrl('/manage/applicat-directory');
+  goDetail(item, act) {
+    console.log(item);
+    if (item.resourceType == 'Root') {
+      this.router.navigate(['/manage/applicat-directory', { action: act, resourceId: item.resourceId }])
+    } else {
+      this.router.navigate(['/manage/applicat-link', { action: act, resourceId: item.resourceId }])
+    }
+  }
+
+  deleteItem(item) {
+    this.manageService.deleteSysMenuApi(item.appExtId, item.resourceId).subscribe(res => {
+      this.message.success('删除链接成功');
+      this.getList();
+    })
+  }
+
+  showDeleteConfirm(item): void {
+    this.modalService.confirm({
+      nzTitle: '确认删除吗?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: '确认',
+      nzOkType: 'danger',
+      nzOnOk: () => this.deleteItem(item),
+      nzCancelText: '取消',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
 

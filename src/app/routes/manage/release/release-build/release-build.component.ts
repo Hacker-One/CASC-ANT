@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingService, ManageService} from '../../../../core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {NzMessageService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
-import {HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
+import { NzMessageService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
+import { HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
 import qs from 'qs';
-import {Observable, Observer} from 'rxjs';
+import { Observable, Observer} from 'rxjs';
 
 @Component({
   selector: 'app-release-build',
@@ -19,8 +19,8 @@ export class ReleaseBuildComponent implements OnInit {
   public config = {
     initialFrameHeight: 300,    // 初始化编辑器高度
     autoHeightEnabled: false,   // 是否自动长高
-    imagePathFormat: '/system/uploadfile',
     ActionName: 'uploadimage',
+    convertImageToBase64Enable: false,
     toolbars: [
       [
         'anchor', // 锚点
@@ -63,7 +63,6 @@ export class ReleaseBuildComponent implements OnInit {
         'fontfamily', // 字体
         'fontsize', // 字号
         'paragraph', // 段落格式
-        'simpleupload', // 单图上传
         'insertimage', // 多图上传
         'edittable', // 表格属性
         'edittd', // 单元格属性
@@ -188,7 +187,7 @@ export class ReleaseBuildComponent implements OnInit {
       fileName: fileInfo[0],
       modelName: fileInfo[1],
     };
-    const req = new HttpRequest('POST', item.action + qs.stringify(uploadParams), formData, {
+    const req = new HttpRequest('POST', item.action + qs.stringify(uploadParams), item.file, {
       reportProgress : true,
       withCredentials: true
     });
@@ -286,7 +285,16 @@ export class ReleaseBuildComponent implements OnInit {
   }
 
   // 删除file
-  deleteFile(fileName: string) {
+  deleteFile(fileName: string, fileUrl: string) {
+    const params = {
+      fileName,
+      fileUrl
+    };
+    this.manageService.deleteFileApi(params).subscribe(resp => {
+      if (resp.resultCode === '0') {
+        this.messageService.success('删除成功');
+      }
+    });
     this.enclosureJsons = this.enclosureJsons.filter(item => item.enclosureName !== fileName);
   }
 

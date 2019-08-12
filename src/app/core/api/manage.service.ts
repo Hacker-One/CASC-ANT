@@ -138,6 +138,20 @@ export class ManageService {
     return this.util.get(`system/news/${id}`);
   }
 
+  /**
+   * 删除上传文件
+   * @params fileName
+   * @params fileUrl
+   */
+  deleteFileApi(params): Observable<any>  {
+    return this.util.delete(`system/deleteFile?` + qs.stringify(params));
+  }
+
+  // 下载文件
+  downloadApi(fileName: string, fileUrl: string) {
+    location.href = `system/download/${fileName}?fileUrl=${fileUrl}`;
+  }
+
     getUsers(
         pageIndex: number = 1,
         pageSize: number = 10,

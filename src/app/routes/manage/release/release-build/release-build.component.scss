@@ -13,3 +13,30 @@
   }
 }
 
+.type-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  float: left;
+  margin: 0 10px 10px 0;
+
+  img {
+    max-width: 100%;
+  }
+
+  .img-delete {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    opacity: 0;
+    transition: .3s;
+  }
+
+  &:hover .img-delete {
+    opacity: 1;
+  }
+}
+

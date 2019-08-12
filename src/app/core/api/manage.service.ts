@@ -30,6 +30,10 @@ export class ManageService {
       return this.util.get('system/sysroles', params);
   }
 
+  getRoleByMenu(id): Observable<any> {
+      return this.util.get(`system/sysmenus/role/${id}`);
+  }
+
   /**
    * 添加一级目录
    * @params sortNum: string 排序
@@ -70,8 +74,8 @@ export class ManageService {
    * @params pagePertNum int 每页数量
    * 5/system/news/page
    */
-  infoListApi(params): Observable<any>  {
-    return this.util.get(`system/news/page`, params);
+  infoListApi(params): Observable<any> {
+      return this.util.get(`system/news/page`, params);
   }
 
   /**
@@ -89,8 +93,8 @@ export class ManageService {
    * @params Priority
    * @params deputyTitle
    */
-  saveInfoApi(params): Observable<any>  {
-    return this.util.post(`system/news`, params);
+  saveInfoApi(params): Observable<any> {
+      return this.util.post(`system/news`, params);
   }
 
   /**
@@ -109,16 +113,16 @@ export class ManageService {
    * @params Priority
    * @params deputyTitle
    */
-  editInfoApi(params): Observable<any>  {
-    return this.util.put(`system/news`, params);
+  editInfoApi(params): Observable<any> {
+      return this.util.put(`system/news`, params);
   }
 
   /**
    * 审核信息
    * @params id: 公告id
    */
-  infoReviewApi(id: string): Observable<any>  {
-    return this.util.put(`system/news/approval`);
+  infoReviewApi(id: string): Observable<any> {
+      return this.util.put(`system/news/approval`);
   }
 
   /**
@@ -126,17 +130,18 @@ export class ManageService {
    * @params currentNum int 当前页
    * @params pagePertNum int 每页数量
    */
-  infoSetInvalidApi(id: string): Observable<any>  {
-    return this.util.delete(`system/news/${id}`);
+  infoSetInvalidApi(id: string): Observable<any> {
+      return this.util.delete(`system/news/${id}`);
   }
 
   /**
    * 信息发布详情
    * @params id: 公告id
    */
-  infoByIdApi(id: string): Observable<any>  {
-    return this.util.get(`system/news/${id}`);
+  infoByIdApi(id: string): Observable<any> {
+      return this.util.get(`system/news/${id}`);
   }
+
 
   /**
    * 删除上传文件
@@ -152,79 +157,79 @@ export class ManageService {
     location.href = `system/download/${fileName}?fileUrl=${fileUrl}`;
   }
 
-    getUsers(
-        pageIndex: number = 1,
-        pageSize: number = 10,
-        sortField: string,
-        sortOrder: string,
-        genders: string[]
-    ): Observable<{}> {
-        let params = new HttpParams()
-            .append('page', `${pageIndex}`)
-            .append('results', `${pageSize}`)
-            .append('sortField', sortField)
-            .append('sortOrder', sortOrder);
-        genders.forEach(gender => {
-            params = params.append('gender', gender);
-        });
-        return this.util.get(`${this.randomUserUrl}`,
-            params
-        );
-    }
+  updateSysMenuApi(id: string, params: { desc: string, pdesc: string, sortNum: string, rExtIds: Array<string> }): Observable<any> {
+      return this.util.put(`system/resource/sysmenu/${id}`, params);
+  }
 
-    getMenuNohome() {
-        return this.util.get('system/sysmenus/nohome');
-    }
+  updateSysLinkApi(id: string, params: { desc: string, pdesc: string, sortNum: string, rExtIds: Array<string> }): Observable<any> {
+      return this.util.put(`system/resource/syslink/${id}`, params);
+  }
 
-    getAccountList(params) {
-        return this.util.get('system/sysusers', params);
-    }
+  deleteSysMenuApi(externalId, resourceId) {
+      return this.util.delete(`/apps/${externalId}/resources/${resourceId}`);
+  }
 
-    updateAccount(userId, params) {
-        return this.util.put(`system/sysuser/${userId}`, params);
-    }
+  deleteUser(uId) {
+      return this.util.delete(`users/${uId}`);
+  }
 
-    getAccountDetail(params) {
-        return this.util.get(`system/sysuser/${params}`);
-    }
+  getDirectoryById(id) {
+      return this.util.get(`system/sysmenus/resource/${id}`);
+  }
 
-    getRoleList(
-        pageIndex: number = 1,
-        pageSize: number = 10,
-    ): Observable<any> {
-        const params = new HttpParams()
-            .append('currentNum', `${pageIndex}`)
-            .append('pagePerNum', `${pageSize}`);
-        return this.util.get('system/sysroles', params);
-    }
+  getMenuNohome() {
+      return this.util.get('system/sysmenus/nohome');
+  }
 
-    getMenuTree(params) {
-        return this.util.get(`system/syspermission/${params}`);
-    }
+  getAccountList(params) {
+      return this.util.get('system/sysusers', params);
+  }
 
-    addRole(params) {
-        return this.util.post('system/sysrole', params);
-    }
+  updateAccount(userId, params) {
+      return this.util.put(`system/sysuser/${userId}`, params);
+  }
 
-    updateRole(id, params) {
-        return this.util.put(`system/sysrole/${id}`, params);
-    }
+  getAccountDetail(params) {
+      return this.util.get(`system/sysuser/${params}`);
+  }
 
-    getRoleById(id) {
-        return this.util.get(`system/sysrole/${id}`);
-    }
+  getRoleList(
+      pageIndex: number = 1,
+      pageSize: number = 10,
+  ): Observable<any> {
+      const params = new HttpParams()
+          .append('currentNum', `${pageIndex}`)
+          .append('pagePerNum', `${pageSize}`);
+      return this.util.get('system/sysroles', params);
+  }
 
-    saveUserRole(params) {
-        return this.util.post('system/sysuser', params);
-    }
+  getMenuTree(params) {
+      return this.util.get(`system/syspermission/${params}`);
+  }
 
-    getCollections(params) {
-        return this.util.get(`system/syscollections/user/${params}`);
-    }
+  addRole(params) {
+      return this.util.post('system/sysrole', params);
+  }
 
-    addCollection(params) {
-        return this.util.post('system/syscollection', params);
-    }
+  updateRole(id, params) {
+      return this.util.put(`system/sysrole/${id}`, params);
+  }
+
+  getRoleById(id) {
+      return this.util.get(`system/sysrole/${id}`);
+  }
+
+  saveUserRole(params) {
+      return this.util.post('system/sysuser', params);
+  }
+
+  getCollections(params) {
+      return this.util.get(`system/syscollections/user/${params}`);
+  }
+
+  addCollection(params) {
+      return this.util.post('system/syscollection', params);
+  }
 
 
 }

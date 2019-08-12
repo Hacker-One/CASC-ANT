@@ -7,7 +7,7 @@
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul class="sec-nav">
             <li *ngFor="let tem of item.resourcess;">
-              <a (click)="goPage(tem, item)" [routerLinkActive]="'active'">{{tem.desc}}</a>
+              <a (click)="goPage(tem)" [routerLinkActive]="'active'">{{tem.desc}}</a>
             </li>
           </ul>
         </nz-dropdown-menu>

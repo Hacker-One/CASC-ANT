@@ -15,10 +15,17 @@ export class AccountDetailComponent implements OnInit {
   pageAction = '';
   buildForm: FormGroup;
   roleList = [];
-  detailItem = {};
+  detailItem: any;
   checked = true;
 
-  constructor(private manageService: ManageService, private router: Router, private activatedRoute: ActivatedRoute, private fb: FormBuilder, private message: NzMessageService, private _state: GlobalState) {
+  constructor(
+    private manageService: ManageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private message: NzMessageService,
+    private _state: GlobalState
+  ) {
     const userId = this.activatedRoute.snapshot.params.userId;
     this.pageAction = this.activatedRoute.snapshot.params.action;
     this.getEditDetail(userId);

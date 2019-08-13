@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ManageRoutingModule } from './manage-routing.module';
 import { ApplicationComponent } from './application/application.component';
 import { ApplicationDirectoryComponent } from './application/application-directory/application-directory.component';
-// import { AuthorityComponent } from './authority/authority.component';
 import { ColumnComponent } from './column/column.component';
 import { ApplicationLinkComponent } from './application/application-link/application-link.component';
 import { AccountComponent } from './account/account.component';

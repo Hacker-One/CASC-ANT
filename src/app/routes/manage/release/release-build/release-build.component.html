@@ -52,7 +52,7 @@
         <div class="mt10 clearfix" *ngFor="let item of imagesJsons">
           <div class="type-img">
             <img [attr.src]="'/system/download/' + item.enclosureName + '?fileUrl=' + item.enclosureUrl" [attr.alt]="item.enclosureName">
-            <button class="img-delete" nz-button nzType="link" (click)="deleteFile(item.enclosureName, item.enclosureUrl)">删除</button>
+            <button class="img-delete" nz-button nzType="link" (click)="deleteFile(item)">删除</button>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@
       <div class="mt10" *ngFor="let item of enclosureJsons" nz-row>
         <div nz-col nzSpan="20"><button nz-button nzType="link" (click)="fileDownload(item.enclosureUrl)">
           <i nz-icon nzType="download"></i><span>{{item.enclosureName}}</span></button></div>
-        <button nz-col nzSpan="4" nz-button nzType="link" (click)="deleteFile(item.enclosureName)">删除</button>
+        <button nz-col nzSpan="4" nz-button nzType="link" (click)="deleteFile(item)">删除</button>
       </div>
     </nz-form-control>
   </nz-form-item>

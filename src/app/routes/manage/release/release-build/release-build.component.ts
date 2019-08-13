@@ -102,7 +102,7 @@ export class ReleaseBuildComponent implements OnInit {
       ]
     ]
   };                         // 编辑器配置
-  private paramsId: string;                   // 当前页查询id
+  public paramsId: string;                   // 当前页查询id
   public enclosureJsons = [];                 // 附件
   public imagesJsons = [];                    // 附件
   imgFileList = [];
@@ -285,17 +285,17 @@ export class ReleaseBuildComponent implements OnInit {
   }
 
   // 删除file
-  deleteFile(fileName: string, fileUrl: string) {
+  deleteFile(data) {
     const params = {
-      fileName,
-      fileUrl
+      fileName: data.fileName,
+      fileUrl: data.fileUrl
     };
     this.manageService.deleteFileApi(params).subscribe(resp => {
       if (resp.resultCode === '0') {
         this.messageService.success('删除成功');
       }
     });
-    this.enclosureJsons = this.enclosureJsons.filter(item => item.enclosureName !== fileName);
+    this.enclosureJsons = this.enclosureJsons.filter(item => item.enclosureName !== data.fileName);
   }
 
   ready(e) {

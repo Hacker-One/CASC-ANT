@@ -16,7 +16,7 @@ export class ApplicationLinkComponent implements OnInit {
   public applicationLibArr = [];
   public roleList = []; // 角色列表
   pageAction = '';
-  detailItem = {};
+  detailItem: any;
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
@@ -29,7 +29,7 @@ export class ApplicationLinkComponent implements OnInit {
   actionValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
       return { required: true };
-    } else if (control.value.indexOf('www.') == -1) {
+    } else if (control.value.indexOf('www.') === -1) {
       return { error: true };
     }
     return {};
@@ -71,10 +71,10 @@ export class ApplicationLinkComponent implements OnInit {
   async editAsyncFunc(resourceId) {
     await this.getMenuNoHome();
     await this.getEditLink(resourceId);
-    let selectItem = this.menuSelectList.filter(item => {
-      return item.id == this.buildForm.value.parentId;
+    const selectItem = this.menuSelectList.filter(item => {
+      return item.id === this.buildForm.value.parentId;
     });
-    this.mapRoleSelectedInMenusRoles(selectItem[0]['resourceId']);
+    this.mapRoleSelectedInMenusRoles(selectItem[0].resourceId);
   }
 
   // 初始化参数和表单
@@ -108,30 +108,30 @@ export class ApplicationLinkComponent implements OnInit {
           action: res.result.action,
           isView: res.result.isView,
           roleVOs: []
-        })
+        });
         // this.buildForm.get('parentId').disable();
-      })
-    })
+      });
+    });
   }
 
   sourceTypeChanged(evt) {
-    if (evt == 'Y') {
+    if (evt === 'Y') {
       this.getRegistUrl();
     }
   }
 
   menuChanged(id) {
     console.log(id);
-    let selectItem = this.menuSelectList.filter(item => {
-      return item.id == id;
+    const selectItem = this.menuSelectList.filter(item => {
+      return item.id === id;
     });
     console.log(selectItem);
-    this.getRoleListByMenu(selectItem[0]['resourceId']);
+    this.getRoleListByMenu(selectItem[0].resourceId);
   }
 
   // 获取角色列表
   getRoleListByMenu(resourceId) {
-    if (this.pageAction !== 'create') { return };
+    if (this.pageAction !== 'create') { return false; }
     const arr = [];
     LoadingService.show();
     this.manageService.getRoleByMenu(resourceId).subscribe(resp => {
@@ -154,34 +154,34 @@ export class ApplicationLinkComponent implements OnInit {
   }
 
   mapRoleSelectedInMenusRoles(resourceId) {
-    let arr = [];
+    const arr = [];
     LoadingService.show();
     this.manageService.getRoleByMenu(resourceId).subscribe(resp => {
       LoadingService.close();
       this.roleList = resp.result.filter(item => {
         return item.checked;  // 筛选目录对应的角色
       });
-      let editedItemRoles = this.detailItem['roles'].filter(item => {
+      const editedItemRoles = this.detailItem['roles'].filter(item => {
         return item.checked;
       });
       this.roleList.forEach(item => {
         let checked = false;
-        for (let tm of editedItemRoles) {
-          if (item.id == tm.id) {
+        for (const tm of editedItemRoles) {
+          if (item.id === tm.id) {
             checked = true;
-          };
-        };
+          }
+        }
         const node = {
           label: item.displayName,
           value: item.externalId,
-          checked: checked
+          checked
         };
         arr.push(node);
       });
       this.buildForm.patchValue({
         roleVOs: arr
-      })
-    })
+      });
+    });
   }
 
   // 获取目录下拉
@@ -193,8 +193,8 @@ export class ApplicationLinkComponent implements OnInit {
           resolve();
           this.menuSelectList = resp.result;
         }
-      })
-    })
+      });
+    });
   }
 
   // 已注册url下拉
@@ -218,7 +218,7 @@ export class ApplicationLinkComponent implements OnInit {
             this.router.navigateByUrl('manage/applicat-list');
           }, 2000);
         }
-      })
+      });
     } else {
       const resourceId = this.activatedRoute.snapshot.params.resourceId;
       this.manageService.updateSysLinkApi(resourceId, this.buildForm.value).subscribe(resp => {
@@ -230,7 +230,7 @@ export class ApplicationLinkComponent implements OnInit {
             this.router.navigateByUrl('manage/applicat-list');
           }, 2000);
         }
-      })
+      });
     }
   }
 
@@ -238,7 +238,7 @@ export class ApplicationLinkComponent implements OnInit {
     const userName = 'fangshufeng';
     this.manageService.getSysMenus(userName).subscribe(res => {
       this._state.notifyDataChanged('menu.data', res.result);
-    })
+    });
   }
 
 }

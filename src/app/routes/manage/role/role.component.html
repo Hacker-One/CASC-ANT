@@ -27,7 +27,7 @@
 <nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading"
   [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="searchData()"
   (nzPageSizeChange)="searchData(true)">
-  <thead (nzSortChange)="sort($event)" nzSingleSort>
+  <thead>
     <tr>
       <th>角色</th>
       <th>角色编码</th>

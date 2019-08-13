@@ -67,12 +67,19 @@ export class RoleNewEditComponent implements OnInit {
     pExtIds: []
   };
   treeDatas = [];
-  detailItem = {};
+  detailItem: any;
 
   validateForm: FormGroup;
   @ViewChild('tree', { static: false }) tree;
 
-  constructor(private manageService: ManageService, private fb: FormBuilder, private message: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private _state: GlobalState) {
+  constructor(
+    private manageService: ManageService,
+    private fb: FormBuilder,
+    private message: NzMessageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private _state: GlobalState
+  ) {
     this.validateForm = this.fb.group({
       displayName: ['', [Validators.required]],
       externalId: ['', [Validators.required]],

@@ -40,7 +40,7 @@
       <div class="clearfix" *ngIf="buildForm.value.type === '2'">
         <nz-upload
           nzAction={{uploadUrl}}
-          nzListType="picture-card"
+          nzListType="picture"
           (nzChange)="imgHandleChange($event)"
           [nzCustomRequest]="customReq"
           [nzBeforeUpload]="imgBeforeUpload"

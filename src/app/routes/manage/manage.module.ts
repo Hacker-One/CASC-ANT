@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 import { ManageRoutingModule } from './manage-routing.module';
 import { ApplicationComponent } from './application/application.component';
@@ -14,6 +15,7 @@ import { ComponentModule } from '../../component';
 import { ShareModule } from '../share/share.module';
 import { ReleaseComponent } from './release/release.component';
 import { ReleaseBuildComponent } from './release/release-build/release-build.component';
+import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit.component';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { ReleaseBuildComponent } from './release/release-build/release-build.com
     ShareModule,
     ManageRoutingModule,
     ComponentModule,
+    AngularDraggableModule
   ],
   declarations: [
     ApplicationComponent,
@@ -35,6 +38,7 @@ import { ReleaseBuildComponent } from './release/release-build/release-build.com
     ReleaseComponent,
     ReleaseBuildComponent,
     ColumnComponent,
+    ColumnNewEditComponent,
   ]
 })
 export class ManageModule { }

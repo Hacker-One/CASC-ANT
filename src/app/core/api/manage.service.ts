@@ -231,5 +231,32 @@ export class ManageService {
       return this.util.post('system/syscollection', params);
   }
 
+    getServiceList(params) {
+        return this.util.get('system/serviceaddrs', params);
+    }
+
+    getColumnList(params) {
+        return this.util.get('system/syscolumns', params);
+    }
+
+    addColumn(params) {
+        return this.util.post('system/syscolumn', params);
+    }
+
+    getColumnById(id) {
+        return this.util.get(`system/syscolumn/${id}`);
+    }
+
+    updateColumn(id, params) {
+        return this.util.put(`system/syscolumn/${id}`, params);
+    }
+
+    deleteColumn(id) {
+        return this.util.delete(`system/syscolumn/${id}`);
+    }
+
+    sortColumn(params) {
+        return this.util.put('system/syscolumn/ordernum', params);
+    }
 
 }

@@ -1,9 +1,49 @@
+.page-btn-line {
+    text-align: left;
+    margin-bottom: 10px;
+    padding-left: 8px;
+}
 .column-wrapper {
+    // height: 240px;
     padding: 0 10px;
-    .gutter-box {
-        height: 240px;
-        margin-bottom: 16px;
-        box-shadow: 0 0 4px #999;
+    .rel {
+        position: relative;
+        .gutter-row {
+            position: absolute;
+            &.static-block {
+                transition: all 0.3s ease-out;
+            }
+            :nth-last-child(1) {
+                margin-bottom: 80px;
+            }
+        }
+        .gutter-box {
+            height: 240px;
+            // margin-bottom: 16px;
+            box-shadow: 0 0 4px #999;
+            text-align: center;
+            .col-name {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 60px 0 4px 0;
+            }
+            .btn-row {
+                margin-top: 20px;
+                button {
+                    margin: 10px 20px;
+                }
+            }
+        }
     }
-
+    .bottom-btn-group {
+        position: fixed;
+        bottom: 0;
+        padding: 10px 0;
+        width: calc(100% - 219px);
+        text-align: center;
+        background: white;
+        button {
+            margin: 0 10px;
+        }
+    }
 }

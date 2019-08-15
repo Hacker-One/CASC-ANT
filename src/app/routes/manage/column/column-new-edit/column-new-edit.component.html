@@ -1,0 +1,94 @@
+<div *ngIf="pageAction!=='detail'">
+    <form nz-form [formGroup]="buildForm">
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">栏目标题</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入栏目标题!">
+                <nz-input-group>
+                    <input formControlName="title" nz-input placeholder="请输入栏目标题" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="type">栏目类型</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请选择栏目类型!">
+                <nz-select formControlName="type" nzAllowClear nzPlaceHolder="请选择栏目类型">
+                    <nz-option nzValue="1" nzLabel="图文"></nz-option>
+                    <nz-option nzValue="2" nzLabel="消息"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="length">样式选择(宽度)</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请选择样式!">
+                <nz-select formControlName="length" nzAllowClear nzPlaceHolder="请选择样式">
+                    <nz-option [nzValue]="item.id" [nzLabel]="item.desc" *ngFor="let item of lengthSelectSource">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="serviceAddrId">服务地址</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请选择服务地址!">
+                <nz-select formControlName="serviceAddrId" nzAllowClear nzPlaceHolder="请选择服务地址">
+                    <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of serviceSelectSource">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="fontColor">标题字体颜色</nz-form-label>
+            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择标题字体颜色!">
+                <nz-radio-group formControlName="fontColor">
+                    <label nz-radio nzValue="default">默认色</label>
+                    <label nz-radio nzValue="red">红色醒目</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="borderColor">边框颜色</nz-form-label>
+            <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请选择边框颜色!">
+                <nz-radio-group formControlName="borderColor">
+                    <label nz-radio nzValue="default">默认色</label>
+                    <label nz-radio nzValue="red">红色醒目</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="roleExtIds">访问权限</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请勾选访问权限!">
+                <nz-input-group>
+                    <nz-skeleton [nzActive]="true" *ngIf="roleList.length === 0"></nz-skeleton>
+                    <nz-checkbox-group formControlName="roleExtIds"></nz-checkbox-group>
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nz-row>
+                <div nz-col nzSpan="14" nzOffset="2">
+                    <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
+                        <span *ngIf="pageAction==='create'">添加栏目</span>
+                        <span *ngIf="pageAction==='edit'">修改栏目</span>
+                    </button>
+                </div>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</div>
+
+<div *ngIf="pageAction=='detail'" class="detail-box">
+    <div nz-row>
+        <div nz-col nzSpan="4" class="title">应用目录：</div>
+        <div nz-col nzSpan="8">{{buildForm.value.desc}}</div>
+        <div nz-col nzSpan="4" class="title">描述：</div>
+        <div nz-col nzSpan="8">{{buildForm.value.pdesc}}</div>
+    </div>
+    <div nz-row>
+        <div nz-col nzSpan="4" class="title">排序：</div>
+        <div nz-col nzSpan="8">{{buildForm.value.sortNum}}</div>
+        <div nz-col nzSpan="4" class="title">访问权限：</div>
+        <div nz-col nzSpan="8">
+            <label class="no-margin" *ngFor="let element of buildForm.value.roleVOs" nz-checkbox
+                [(ngModel)]="element.checked">{{element.label}}</label>
+        </div>
+    </div>
+</div>

@@ -149,7 +149,7 @@ export class ManageService {
    * @params fileUrl
    */
   deleteFileApi(params): Observable<any>  {
-    return this.util.delete(`system/deleteFile?` + qs.stringify(params));
+    return this.util.delete(`system/deleteFile`, params);
   }
 
   // 下载文件

@@ -40,21 +40,29 @@
       <div class="clearfix" *ngIf="buildForm.value.type === '2'">
         <nz-upload
           nzAction={{uploadUrl}}
-          nzListType="picture"
+          nzListType="picture-card"
+          [nzShowButton]="imgFileList.length < 5"
+          [nzShowUploadList]="showUploadList"
           (nzChange)="imgHandleChange($event)"
           [nzCustomRequest]="customReq"
           [nzBeforeUpload]="imgBeforeUpload"
+          [(nzFileList)]="imgFileList"
+          [nzPreview]="handlePreview"
+          [nzRemove]="removeImgFile"
         >
-          <button nz-button [disabled]="imgFileList.length >= 4">
-            <span><i nz-icon nzType="upload"></i>上传图片</span>
-          </button>
+          <i nz-icon nzType="plus"></i>
+          <div class="ant-upload-text">上传图片</div>
         </nz-upload>
-        <div class="mt10 clearfix" *ngFor="let item of imagesJsons">
-          <div class="type-img">
-            <img [attr.src]="'/system/download/' + item.enclosureName + '?fileUrl=' + item.enclosureUrl" [attr.alt]="item.enclosureName">
-            <button class="img-delete" nz-button nzType="link" (click)="deleteFile(item)">删除</button>
-          </div>
-        </div>
+        <nz-modal
+          [nzVisible]="previewVisible"
+          [nzContent]="imgFileModal"
+          [nzFooter]="null"
+          (nzOnCancel)="previewVisible = false"
+        >
+          <ng-template #imgFileModal>
+            <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+          </ng-template>
+        </nz-modal>
       </div>
     </nz-form-control>
   </nz-form-item>
@@ -78,24 +86,22 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>附件</nz-form-label>
+    <nz-form-label [nzSm]="4" [nzXs]="24">附件</nz-form-label>
     <nz-form-control [nzSm]="12" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择访问权限!">
       <nz-upload
         nzType="drag"
         nzAction = {{uploadUrl}}
+        [(nzFileList)]="annexFileList"
         (nzChange)="handleChange($event)"
         [nzMultiple]="true"
-        [nzCustomRequest]="customReq">
+        [nzCustomRequest]="customReq"
+        [nzRemove]="removeImgFile"
+      >
         <p class="ant-upload-drag-icon">
           <i nz-icon nzType="inbox"></i>
         </p>
         <p class="ant-upload-text">点击或拖拽文件上传</p>
       </nz-upload>
-      <div class="mt10" *ngFor="let item of enclosureJsons" nz-row>
-        <div nz-col nzSpan="20"><button nz-button nzType="link" (click)="fileDownload(item.enclosureUrl)">
-          <i nz-icon nzType="download"></i><span>{{item.enclosureName}}</span></button></div>
-        <button nz-col nzSpan="4" nz-button nzType="link" (click)="deleteFile(item)">删除</button>
-      </div>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>

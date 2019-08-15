@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CommonService, LoadingService, ManageService} from '../../../../core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService, UploadFile, UploadXHRArgs} from 'ng-zorro-antd';
+import { NzMessageService, UploadFile, UploadXHRArgs, NzModalService} from 'ng-zorro-antd';
 import { HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
 import qs from 'qs';
 import { Observable, Observer} from 'rxjs';
@@ -18,9 +18,15 @@ export class ReleaseBuildComponent implements OnInit {
   public uploadUrl = '/system/uploadfile?';   // 上传文件地址
   public config = CommonService.editConfig;   // 编辑器配置
   public paramsId: string;                    // 当前页查询id
-  public enclosureJsons = [];                 // 附件
-  public imagesJsons = [];                    // 附件
-  imgFileList = [];
+  public imgFileList = [];                    // 图片文件列表
+  public annexFileList = [];                  // 附件文件列表
+  public showUploadList = {
+    showPreviewIcon: true,
+    showRemoveIcon: true,
+    hidePreviewIconInNonImage: true
+  };
+  previewImage: string | undefined = '';
+  previewVisible = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +35,7 @@ export class ReleaseBuildComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService,
   ) { }
 
   ngOnInit() {
@@ -58,9 +65,29 @@ export class ReleaseBuildComponent implements OnInit {
     this.manageService.infoByIdApi(this.paramsId).subscribe(resp => {
       if (resp.resultCode === '0') {
         const data = resp.result;
-        data.rangeDate = [new Date(resp.result.beginDate), new Date(resp.result.endDate)];
-        this.enclosureJsons = JSON.parse(resp.result.enclosureJson || '[]');
-        this.imagesJsons = JSON.parse(resp.result.imagesJson || '[]');
+        data.rangeDate = [new Date(data.beginDate), new Date(data.endDate)];
+        this.annexFileList = data.enclosures.map(item => {
+          return {
+            url: `/system/download/${item.enclosureName}?fileUrl=${item.enclosureUrl}`,
+            name: item.enclosureName,
+            id: item.id,
+            type: item.type,
+            enclosureName: item.enclosureName,
+            enclosureUrl: item.enclosureUrl,
+          };
+        });
+        if (data.images) {
+          this.imgFileList = data.images.map(item => {
+            return {
+              url: `/system/download/${item.enclosureName}?fileUrl=${item.enclosureUrl}`,
+              name: item.enclosureName,
+              id: item.id,
+              type: item.type,
+              enclosureName: item.enclosureName,
+              enclosureUrl: item.enclosureUrl,
+            };
+          });
+        }
         this.buildForm.patchValue({
           title: data.title,
           deputyTitle: data.deputyTitle,
@@ -85,6 +112,14 @@ export class ReleaseBuildComponent implements OnInit {
     if (status === 'done') {
       if (file.response.resultCode === '0') {
         this.messageService.success(`上传 ${file.name} 成功`);
+        this.annexFileList.forEach(item => {
+          if (item.response) {
+            item.id = item.response.result.id;
+            item.enclosureName = item.response.result.enclosureName;
+            item.enclosureUrl = item.response.result.enclosureUrl;
+            item.type = item.response.result.type;
+          }
+        });
       } else {
         this.messageService.error(`上传文件失败`);
       }
@@ -101,6 +136,7 @@ export class ReleaseBuildComponent implements OnInit {
     const uploadParams = {
       fileName: fileInfo[0],
       modelName: fileInfo[1],
+      type: item.file.type.includes('image') ? '2' : '1'
     };
     const req = new HttpRequest('POST', item.action + qs.stringify(uploadParams), item.file, {
       reportProgress : true,
@@ -126,11 +162,18 @@ export class ReleaseBuildComponent implements OnInit {
     const status = file.status;
     if (status !== 'uploading') {
       console.log(file, fileList);
-      this.imgFileList = fileList;
     }
     if (status === 'done') {
       if (file.response.resultCode === '0') {
         this.messageService.success(`上传 ${file.name} 成功`);
+        this.imgFileList.forEach(item => {
+          if (item.response) {
+            item.id = item.response.result.id;
+            item.enclosureName = item.response.result.enclosureName;
+            item.enclosureUrl = item.response.result.enclosureUrl;
+            item.type = item.response.result.type;
+          }
+        });
       } else {
         this.messageService.error(`上传文件失败`);
       }
@@ -139,6 +182,7 @@ export class ReleaseBuildComponent implements OnInit {
     }
   }
 
+  // 限制上传图片
   imgBeforeUpload = (file: UploadFile) => {
     return new Observable((observer: Observer<boolean>) => {
       const isJPG = file.type.includes('image');
@@ -152,15 +196,29 @@ export class ReleaseBuildComponent implements OnInit {
     });
   }
 
+  // 图片预览
+  handlePreview = (file: UploadFile) => {
+    this.previewImage = file.url;
+    this.previewVisible = true;
+  }
+
+  // 图片文件删除
+  removeImgFile = (file: UploadFile) => {
+    this.modalService.confirm({
+      nzTitle: '确定要删除吗？',
+      nzOnOk: () => this.deleteFile(file)
+    });
+  }
+
   // 参数处理
   paramsHandle(requestType: string) {
-    const enclosureJsons = this.fileList.map(item => item.response.result);
-    const params: any = Object.assign({enclosureJsons}, this.buildForm.value);
+    const params: any = Object.assign({enclosures: this.annexFileList}, this.buildForm.value);
     params.beginDate = params.rangeDate[0].getTime();
     params.endDate = params.rangeDate[1].getTime();
     params.requestType = requestType;
+    params.contentImages = JSON.parse(localStorage.getItem('releaseEditImgInfo'));
     if (this.paramsId || this.buildForm.value.type === '2') {
-      params.imagesJsons = this.imgFileList.map(item => item.response.result);
+      params.images = this.imgFileList;
     }
     return params;
   }
@@ -174,47 +232,62 @@ export class ReleaseBuildComponent implements OnInit {
       if (resp.resultCode === '0') {
         this.messageService.success('保存成功');
         this.router.navigate(['/manage/info-release']);
+        localStorage.removeItem('releaseEditImgInfo');
+      } else {
+        delete params.contentImages;
       }
-    }, () => LoadingService.close());
+    }, () => {
+      delete params.contentImages;
+      LoadingService.close();
+    });
   }
 
   // 更新编辑
   update(requestType: string) {
     const params = this.paramsHandle(requestType);
     params.id = this.paramsId;
-    params.enclosureJsons.concat(this.enclosureJsons);
-    params.imagesJsons.concat(this.imagesJsons);
     LoadingService.show();
     this.manageService.editInfoApi(params).subscribe(resp => {
       LoadingService.close();
       if (resp.resultCode === '0') {
         this.messageService.success('保存成功');
         this.router.navigate(['/manage/info-release']);
+        localStorage.removeItem('releaseEditImgInfo');
+      } else {
+        delete params.contentImages;
       }
-    }, () => LoadingService.close());
+    }, () => {
+      delete params.contentImages;
+      LoadingService.close();
+    });
   }
 
   // 下载附件
-  fileDownload(href: string) {
-    location.href = href;
+  fileDownload(item: {enclosureName: string, enclosureUrl: string}) {
+    this.manageService.downloadApi(item.enclosureName, item.enclosureUrl);
   }
 
   // 删除file
   deleteFile(data) {
     const params = {
-      fileName: data.fileName,
-      fileUrl: data.fileUrl
+      fileName: data.enclosureName,
+      fileUrl: data.enclosureUrl,
+      id: data.id,
     };
     this.manageService.deleteFileApi(params).subscribe(resp => {
       if (resp.resultCode === '0') {
         this.messageService.success('删除成功');
+        if (data.type === '2') {
+          this.imgFileList = this.imgFileList.filter(item => item.id !== data.id);
+        } else if (data.type === '1') {
+          this.annexFileList = this.annexFileList.filter(item => item.id !== data.id);
+        }
       }
     });
-    this.enclosureJsons = this.enclosureJsons.filter(item => item.enclosureName !== data.fileName);
   }
 
   ready(e) {
-    console.log(e);
+    // console.log(e);
   }
 }
 

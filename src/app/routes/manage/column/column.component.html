@@ -1,24 +1,38 @@
 <div class="page-btn-line">
-  <button [appAuthority]="'ColumnAdd'" nz-button [routerLink]="[ '/manage/column-new-edit',{action:'create'} ]"
-    nzType="primary">新建栏目</button>
+  <!-- <button [appAuthority]="'ColumnAdd'" nz-button [routerLink]="[ '/manage/column-new-edit',{action:'create'} ]"
+    nzType="primary">新建栏目</button> -->
+  <button nz-button [routerLink]="[ '/manage/column-new-edit',{action:'create'} ]" nzType="primary">新建栏目</button>
 </div>
-<div class="column-wrapper">
-  <div nz-row nzGutter="16">
-    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+<div id="columnWrapper" class="column-wrapper">
+  <div nz-row nzGutter="16" class="rel">
+    <div nz-col class="gutter-row static-block" *ngFor="let element of columnList" [nzSpan]="colMap[element?.colWidth]"
+      [ngDraggable]="element?.canDrag" [preventDefaultEvent]="true" [zIndexMoving]="9999" [trackPosition]="false"
+      [id]="element?.id" [position]="element?.position" (started)="onDragBegin($event)" (stopped)="onDragEnd($event)"
+      (movingOffset)="onMoving($event)" (endOffset)="onMoveEnd($event)">
       <div class="gutter-box">
-        
+        {{element.id}}
+        <p class="col-name">{{element.title}}</p>
+        <p>{{columnTypeMap[element.type]}}</p>
+        <div class="btn-row">
+          <button nz-button (click)="goDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
+          <button nz-button nzType="primary" nzSize="small">停用</button>
+        </div>
       </div>
     </div>
-    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
-      <div class="gutter-box">
-        
-      </div>
+    <!-- <div [ngDraggable]="false" nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol" (started)="onDragBegin($event)"
+      [position]="positionA" [preventDefaultEvent]="true" [zIndexMoving]="9999" [trackPosition]="false"
+      (stopped)="onDragEnd($event)" (movingOffset)="onMoving($event)" (endOffset)="onMoveEnd($event)">
+      <div class="gutter-box">AA</div>
     </div>
-    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
-      <div class="gutter-box">col-8</div>
-    </div>
-    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
-      <div class="gutter-box">col-8</div>
-    </div>
+    <div ngDraggable nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol" (started)="onDragBegin($event)"
+      [position]="positionB" [preventDefaultEvent]="true" [zIndexMoving]="9999" [trackPosition]="false"
+      (stopped)="onDragEnd($event)" (movingOffset)="onMoving($event)" (endOffset)="onMoveEnd($event)">
+      <div class="gutter-box">BB</div>
+    </div> -->
   </div>
+  <div class="bottom-btn-group">
+    <button nz-button nzType="default">取消</button>
+    <button nz-button (click)="saveOrder()" nzType="primary">保存</button>
+  </div>
+
 </div>

@@ -10,6 +10,7 @@ import { RoleNewEditComponent } from './role/role-new-edit/role-new-edit.compone
 import { ReleaseComponent } from './release/release.component';
 import { ReleaseBuildComponent } from './release/release-build/release-build.component';
 import { ColumnComponent } from './column/column.component';
+import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit.component';
 
 const routes: Routes = [
   // { path: '', component: ApplicationComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'info-release', component: ReleaseComponent },
   { path: 'release-build', component: ReleaseBuildComponent },
   { path: 'column-list', component: ColumnComponent },
+  { path: 'column-new-edit', component: ColumnNewEditComponent },
 ];
 
 @NgModule({

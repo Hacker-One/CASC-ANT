@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService, UploadFile, UploadXHRArgs, NzModalService} from 'ng-zorro-antd';
 import { HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
 import qs from 'qs';
-import { Observable, Observer} from 'rxjs';
+import { Observable, Observer, from } from 'rxjs';
 
 @Component({
   selector: 'app-release-build',
@@ -14,12 +14,12 @@ import { Observable, Observer} from 'rxjs';
 })
 export class ReleaseBuildComponent implements OnInit {
   public buildForm: FormGroup;
-  public fileList = [];                       // 上传文件列表
-  public uploadUrl = '/system/uploadfile?';   // 上传文件地址
-  public config = CommonService.editConfig;   // 编辑器配置
-  public paramsId: string;                    // 当前页查询id
-  public imgFileList = [];                    // 图片文件列表
-  public annexFileList = [];                  // 附件文件列表
+  public imgUploadUrl = '/system/uploadfile?type=2&';    // 上传文件地址
+  public fileUploadUrl = '/system/uploadfile?type=1&';   // 上传文件地址
+  public config = CommonService.editConfig;             // 编辑器配置
+  public paramsId: string;                              // 当前页查询id
+  public imgFileList = [];                              // 图片文件列表
+  public annexFileList = [];                            // 附件文件列表
   public showUploadList = {
     showPreviewIcon: true,
     showRemoveIcon: true,
@@ -66,7 +66,7 @@ export class ReleaseBuildComponent implements OnInit {
       if (resp.resultCode === '0') {
         const data = resp.result;
         data.rangeDate = [new Date(data.beginDate), new Date(data.endDate)];
-        if (this.annexFileList) {
+        if (data.enclosures) {
           this.annexFileList = data.enclosures.map(item => {
             return {
               url: `/system/download/${item.enclosureName}?fileUrl=${item.enclosureUrl}`,
@@ -107,10 +107,6 @@ export class ReleaseBuildComponent implements OnInit {
   // 上传文件
   handleChange({ file, fileList }): void {
     const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-      this.fileList = fileList;
-    }
     if (status === 'done') {
       if (file.response.resultCode === '0') {
         this.messageService.success(`上传 ${file.name} 成功`);
@@ -123,10 +119,10 @@ export class ReleaseBuildComponent implements OnInit {
           }
         });
       } else {
-        this.messageService.error(`上传文件失败`);
+        this.annexFileList = fileList.filter(item => item.id);
       }
     } else if (status === 'error') {
-      this.messageService.error(`上传文件失败`);
+      this.annexFileList = fileList.filter(item => item.id);
     }
   }
 
@@ -138,7 +134,6 @@ export class ReleaseBuildComponent implements OnInit {
     const uploadParams = {
       fileName: fileInfo[0],
       modelName: fileInfo[1],
-      type: item.file.type.includes('image') ? '2' : '1'
     };
     const req = new HttpRequest('POST', item.action + qs.stringify(uploadParams), item.file, {
       reportProgress : true,
@@ -162,9 +157,6 @@ export class ReleaseBuildComponent implements OnInit {
   // 上传文件
   imgHandleChange({ file, fileList }): void {
     const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-    }
     if (status === 'done') {
       if (file.response.resultCode === '0') {
         this.messageService.success(`上传 ${file.name} 成功`);
@@ -177,10 +169,10 @@ export class ReleaseBuildComponent implements OnInit {
           }
         });
       } else {
-        this.messageService.error(`上传文件失败`);
+        this.imgFileList = fileList.filter(item => item.id);
       }
     } else if (status === 'error') {
-      this.messageService.error(`上传文件失败`);
+      this.imgFileList = fileList.filter(item => item.id);
     }
   }
 
@@ -264,11 +256,6 @@ export class ReleaseBuildComponent implements OnInit {
     });
   }
 
-  // 下载附件
-  fileDownload(item: {enclosureName: string, enclosureUrl: string}) {
-    this.manageService.downloadApi(item.enclosureName, item.enclosureUrl);
-  }
-
   // 删除file
   deleteFile(data) {
     const params = {
@@ -286,10 +273,6 @@ export class ReleaseBuildComponent implements OnInit {
         }
       }
     });
-  }
-
-  ready(e) {
-    // console.log(e);
   }
 }
 

@@ -39,7 +39,7 @@
       </nz-select>
       <div class="clearfix" *ngIf="buildForm.value.type === '2'">
         <nz-upload
-          nzAction={{uploadUrl}}
+          nzAction={{imgUploadUrl}}
           nzListType="picture-card"
           [nzShowButton]="imgFileList.length < 5"
           [nzShowUploadList]="showUploadList"
@@ -90,7 +90,7 @@
     <nz-form-control [nzSm]="12" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择访问权限!">
       <nz-upload
         nzType="drag"
-        nzAction = {{uploadUrl}}
+        nzAction = {{fileUploadUrl}}
         [(nzFileList)]="annexFileList"
         (nzChange)="handleChange($event)"
         [nzMultiple]="true"
@@ -107,7 +107,7 @@
   <nz-form-item>
     <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="content">正文内容</nz-form-label>
     <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="请输入正文内容!">
-      <ngx-neditor formControlName="content" loadingTip="编辑器加载中···" (neOnReady)="ready($event)" #neditor [config]="config"></ngx-neditor>
+      <ngx-neditor formControlName="content" loadingTip="编辑器加载中···" #neditor [config]="config"></ngx-neditor>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>

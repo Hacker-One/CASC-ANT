@@ -84,7 +84,7 @@ export class ApplicationLinkComponent implements OnInit {
       desc: [null, [Validators.required]],
       sortNum: [null],
       sourceType: [null, [Validators.required]],
-      action: [null, [this.actionValidator]],
+      action: [null, [Validators.required]],
       isView: [null, [Validators.required]],
       roleVOs: [null, [this.confirmationValidator]]
     });

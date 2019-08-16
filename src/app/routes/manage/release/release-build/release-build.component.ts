@@ -107,6 +107,9 @@ export class ReleaseBuildComponent implements OnInit {
   // 上传文件
   handleChange({ file, fileList }): void {
     const status = file.status;
+    if (status !== 'uploading') {
+      console.log(fileList);
+    }
     if (status === 'done') {
       if (file.response.resultCode === '0') {
         this.messageService.success(`上传 ${file.name} 成功`);
@@ -120,6 +123,7 @@ export class ReleaseBuildComponent implements OnInit {
         });
       } else {
         this.annexFileList = fileList.filter(item => item.id);
+        this.messageService.error('服务器异常，上传失败');
       }
     } else if (status === 'error') {
       this.annexFileList = fileList.filter(item => item.id);

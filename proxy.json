@@ -1,6 +1,6 @@
 {
   "/system": {
-    "target": "http://192.168.10.110:8085/",
+    "target": "http://192.168.10.18:8085/",
     "secure": false,
     "changeOrigin": true
   },

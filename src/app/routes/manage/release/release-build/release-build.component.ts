@@ -66,16 +66,18 @@ export class ReleaseBuildComponent implements OnInit {
       if (resp.resultCode === '0') {
         const data = resp.result;
         data.rangeDate = [new Date(data.beginDate), new Date(data.endDate)];
-        this.annexFileList = data.enclosures.map(item => {
-          return {
-            url: `/system/download/${item.enclosureName}?fileUrl=${item.enclosureUrl}`,
-            name: item.enclosureName,
-            id: item.id,
-            type: item.type,
-            enclosureName: item.enclosureName,
-            enclosureUrl: item.enclosureUrl,
-          };
-        });
+        if (this.annexFileList) {
+          this.annexFileList = data.enclosures.map(item => {
+            return {
+              url: `/system/download/${item.enclosureName}?fileUrl=${item.enclosureUrl}`,
+              name: item.enclosureName,
+              id: item.id,
+              type: item.type,
+              enclosureName: item.enclosureName,
+              enclosureUrl: item.enclosureUrl,
+            };
+          });
+        }
         if (data.images) {
           this.imgFileList = data.images.map(item => {
             return {

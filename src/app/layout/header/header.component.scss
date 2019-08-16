@@ -53,6 +53,13 @@ header {
     top: 20px;
     font-size: 0;
   }
+
+  .user-blk {
+    position: absolute;
+    right: 6.8%;
+    top: 40px;
+  }
+
 }
 
 
@@ -103,4 +110,10 @@ header {
   .cdk-overlay-container {
     z-index: 3333;
   }
+  // .user-blk {
+    .ant-dropdown-menu {
+      min-width: 100px;
+      border-radius: 0;
+    }
+  // }
 }

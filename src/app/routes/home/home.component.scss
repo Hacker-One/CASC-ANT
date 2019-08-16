@@ -1,9 +1,27 @@
 .home-wrapper {
-    padding: 0 10px;
+    padding: 10px 0;
     .gutter-box {
         height: 36vh;
         margin-bottom: 16px;
         box-shadow: 0 0 4px #999;
     }
+}
 
+::ng-deep {
+    .news-modal {
+        h1 {
+            font-size: 20px;
+        }
+        h2 {
+            font-size: 16px;
+        }
+        .ant-modal {
+            top: 10%;
+            height: 80%;
+            .ant-modal-content {
+                height: 100%;
+                overflow-y: auto;
+            }
+        }
+    }
 }

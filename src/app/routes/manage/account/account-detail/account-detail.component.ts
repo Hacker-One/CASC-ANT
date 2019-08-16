@@ -63,11 +63,13 @@ export class AccountDetailComponent implements OnInit {
       this.roleList = resp.resources;
       this.roleList.map(element => {
         element['checked'] = false;
-        for (let emt of detailDatas['rolevos']) {
-          if (element.id == emt.id) {
-            element['checked'] = true;
+        if (detailDatas.hasOwnProperty('rolevos')) {
+          for (let emt of detailDatas['rolevos']) {
+            if (element.id == emt.id) {
+              element['checked'] = true;
+            }
           }
-        };
+        }
         return element;
       })
       this.roleList.forEach(item => {

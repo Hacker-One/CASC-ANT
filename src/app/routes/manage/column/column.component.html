@@ -10,7 +10,6 @@
       [id]="element?.id" [position]="element?.position" (started)="onDragBegin($event)" (stopped)="onDragEnd($event)"
       (movingOffset)="onMoving($event)" (endOffset)="onMoveEnd($event)">
       <div class="gutter-box">
-        {{element.id}}
         <p class="col-name">{{element.title}}</p>
         <p>{{columnTypeMap[element.type]}}</p>
         <div class="btn-row">

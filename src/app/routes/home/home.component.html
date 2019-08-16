@@ -7,14 +7,21 @@
     </div>
     <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
       <div class="gutter-box">
-          <image-news></image-news>
+        <image-news></image-news>
       </div>
     </div>
-    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+    <!-- <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
       <div class="gutter-box">col-8</div>
     </div>
     <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
       <div class="gutter-box">col-8</div>
     </div>
-  </div>
+  </div> -->
 </div>
+
+<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
+<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null">
+  <h1>一级标题</h1>
+  <h2>二级标题</h2>
+  <div [innerHtml]="content | html"></div>
+</nz-modal>

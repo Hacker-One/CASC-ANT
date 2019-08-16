@@ -1,4 +1,4 @@
-<nz-breadcrumb>
+<nz-breadcrumb *ngIf="isShow">
   <nz-breadcrumb-item *ngFor="let element of pathArr">
     <span (click)="handle(element.url)">{{element.name}}</span>
   </nz-breadcrumb-item>

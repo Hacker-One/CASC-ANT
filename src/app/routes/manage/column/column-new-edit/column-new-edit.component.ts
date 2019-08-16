@@ -114,9 +114,9 @@ export class ColumnNewEditComponent implements OnInit {
         LoadingService.close();
         if (resp.resultCode === '0') {
           this.messageService.success('添加栏目成功');
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('manage/column-list');
-          // }, 2000);
+          setTimeout(() => {
+            this.router.navigateByUrl('manage/column-list');
+          }, 2000);
         }
       });
     } else {

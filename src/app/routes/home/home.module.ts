@@ -7,13 +7,15 @@ import { HomeComponent } from './home.component';
 import { TextNewsComponent } from './text-news/text-news.component';
 import { ImageNewsComponent } from './image-news/image-news.component';
 import { ComponentModule } from 'src/app/component';
+import { ShareModule } from '../share/share.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     HomeRoutingModule,
-    ComponentModule
+    ComponentModule,
+    ShareModule
   ],
   declarations: [HomeComponent, TextNewsComponent, ImageNewsComponent],
   entryComponents: [TextNewsComponent]

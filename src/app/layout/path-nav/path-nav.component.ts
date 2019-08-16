@@ -5,13 +5,16 @@ import { GlobalState } from '../../../app/global.state';
 @Component({
   selector: 'app-path-nav',
   templateUrl: './path-nav.component.html',
-  styleUrls: ['./path-nav.component.scss']
+  styleUrls: ['./path-nav.component.scss'],
+  // providers: [Location]
 })
 export class PathNavComponent implements OnInit {
   menuData = [];
   pathArr = [];
   currentUrl: String = '';
-  constructor(private router: Router, private _state: GlobalState) {
+  isShow = false;
+  constructor(private router: Router, private _state: GlobalState, ) {
+    this.currentUrl = location.pathname;
     this._state.subscribe('menu.data', (menuData) => {
       this.menuData = menuData;
       this.setPathArr(this.currentUrl, this.menuData);
@@ -22,7 +25,7 @@ export class PathNavComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        // console.log(event);
+        console.log(event);
         // console.log(this.menuData);
         this.currentUrl = event.url;
         if (this.menuData.length > 0) {
@@ -34,6 +37,11 @@ export class PathNavComponent implements OnInit {
 
   setPathArr(url, menuArr) {
     if (!url) { url = '/home-right' };
+    if (url === '/home-right') {
+      this.isShow = false;
+    } else {
+      this.isShow = true;
+    }
     for (let elementLV1 of menuArr) {
       if (url.indexOf(elementLV1.action) > -1) {
         this.pathArr = [];

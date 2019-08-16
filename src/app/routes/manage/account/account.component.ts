@@ -96,7 +96,7 @@ export class AccountComponent implements OnInit {
   }
 
   toDetail(item, act) {
-    this.router.navigate(['/manage/account-detail', { userId: item.id, action: act }])
+    this.router.navigate(['/manage/account-detail', { action: act, userId: item.id }])
   }
 
 }

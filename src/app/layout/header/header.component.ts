@@ -10,6 +10,7 @@ import { GlobalState } from '../../global.state';
 })
 export class HeaderComponent implements OnInit {
   public menuList: any = [];
+  isVisible = false;
 
   constructor(
     private manageService: ManageService,
@@ -38,6 +39,20 @@ export class HeaderComponent implements OnInit {
       return
     };
     this.router.navigate([`${element.action}`]);
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 
 }

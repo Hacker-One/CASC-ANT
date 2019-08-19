@@ -5,7 +5,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutComponent } from './layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NzMenuModule, NzBreadCrumbModule, NzModalModule, NzMessageService, NzAvatarModule, NzIconModule } from 'ng-zorro-antd';
+import { NzMenuModule, NzBreadCrumbModule, NzMessageService, NzAvatarModule, NzIconModule } from 'ng-zorro-antd';
 import { PathNavComponent } from './path-nav/path-nav.component';
 import { ComponentModule } from '../component';
 
@@ -20,7 +20,6 @@ const COMPONENTS = [HeaderComponent, SidebarComponent, PathNavComponent, LayoutC
     ComponentModule,
     NzMenuModule,
     NzBreadCrumbModule,
-    NzModalModule,
     BrowserAnimationsModule,
     NzAvatarModule,
     NzIconModule,

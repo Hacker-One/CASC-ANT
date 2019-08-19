@@ -1,8 +1,10 @@
 <div class="home-wrapper">
   <div nz-row nzGutter="16">
     <div *ngFor="let element of columnArr" nz-col class="gutter-row" [nzSpan]="colMap[element.length]">
-      <div class="gutter-box">
-        <text-news [viewUrl]="element.serviceAddr.viewUrl"></text-news>
+      <div [ngSwitch]="element.type" class="gutter-box">
+        <ng-container *ngSwitchCase="'1'">
+          <text-news [viewUrl]="element.serviceAddr.viewUrl"></text-news>
+        </ng-container>
       </div>
     </div>
     <!-- <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
@@ -15,6 +17,6 @@
     </div>
     <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
       <div class="gutter-box">col-8</div>
-    </div>
-  </div> -->
+    </div> -->
+  </div>
 </div>

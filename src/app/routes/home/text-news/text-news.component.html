@@ -9,7 +9,7 @@
           <img src="../../../../assets/images/trumpet.png" alt="">
         </div>
         <div class="item text" nz-tooltip nzTitle="">
-          {{element.title}}
+          <a href="javascript:void(0)" (click)="linkDetail(element)">{{element.title}}</a>
         </div>
         <div class="item date">
           <p>{{element.createDate | date:'yyyy-MM-dd'}}</p>
@@ -19,9 +19,8 @@
   </div>
 </div>
 
-<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
-<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null">
-  <h1>一级标题</h1>
-  <h2>二级标题</h2>
-  <div class="new-content" [innerHtml]="content | html"></div>
+<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null"  (nzOnCancel)="handleCancel()">
+  <h1>{{detailNew.title}}</h1>
+  <h2>{{detailNew.subTitle}}</h2>
+  <div class="new-content" [innerHtml]="detailNew.content | html"></div>
 </nz-modal>

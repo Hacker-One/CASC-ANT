@@ -41,9 +41,11 @@ export class ColumnComponent implements OnInit {
     this.manageService.getColumnList(params).subscribe((res: any) => {
       LoadingService.close();
       let base = [];
-      for (let element of res.result) {
-        const item = { id: element.id, colWidth: element.length, canDrag: true, position: { x: 0, y: 0 }, lineIdx: 0, positionTend: { x: 0, y: 0 }, title: element.title, type: element.type };
-        base.push(item);
+      if (res.hasOwnProperty('result')) {
+        for (let element of res.result) {
+          const item = { id: element.id, colWidth: element.length, canDrag: true, position: { x: 0, y: 0 }, lineIdx: 0, positionTend: { x: 0, y: 0 }, title: element.title, type: element.type };
+          base.push(item);
+        }
       };
       // const base = [
       //   { id: 'id1', colWidth: 'threeOfCol', canDrag: true, position: { x: 0, y: 0 }, lineIdx: 0, positionTend: { x: 0, y: 0 } },

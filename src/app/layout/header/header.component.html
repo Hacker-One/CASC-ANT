@@ -8,7 +8,7 @@
     </a>
     <nz-dropdown-menu #setting="nzDropdownMenu">
       <ul nz-menu nzSelectable>
-        <li nz-menu-item (click)="open"><i nz-icon nzType="setting" nzTheme="outline"></i>&nbsp;设置</li>
+        <li nz-menu-item (click)="showModal()"><i nz-icon nzType="setting" nzTheme="outline"></i>&nbsp;设置</li>
       </ul>
     </nz-dropdown-menu>
   </div>
@@ -28,8 +28,8 @@
   </ul>
 </header>
 
-<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null">
-  <form nz-form [formGroup]="buildForm">
+<nz-modal [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+  <form class="mt-20" nz-form [formGroup]="buildForm">
     <nz-form-item>
       <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="name">姓名</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入姓名!">
@@ -56,7 +56,7 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-control nz-row>
-        <div nz-col nzSpan="14" nzOffset="2">
+        <div nz-col nzSpan="14" nzOffset="4">
           <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
             <span>保存</span>
           </button>

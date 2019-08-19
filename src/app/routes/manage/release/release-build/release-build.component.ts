@@ -143,6 +143,7 @@ export class ReleaseBuildComponent implements OnInit {
       reportProgress : true,
       withCredentials: true
     });
+
     return this.http.request(req).subscribe((event: HttpEvent<{}>) => {
       if (event.type === HttpEventType.UploadProgress) {
         if (event.total > 0) {

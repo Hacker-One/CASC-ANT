@@ -9,6 +9,12 @@ import { ManageService } from 'src/app/core';
 export class TextNewsComponent implements OnInit {
   list = [];
   isVisible = false;
+  detailNew = {
+    title:'',
+    subTitle:'',
+    content:''
+  }
+  detailContent = '';
   @Input() viewUrl: String = ''
 
   constructor(private manageService: ManageService) { }
@@ -23,8 +29,11 @@ export class TextNewsComponent implements OnInit {
     })
   }
 
-  showModal(): void {
+  linkDetail(item){
     this.isVisible = true;
+    this.detailNew.title = item.title;
+    this.detailNew.subTitle = item.deputyTitle;
+    this.detailNew.content = item.content;
   }
 
   handleOk(): void {

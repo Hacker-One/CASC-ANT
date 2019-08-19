@@ -11,17 +11,28 @@
     .news-modal {
         h1 {
             font-size: 20px;
+            text-align: center;
         }
         h2 {
             font-size: 16px;
+            text-align: center;
         }
         .ant-modal {
             top: 10%;
             height: 80%;
+            .ant-modal-body {
+                height: 100%;
+            }
             .ant-modal-content {
                 height: 100%;
                 overflow-y: auto;
             }
+        }
+        .new-content {
+            margin-top: 15px;
+            height: 80%;
+            border: thin solid #eee;
+            padding: 20px;
         }
     }
 }

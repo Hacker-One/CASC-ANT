@@ -11,8 +11,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class ColumnComponent implements OnInit {
   columnList = [];
   columnTypeMap = {
-    1: '图文',
-    2: '消息',
+    1: '消息',
+    2: '图文',
     3: '待办',
   };
   colMap = {
@@ -187,6 +187,13 @@ export class ColumnComponent implements OnInit {
   goDetail(item, act) {
     console.log(item);
     this.router.navigate(['/manage/column-new-edit', { action: act, id: item.id }])
+  }
+
+  offService(item) {
+    this.manageService.deleteColumn(item.id).subscribe(res => {
+      console.log(res)
+      this.getColumnList();
+    })
   }
 
 

@@ -28,29 +28,29 @@
   </ul>
 </header>
 
-<!-- <nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null">
+<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null">
   <form nz-form [formGroup]="buildForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">姓名</nz-form-label>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="name">姓名</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入姓名!">
         <nz-input-group>
-          <input formControlName="title" nz-input placeholder="请输入姓名" />
+          <input formControlName="name" nz-input placeholder="请输入姓名" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">工号</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入工号!">
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入邮箱!">
         <nz-input-group>
-          <input formControlName="title" nz-input placeholder="请输入工号" />
+          <input formControlName="email" nz-input placeholder="请输入邮箱" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">联系电话</nz-form-label>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="phoneNumber">联系电话</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入联系电话!">
         <nz-input-group>
-          <input formControlName="title" nz-input placeholder="请输入联系电话" />
+          <input formControlName="phoneNumber" nz-input placeholder="请输入联系电话" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
@@ -58,11 +58,10 @@
       <nz-form-control nz-row>
         <div nz-col nzSpan="14" nzOffset="2">
           <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
-            <span *ngIf="pageAction==='create'">添加栏目</span>
-            <span *ngIf="pageAction==='edit'">修改栏目</span>
+            <span>保存</span>
           </button>
         </div>
       </nz-form-control>
     </nz-form-item>
   </form>
-</nz-modal> -->
+</nz-modal>

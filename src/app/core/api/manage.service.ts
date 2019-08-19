@@ -259,8 +259,8 @@ export class ManageService {
         return this.util.put('system/syscolumn/ordernum', params);
     }
 
-    getNews(params) {
-        return this.util.get('system/news/page', params);
+    getNews(url) {
+        return this.util.get(url);
     }
 
 }

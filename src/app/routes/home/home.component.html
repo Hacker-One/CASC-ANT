@@ -1,15 +1,15 @@
 <div class="home-wrapper">
   <div nz-row nzGutter="16">
-    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+    <div *ngFor="let element of columnArr" nz-col class="gutter-row" [nzSpan]="colMap[element.length]">
       <div class="gutter-box">
-        <text-news></text-news>
+        <text-news [viewUrl]="element.serviceAddr.viewUrl"></text-news>
       </div>
     </div>
-    <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
+    <!-- <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
       <div class="gutter-box">
         <image-news></image-news>
       </div>
-    </div>
+    </div> -->
     <!-- <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">
       <div class="gutter-box">col-8</div>
     </div>
@@ -18,10 +18,3 @@
     </div>
   </div> -->
 </div>
-
-<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
-<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null">
-  <h1>一级标题</h1>
-  <h2>二级标题</h2>
-  <div [innerHtml]="content | html"></div>
-</nz-modal>

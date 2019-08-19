@@ -14,7 +14,7 @@
         <p>{{columnTypeMap[element.type]}}</p>
         <div class="btn-row">
           <button nz-button (click)="goDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
-          <button nz-button nzType="primary" nzSize="small">停用</button>
+          <button nz-button nzType="primary" nzSize="small" (click)="offService(element)">停用</button>
         </div>
       </div>
     </div>

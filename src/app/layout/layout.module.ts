@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutComponent } from './layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NzPopoverModule, NzMenuModule, NzDropDownModule, NzBreadCrumbModule, NzModalModule, NzCheckboxModule, NzMessageModule, NzMessageService, NzSkeletonModule, NzAvatarModule, NzIconModule } from 'ng-zorro-antd';
+import { NzMenuModule, NzBreadCrumbModule, NzModalModule, NzMessageService, NzAvatarModule, NzIconModule } from 'ng-zorro-antd';
 import { PathNavComponent } from './path-nav/path-nav.component';
+import { ComponentModule } from '../component';
 
 const COMPONENTS = [HeaderComponent, SidebarComponent, PathNavComponent, LayoutComponent];
 
@@ -18,20 +17,13 @@ const COMPONENTS = [HeaderComponent, SidebarComponent, PathNavComponent, LayoutC
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NzPopoverModule,
+    ComponentModule,
     NzMenuModule,
-    NzDropDownModule,
     NzBreadCrumbModule,
     NzModalModule,
     BrowserAnimationsModule,
-    RouterModule,
-    NzCheckboxModule,
-    NzMessageModule,
-    NzSkeletonModule,
     NzAvatarModule,
-    NzIconModule
+    NzIconModule,
   ],
   exports: [
     ...COMPONENTS

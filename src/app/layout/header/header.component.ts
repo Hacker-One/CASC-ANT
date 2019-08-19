@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ManageService } from '../../core';
 import { Router } from '@angular/router';
 import { GlobalState } from '../../global.state';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -9,13 +10,15 @@ import { GlobalState } from '../../global.state';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  public buildForm: FormGroup;
   public menuList: any = [];
   isVisible = false;
 
   constructor(
     private manageService: ManageService,
     private router: Router,
-    private _state: GlobalState
+    private _state: GlobalState,
+    private fb: FormBuilder,
   ) {
     this._state.subscribe('menu.data', (menuData) => {
       this.menuList = menuData;
@@ -23,6 +26,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.buildForm = this.fb.group({
+      name: [null, [Validators.required]],
+      email: [null, [Validators.email, Validators.required]],
+      phoneNumber: [null, [Validators.required]],
+    });
     this.getTopMenu();
   }
 

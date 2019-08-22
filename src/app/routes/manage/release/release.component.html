@@ -2,59 +2,70 @@
   <button [routerLink]="[ '/manage/release-build' ]" nz-button nzType="primary">新建</button>
 </div>
 
-<nz-table
-  class="application-table"
-  #infoTable
-  [nzData]="tableData.result"
-  [nzSize]="'middle'"
-  [nzLoading]="tableLoading"
-  [nzFrontPagination]="false"
-  [nzTotal]="tableData.totalNum"
-  [nzPageSize]="tableData.pagePerNum"
-  [nzPageIndex]="tableData.currentNum"
-  (nzPageIndexChange)="getList($event)"
->
+<form class="search-box" nz-form nzSize="middle" [formGroup]="searchForm" (ngSubmit)="submitForm(searchForm.value)">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="3">新闻标题</nz-form-label>
+    <nz-form-control [nzSpan]="4">
+      <input nz-input formControlName="title" />
+    </nz-form-control>
+    <nz-form-label [nzSpan]="3">发布类型</nz-form-label>
+    <nz-form-control [nzSpan]="4">
+      <nz-select style="width: 100%" formControlName="type" nzPlaceHolder="请选择发布类型">
+        <nz-option nzValue="1" nzLabel="通知公告"></nz-option>
+        <nz-option nzValue="2" nzLabel="图片新闻"></nz-option>
+      </nz-select>
+    </nz-form-control>
+    <nz-form-control class="pl-20" [nzSpan]="6">
+      <button nz-button nzType="primary" [disabled]="!searchForm.valid">查询</button>
+      <button nz-button class="reset-btn" (click)="resetForm($event)">重置</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<nz-table class="application-table" #infoTable [nzData]="tableData.result" [nzSize]="'middle'"
+  [nzLoading]="tableLoading" [nzFrontPagination]="false" [nzTotal]="tableData.totalNum"
+  [nzPageSize]="tableData.pagePerNum" [nzPageIndex]="tableData.currentNum" (nzPageIndexChange)="getList($event)">
   <thead>
-  <tr>
-    <th>标题</th>
-    <th>副标题</th>
-    <th>发布对象</th>
-    <th>发布类型</th>
-    <th>发布人</th>
-    <th>有效期</th>
-    <th>审核状态</th>
-    <th>状态</th>
-    <th>操作</th>
-  </tr>
+    <tr>
+      <th>标题</th>
+      <th>副标题</th>
+      <th>发布对象</th>
+      <th>发布类型</th>
+      <th>发布人</th>
+      <th>有效期</th>
+      <th>审核状态</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let data of infoTable.data">
-    <td>{{data.title}}</td>
-    <td>{{data.deputyTitle}}</td>
-    <td>
-      <ng-container *ngIf="data.publisherObj === '0'">全部</ng-container>
-      <ng-container *ngIf="data.publisherObj === '1'">本部门</ng-container>
-    </td>
-    <td>
-      <ng-container *ngIf="data.type === '1'">通知公告</ng-container>
-      <ng-container *ngIf="data.type === '2'">图片新闻</ng-container>
-    </td>
-    <td>{{data.publisher}}</td>
-    <td>{{data.beginDate | date: 'yyyy-MM-dd HH:mm:ss'}} - {{data.endDate | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
-    <td>
-      <ng-container *ngIf="data.approvalStatus === '0'">待提交</ng-container>
-      <ng-container *ngIf="data.approvalStatus === '1'">通过</ng-container>
-      <ng-container *ngIf="data.approvalStatus === '2'">拒绝</ng-container>
-      <ng-container *ngIf="data.approvalStatus === '3'">待审核</ng-container>
-    </td>
-    <td>
-      <span *ngIf="data.status === '0'" class="ant-btn-danger">无效</span>
-      <span *ngIf="data.status === '1'">有效</span>
-    </td>
-    <td>
-      <button nz-button nzType="link" (click)="setInvalid(data.id)" [disabled]="data.status === '0'">设置无效</button>
-      <button nz-button nzType="link" routerLink="../release-build" [queryParams]="{id: data.id}">详情</button>
-    </td>
-  </tr>
+    <tr *ngFor="let data of infoTable.data">
+      <td>{{data.title}}</td>
+      <td>{{data.deputyTitle}}</td>
+      <td>
+        <ng-container *ngIf="data.publisherObj === '0'">全部</ng-container>
+        <ng-container *ngIf="data.publisherObj === '1'">本部门</ng-container>
+      </td>
+      <td>
+        <ng-container *ngIf="data.type === '1'">通知公告</ng-container>
+        <ng-container *ngIf="data.type === '2'">图片新闻</ng-container>
+      </td>
+      <td>{{data.publisher}}</td>
+      <td>{{data.beginDate | date: 'yyyy-MM-dd HH:mm:ss'}} - {{data.endDate | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+      <td>
+        <ng-container *ngIf="data.approvalStatus === '0'">待提交</ng-container>
+        <ng-container *ngIf="data.approvalStatus === '1'">通过</ng-container>
+        <ng-container *ngIf="data.approvalStatus === '2'">拒绝</ng-container>
+        <ng-container *ngIf="data.approvalStatus === '3'">待审核</ng-container>
+      </td>
+      <td>
+        <span *ngIf="data.status === '0'" class="ant-btn-danger">无效</span>
+        <span *ngIf="data.status === '1'">有效</span>
+      </td>
+      <td>
+        <button nz-button nzType="link" (click)="setInvalid(data.id)" [disabled]="data.status === '0'">设置无效</button>
+        <button nz-button nzType="link" routerLink="../release-build" [queryParams]="{id: data.id}">详情</button>
+      </td>
+    </tr>
   </tbody>
 </nz-table>

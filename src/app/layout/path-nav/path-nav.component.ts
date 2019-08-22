@@ -25,7 +25,7 @@ export class PathNavComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        console.log(event);
+        // console.log(event);
         // console.log(this.menuData);
         this.currentUrl = event.url;
         if (this.menuData.length > 0) {
@@ -36,7 +36,7 @@ export class PathNavComponent implements OnInit {
   }
 
   setPathArr(url, menuArr) {
-    if (!url) { url = '/home-right' };
+    if (!url||url=='/') { url = '/home-right' };
     if (url === '/home-right') {
       this.isShow = false;
     } else {

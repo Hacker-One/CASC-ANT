@@ -1,13 +1,11 @@
 // global sheet
 html, body, a, button, input, select, textarea {
   font-size: 14px;
-  //font: 12px/1.5 'Microsoft Yahei', tahoma, arial, 'Hiragino Sans GB', '\5b8b\4f53', sans-serif;
   font-family: Helvetica, "PingFang SC", "Hiragino Sans GB", "SimHei", Arial, -apple-system, sans-serif !important;
   color: #666
 }
 body {
   min-width: 1280px;
-  // background-color: #F0F3F4;
   font-size: 14px;
 }
 
@@ -191,10 +189,18 @@ legend {
   color: #337DCA;
 }
 
-.mr15 {
+.mr-15 {
   margin-right: 15px;
 }
 
-.mt10 {
+.mt-10 {
   margin-top: 10px;
+}
+
+.pl-20 {
+  padding-left: 20px;
+}
+
+.pr-20 {
+  padding-right: 20px;
 }

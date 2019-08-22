@@ -110,12 +110,16 @@ header {
   .cdk-overlay-container {
     z-index: 3333;
   }
-  // .user-blk {
-    .ant-dropdown-menu {
-      min-width: 100px;
-      border-radius: 0;
+  .ant-dropdown-menu {
+    min-width: 100px;
+    border-radius: 0;
+  }
+  .avatar-area {
+    text-align: center;
+    .ant-avatar {
+      margin: 40px 0;
     }
-  // }
+  }
 }
 
 .mt-20 {

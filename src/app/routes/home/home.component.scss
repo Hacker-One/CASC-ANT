@@ -9,6 +9,9 @@
 
 ::ng-deep {
     .news-modal {
+        img {
+            width: 100%;
+        }
         h1 {
             font-size: 20px;
             text-align: center;

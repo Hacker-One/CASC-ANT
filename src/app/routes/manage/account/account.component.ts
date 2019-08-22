@@ -87,7 +87,7 @@ export class AccountComponent implements OnInit {
       this.pageIndex = 1;
     }
     this.loading = true;
-    let params = { currentNum: this.pageIndex, pagePerNum: this.pageSize }
+    let params = { currentNum: this.pageIndex, pagePerNum: this.pageSize };
     this.manageService.getAccountList(params).subscribe((res: any) => {
       this.loading = false;
       this.total = res.result.totalResults;

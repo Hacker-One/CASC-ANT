@@ -1,7 +1,10 @@
-::ng-deep .search-box {
-    padding: 20px;
-    border: 1px solid rgba(192, 192, 192, 0.4);
-    .reset-btn {
-        margin-left: 10px;
+::ng-deep {
+    .search-box {
+        padding: 20px;
+        border: 1px solid rgba(192, 192, 192, 0.4);
+        .reset-btn {
+            margin-left: 10px;
+        }
     }
 }
+

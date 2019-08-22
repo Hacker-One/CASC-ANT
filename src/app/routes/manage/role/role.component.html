@@ -1,25 +1,20 @@
 <div class="page-btn-line">
-  <button [appAuthority]="'RoleAdd'" nz-button [routerLink]="[ '/manage/role-new-edit',{action:'create'} ]" nzType="primary">新建角色</button>
+  <button [appAuthority]="'RoleAdd'" nz-button [routerLink]="[ '/manage/role-new-edit',{action:'create'} ]"
+    nzType="primary">新建角色</button>
 </div>
-<form class="search-box" nz-form nzSize="middle" [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+<form class="search-box" nz-form nzSize="middle" [formGroup]="searchForm" (ngSubmit)="submitForm(searchForm.value)">
   <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-      <input nz-input formControlName="userName" placeholder="async validate try to write JasonWood" />
-      <ng-template #userErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">
-          Please input your username!
-        </ng-container>
-        <ng-container *ngIf="control.hasError('duplicated')">
-          The username is redundant!
-        </ng-container>
-      </ng-template>
+    <nz-form-label [nzSpan]="3">角色名称</nz-form-label>
+    <nz-form-control [nzSpan]="4">
+      <input nz-input formControlName="displayName" />
     </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control [nzOffset]="7" [nzSpan]="12">
-      <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
-      <button nz-button class="reset-btn" (click)="resetForm($event)">Reset</button>
+    <nz-form-label [nzSpan]="3">角色编码</nz-form-label>
+    <nz-form-control [nzSpan]="4">
+      <input nz-input formControlName="externalId" />
+    </nz-form-control>
+    <nz-form-control class="pl-20" [nzSpan]="6">
+      <button nz-button nzType="primary" [disabled]="!searchForm.valid">查询</button>
+      <button nz-button class="reset-btn" (click)="resetForm($event)">重置</button>
     </nz-form-control>
   </nz-form-item>
 </form>
@@ -45,7 +40,8 @@
       <td>
         <button nz-button (click)="goDetail(element,'detail')" nzType="primary" nzSize="small">详情</button>
         &nbsp;
-        <button [appAuthority]="'RoleaUbd'" nz-button (click)="goDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
+        <button [appAuthority]="'RoleaUbd'" nz-button (click)="goDetail(element,'edit')" nzType="primary"
+          nzSize="small">编辑</button>
       </td>
     </tr>
   </tbody>

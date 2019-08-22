@@ -44,6 +44,7 @@ export class AccountDetailComponent implements OnInit {
     if (this.pageAction == 'edit') {
       this.manageService.getAccountDetail(id).subscribe(res => {
         this.getRoleList(res);
+        this.buildForm.get('id').disable();
         this.buildForm.patchValue({
           id: res.id,
           name: res.name,

@@ -4,6 +4,11 @@
     "secure": false,
     "changeOrigin": true
   },
+  "/flowmgt": {
+    "target": "http://192.168.10.24:8085/",
+    "secure": false,
+    "changeOrigin": true
+  },
   "/applications": {
     "target": "http://qmsauthz.qloud-qloud.service.sd/",
     "secure": false,

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ManageService } from 'src/app/core';
 
 @Component({
   selector: 'image-news',
@@ -6,11 +7,43 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./image-news.component.scss']
 })
 export class ImageNewsComponent implements OnInit {
-  array = [1, 2, 3];
+  list = [];
+  isVisible = false;
+  detailNew = {
+    title: '',
+    subTitle: '',
+    content: ''
+  }
+  @Input() viewUrl: String = ''
 
-  constructor() { }
+  constructor(private manageService: ManageService) { }
 
   ngOnInit() {
+    this.getList(this.viewUrl)
   }
+
+  getList(url) {
+    this.manageService.getNews(url).subscribe((res: any) => {
+      this.list = res.result;
+    })
+  }
+
+  linkDetail(item) {
+    this.isVisible = true;
+    this.detailNew.title = item.title;
+    this.detailNew.subTitle = item.deputyTitle;
+    this.detailNew.content = item.content;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
 
 }

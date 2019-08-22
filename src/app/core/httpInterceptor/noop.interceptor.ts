@@ -1,11 +1,11 @@
-import { Injectable} from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpResponse, HttpHeaderResponse} from '@angular/common/http';
-import { merge, Observable, of} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpResponse, HttpHeaderResponse } from '@angular/common/http';
+import { merge, Observable, of } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/internal/operators';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-import {LoadingService} from '../services';
+import { LoadingService } from '../services';
 
 @Injectable()
 export class NoopInterceptor implements HttpInterceptor {
@@ -13,7 +13,7 @@ export class NoopInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
     private messageService: NzMessageService
-  ) {}
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpHeaderResponse | HttpResponse<any>> {
     function urlSplit() {
@@ -30,8 +30,13 @@ export class NoopInterceptor implements HttpInterceptor {
     const formType = new Set([
       '/system/uploadfile'
     ]);
+
     if (formType.has(urlSplit())) {
       headersConfig = {};
+    } else if (req.url.indexOf('upload') > -1 && req.url.indexOf('users') > -1) {
+      headersConfig = {
+        'Content-Type': 'application/octet-stream',
+      };
     } else {
       headersConfig = {
         'Content-Type': 'application/json',
@@ -42,24 +47,24 @@ export class NoopInterceptor implements HttpInterceptor {
       setHeaders: headersConfig,
     });
 
-    return next.handle(customerRequest).pipe( mergeMap((event: any) => {
-        /**
-         * 后端直接返回数据，常用错误返回http状态码400，所以response不需要二次处理
-         */
-        if (event instanceof HttpResponse) {
-          if (event.status === 200 && event.body.resultCode && event.body.resultCode !== '0' && event.body.resultCode !== '409') {
-            switch (event.body.resultCode) {
-              case '300':
-                this.messageService.error('参数重复,请重新输入参数');
-                break;
-              default:
-                this.messageService.error(event.body.resultMsg);
-            }
+    return next.handle(customerRequest).pipe(mergeMap((event: any) => {
+      /**
+       * 后端直接返回数据，常用错误返回http状态码400，所以response不需要二次处理
+       */
+      if (event instanceof HttpResponse) {
+        if (event.status === 200 && event.body.resultCode && event.body.resultCode !== '0' && event.body.resultCode !== '409') {
+          switch (event.body.resultCode) {
+            case '300':
+              this.messageService.error('参数重复,请重新输入参数');
+              break;
+            default:
+              this.messageService.error(event.body.resultMsg);
           }
-          return of(event);
         }
         return of(event);
-      }),
+      }
+      return of(event);
+    }),
       catchError((error: HttpErrorResponse) => this.handleError(error))
     );
   }

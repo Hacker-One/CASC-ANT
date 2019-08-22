@@ -14,7 +14,6 @@ export class TextNewsComponent implements OnInit {
     subTitle:'',
     content:''
   }
-  detailContent = '';
   @Input() viewUrl: String = ''
 
   constructor(private manageService: ManageService) { }

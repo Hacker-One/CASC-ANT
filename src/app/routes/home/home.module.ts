@@ -8,6 +8,7 @@ import { TextNewsComponent } from './text-news/text-news.component';
 import { ImageNewsComponent } from './image-news/image-news.component';
 import { ComponentModule } from 'src/app/component';
 import { ShareModule } from '../share/share.module';
+import { TransactionNewsComponent } from './transaction-news/transaction-news.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { ShareModule } from '../share/share.module';
     ComponentModule,
     ShareModule
   ],
-  declarations: [HomeComponent, TextNewsComponent, ImageNewsComponent],
+  declarations: [HomeComponent, TextNewsComponent, ImageNewsComponent, TransactionNewsComponent],
   entryComponents: [TextNewsComponent]
 })
 export class HomeModule { }

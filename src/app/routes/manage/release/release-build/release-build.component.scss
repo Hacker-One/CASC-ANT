@@ -1,15 +1,17 @@
 ::ng-deep {
-  .ant-form-item label.ant-checkbox-wrapper {
-    margin: 10px 15px 0 0;
-    min-width: 120px;
-  }
-
-  .ant-skeleton-header {
-    padding-right: 0;
-  }
-
-  .ant-form-item-label {
-    width: 100px;
+  .release-build {
+    .ant-form-item label.ant-checkbox-wrapper {
+      margin: 10px 15px 0 0;
+      min-width: 120px;
+    }
+  
+    .ant-skeleton-header {
+      padding-right: 0;
+    }
+  
+    .ant-form-item-label {
+      width: 100px;
+    }
   }
 }
 

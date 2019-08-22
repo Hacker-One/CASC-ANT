@@ -67,7 +67,7 @@ export class RoleNewEditComponent implements OnInit {
     pExtIds: []
   };
   treeDatas = [];
-  detailItem: any;
+  detailItem = {};
 
   validateForm: FormGroup;
   @ViewChild('tree', { static: false }) tree;

@@ -1,4 +1,4 @@
-<form nz-form [formGroup]="buildForm">
+<form class="release-build" nz-form [formGroup]="buildForm">
   <nz-form-item>
     <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入标题名称!">
@@ -41,7 +41,7 @@
         <nz-upload
           nzAction={{imgUploadUrl}}
           nzListType="picture-card"
-          [nzShowButton]="imgFileList.length < 5"
+          [nzShowButton]="imgFileList.length < 1"
           [nzShowUploadList]="showUploadList"
           (nzChange)="imgHandleChange($event)"
           [nzCustomRequest]="customReq"

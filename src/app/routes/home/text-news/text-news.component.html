@@ -1,6 +1,7 @@
 <div class="text-news">
   <div class="title">
     <span>通知公告</span>
+    <i nz-icon [nzType]="'more'" nz-tooltip nzTooltipTitle="更多" routerLink="../manage/info-release" [queryParams]="{type:1}"></i>
   </div>
   <div class="content">
     <ul>
@@ -8,7 +9,7 @@
         <div class="item">
           <img src="../../../../assets/images/trumpet.png" alt="">
         </div>
-        <div class="item text" nz-tooltip nzTitle="">
+        <div class="item text" nz-tooltip [nzTitle]="">
           <a href="javascript:void(0)" (click)="linkDetail(element)">{{element.title}}</a>
         </div>
         <div class="item date">
@@ -16,10 +17,11 @@
         </div>
       </li>
     </ul>
+    <nz-skeleton [nzActive]="true" *ngIf="list.length === 0"></nz-skeleton>
   </div>
 </div>
 
-<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null"  (nzOnCancel)="handleCancel()">
+<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
   <h1>{{detailNew.title}}</h1>
   <h2>{{detailNew.subTitle}}</h2>
   <div class="new-content" [innerHtml]="detailNew.content | html"></div>

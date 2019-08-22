@@ -3,6 +3,7 @@ import { UtilService } from './util.service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import qs from 'qs';
+import { CommonService } from '../services';
 
 @Injectable({
     providedIn: 'root'
@@ -74,8 +75,9 @@ export class ManageService {
      * @params pagePertNum int 每页数量
      * 5/system/news/page
      */
-    infoListApi(params): Observable<any> {
-        return this.util.get(`system/news/page`, params);
+    infoListApi(params,sortParams): Observable<any> {
+        const comParams = Object.assign(params, CommonService.deleteEmptyInObj(sortParams));
+        return this.util.get(`system/news/page`, comParams);
     }
 
     /**
@@ -193,14 +195,9 @@ export class ManageService {
         return this.util.get(`system/sysuser/${params}`);
     }
 
-    getRoleList(
-        pageIndex: number = 1,
-        pageSize: number = 10,
-    ): Observable<any> {
-        const params = new HttpParams()
-            .append('currentNum', `${pageIndex}`)
-            .append('pagePerNum', `${pageSize}`);
-        return this.util.get('system/sysroles', params);
+    getRoleList(params, sortParams = {}): Observable<any> {
+        const comParams = Object.assign(params, CommonService.deleteEmptyInObj(sortParams));
+        return this.util.get('system/sysroles', comParams);
     }
 
     getMenuTree(params) {
@@ -261,6 +258,14 @@ export class ManageService {
 
     getNews(url) {
         return this.util.get(url);
+    }
+
+    getUserInfo(uId) {
+        return this.util.get(`/users/${uId}`);
+    }
+
+    updateUserInfo(uId, params) {
+        return this.util.put(`/users/${uId}`, params);
     }
 
 }

@@ -1,7 +1,7 @@
 <header>
   <div class="p-logo"><img src="../../../assets/images/logo.png" alt="logo"></div>
   <div class="user-blk">
-    <nz-avatar nzSize="58" nzSrc="../../../assets/images/portrait.png" nzAlt="avatar"></nz-avatar>
+    <nz-avatar nzSize="58" [nzSrc]="userInfo?.photo" nzAlt="avatar"></nz-avatar>
     <a nz-dropdown [nzDropdownMenu]="setting" style="color:white">
       万芳芳
       <i nz-icon nzType="down"></i>
@@ -28,40 +28,53 @@
   </ul>
 </header>
 
-<nz-modal [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
-  <form class="mt-20" nz-form [formGroup]="buildForm">
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="name">姓名</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入姓名!">
-        <nz-input-group>
-          <input formControlName="name" nz-input placeholder="请输入姓名" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入邮箱!">
-        <nz-input-group>
-          <input formControlName="email" nz-input placeholder="请输入邮箱" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="phoneNumber">联系电话</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入联系电话!">
-        <nz-input-group>
-          <input formControlName="phoneNumber" nz-input placeholder="请输入联系电话" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nz-row>
-        <div nz-col nzSpan="14" nzOffset="4">
-          <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
-            <span>保存</span>
-          </button>
-        </div>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+<nz-modal [(nzVisible)]="isVisible" [nzOkLoading]="modalOkLoading" [nzWidth]="'60%'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+  <div nz-row>
+    <div nz-col nzSpan="16">
+      <form class="mt-20" nz-form [formGroup]="buildForm">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">姓名</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="请输入姓名!">
+            <nz-input-group>
+              <input formControlName="name" nz-input placeholder="请输入姓名" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="请输入邮箱!">
+            <nz-input-group>
+              <input formControlName="email" nz-input placeholder="请输入邮箱" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phoneNumber">联系电话</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="请输入联系电话!">
+            <nz-input-group>
+              <input formControlName="phoneNumber" nz-input placeholder="请输入联系电话" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nz-row>
+            <div nz-col nzSpan="18" nzOffset="6">
+              <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
+                <span>保存</span>
+              </button>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    <div nz-col nzSpan="8" class="avatar-area">
+      <nz-avatar nzSize="60px" [nzSrc]="userInfo?.photo" nzAlt="avatar"></nz-avatar>
+      <!-- <img [src]="userInfo?.photo" width="60px" alt=""> -->
+      <br />
+      <nz-upload [nzAction]="avatarUploadUrl" [nzCustomRequest]="customReq" (nzChange)="imgHandleChange($event)" [nzFileList]="[]">
+        <button nz-button><i nz-icon nzType="upload"></i><span>一键上传</span></button>
+      </nz-upload>
+    </div>
+  </div>
+
 </nz-modal>

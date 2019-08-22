@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../share/http.service';
 import { GlobalState } from '../../../global.state';
-import {CommonService, ManageService} from '../../../core';
-import { Router } from '@angular/router';
+import { CommonService, ManageService } from '../../../core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 export interface TableObject {
   title: string;
@@ -33,19 +34,43 @@ export interface TreeNodeInterface {
 export class ReleaseComponent implements OnInit {
   public tableLoading = false;    // table loading
   public tableData: TreeNodeInterface = CommonService.pagination;       // table data
-
+  searchForm: FormGroup;
 
   constructor(
-    private http: HttpService,
-    private _state: GlobalState,
     private manageService: ManageService,
     private router: Router,
     private messageService: NzMessageService,
     private modalService: NzModalService,
-  ) { }
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute
+  ) {
+
+  }
 
   ngOnInit() {
+    const type = this.activatedRoute.snapshot.queryParamMap.get('type');
+    this.searchForm = this.fb.group({
+      title: [''],
+      type: [type],
+    });
     this.getList();
+  }
+
+  submitForm(value: any): void {
+    for (const key in this.searchForm.controls) {
+      this.searchForm.controls[key].markAsDirty();
+      this.searchForm.controls[key].updateValueAndValidity();
+    }
+    this.getList();
+  }
+
+  resetForm(e: MouseEvent): void {
+    e.preventDefault();
+    this.searchForm.reset();
+    for (const key in this.searchForm.controls) {
+      this.searchForm.controls[key].markAsPristine();
+      this.searchForm.controls[key].updateValueAndValidity();
+    }
   }
 
   // 获取列表数据请求
@@ -53,7 +78,7 @@ export class ReleaseComponent implements OnInit {
     if (page) { this.tableData.currentNum = page; }
     this.tableData.result = [];
     this.tableLoading = true;
-    this.manageService.infoListApi({currentNum: this.tableData.currentNum, pagePerNum: this.tableData.pagePerNum}).subscribe(resp => {
+    this.manageService.infoListApi({ currentNum: this.tableData.currentNum, pagePerNum: this.tableData.pagePerNum }, this.searchForm.value).subscribe(resp => {
       this.tableLoading = false;
       if (resp.resultCode === '0') {
         this.tableData = resp;

@@ -5,6 +5,13 @@
         <ng-container *ngSwitchCase="'1'">
           <text-news [viewUrl]="element.serviceAddr.viewUrl"></text-news>
         </ng-container>
+        <ng-container *ngSwitchCase="'2'">
+          <image-news [viewUrl]="element.serviceAddr.viewUrl"></image-news>
+        </ng-container>
+        <ng-container *ngSwitchCase="'3'">
+          <transaction-news [viewUrl]="element.serviceAddr.viewUrl" [url02]="element.serviceAddr.url02"
+            [url03]="element.serviceAddr.url03"></transaction-news>
+        </ng-container>
       </div>
     </div>
     <!-- <div nz-col class="gutter-row" [nzSpan]="colMap.threeOfCol">

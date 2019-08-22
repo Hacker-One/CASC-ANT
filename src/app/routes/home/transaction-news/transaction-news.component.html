@@ -1,0 +1,24 @@
+<div class="transaction-news">
+    <div class="title">
+        <span *ngFor="let item of titleArr" [ngClass]="{'active':item.active}"
+            (click)="titleClicked(item)">{{item.display}}</span>
+        <i nz-icon [nzType]="'more'" nz-tooltip nzTooltipTitle="更多" routerLink="../manage/info-release"
+            [queryParams]="{type:1}"></i>
+    </div>
+    <div class="content">
+        <ul>
+            <li *ngFor="let element of list">
+                <div class="item">
+                    <img src="../../../../assets/images/trumpet.png" alt="">
+                </div>
+                <div class="item text" nz-tooltip [nzTitle]="">
+                    <a href="javascript:void(0)" (click)="linkDetail(element)">{{element.taskTitle}}</a>
+                </div>
+                <div class="item date">
+                    <p>{{element.createDate | date:'yyyy-MM-dd'}}</p>
+                </div>
+            </li>
+        </ul>
+        <nz-skeleton [nzActive]="true" *ngIf="list.length === 0"></nz-skeleton>
+    </div>
+</div>

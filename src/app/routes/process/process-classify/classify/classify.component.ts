@@ -15,9 +15,9 @@ export class ClassifyComponent implements OnInit {
   array = [1, 2, 3, 4];
   effect = 'scrollx';
   public treeList = [];
-  public currentTreeList: any;    // 当前点击的树列表
+  public currentTreeList: any;      // 当前点击的树列表
   public currentParentList: any;    // 当前点击的父级树列表
-  public formType: string;        // form显示类型
+  public formType: string;          // form显示类型
 
   constructor(
     private service: ClassifyService,
@@ -35,7 +35,7 @@ export class ClassifyComponent implements OnInit {
   initParams() {
     this.classifyForm = this.fb.group({
       id: [{value: null, disabled: false}, [Validators.required]],
-      title: [null, [Validators.required]],
+      name: [null, [Validators.required]],
       status: [null, [Validators.required]],
       parentId: [null, [Validators.required]],
       createBy: [null, [Validators.required]],
@@ -48,7 +48,13 @@ export class ClassifyComponent implements OnInit {
     this.treeList = [];
     this.service.classifyListApi().subscribe(resp => {
       if (resp.resultCode === '0' && resp.result) {
-        this.treeList = CommonService.modifyField(CommonService.modifyField(resp.result, 'id', 'key'), 'name', 'title');
+        this.treeList = CommonService.modifyField(resp.result, 'id', 'key');
+      } else {
+        if (this.treeList.length === 0) {
+          this.classifyForm.get('parentId').clearValidators();
+        } else {
+          this.classifyForm.get('parentId').setValidators(Validators.required);
+        }
       }
     });
   }
@@ -84,7 +90,7 @@ export class ClassifyComponent implements OnInit {
     if (typeof this.currentTreeList === 'object' && this.currentTreeList.hasOwnProperty('key')) {
       this.classifyForm.patchValue({
         id: this.currentTreeList.key,
-        title: this.currentTreeList.title,
+        name: this.currentTreeList.name,
         status: this.currentTreeList.status,
         parentId: this.currentParentList.key
       });
@@ -109,8 +115,7 @@ export class ClassifyComponent implements OnInit {
   // 更新
   updateOperator() {
     LoadingService.show();
-    const params = Object.assign({}, CommonService.modifyField(this.classifyForm.value, 'title', 'name'),
-      {id: this.currentTreeList.key});
+    const params = Object.assign({}, {id: this.currentTreeList.key});
     this.service.updateTreeNodeApi(params).subscribe(resp => {
       LoadingService.close();
       if (resp.resultCode === '0') {
@@ -125,7 +130,7 @@ export class ClassifyComponent implements OnInit {
   // 删除树节点操作
   deleteTreeOperator() {
     this.modalService.confirm({
-      nzTitle: `确定要删除 ${this.currentTreeList.title} 节点么?`,
+      nzTitle: `确定要删除 ${this.currentTreeList.name} 节点么?`,
       nzOnOk: () => this.deleteTreeService()
     });
   }

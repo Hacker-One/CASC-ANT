@@ -9,8 +9,8 @@ export class ClassifyService {
   /**
    * 分类树
    */
-  classifyListApi() {
-    return this.service.get('flowmgt/category/tree');
+  classifyListApi(status = true) {
+    return this.service.get(`flowmgt/category/tree?ignoreStatus=${status}`);
   }
 
   /**

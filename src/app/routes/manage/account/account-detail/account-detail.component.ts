@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ManageService } from '../../../../../app/core/api/manage.service';
+import { ManageService } from '../../../../core/api';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import { CommonService, LoadingService } from 'src/app/core';

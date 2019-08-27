@@ -43,7 +43,7 @@ export class ColumnComponent implements OnInit {
       let base = [];
       if (res.hasOwnProperty('result')) {
         for (let element of res.result) {
-          const item = { id: element.id, colWidth: element.length, canDrag: true, position: { x: 0, y: 0 }, lineIdx: 0, positionTend: { x: 0, y: 0 }, title: element.title, type: element.type };
+          const item = { id: element.id, colWidth: element.length, canDrag: true, position: { x: 0, y: 0 }, lineIdx: 0, positionTend: { x: 0, y: 0 }, title: element.title, type: element.type,borderColor:element.borderColor,fontColor:element.fontColor };
           base.push(item);
         }
       };
@@ -196,6 +196,10 @@ export class ColumnComponent implements OnInit {
       console.log(res)
       this.getColumnList();
     })
+  }
+  setClass(item){
+    console.log(item);
+    return item.borderColor==='red'?'shadow-red':'';
   }
 
 

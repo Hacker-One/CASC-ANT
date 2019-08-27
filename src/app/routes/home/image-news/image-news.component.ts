@@ -14,7 +14,10 @@ export class ImageNewsComponent implements OnInit {
     subTitle: '',
     content: ''
   }
-  @Input() viewUrl: String = ''
+  skeletonActive: boolean;
+  @Input() viewUrl: String = '';
+  @Input() borderColor: String = '';
+  @Input() fontColor: String = '';
 
   constructor(private manageService: ManageService) { }
 
@@ -23,8 +26,12 @@ export class ImageNewsComponent implements OnInit {
   }
 
   getList(url) {
+    this.skeletonActive = false;
     this.manageService.getNews(url).subscribe((res: any) => {
-      this.list = res.result;
+      this.skeletonActive = true;
+      if (res.resultCode === '0') {
+        this.list = res.result;
+      }
     })
   }
 

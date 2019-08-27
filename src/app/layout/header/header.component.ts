@@ -20,7 +20,8 @@ export class HeaderComponent implements OnInit {
   userInfo: USER;
   photoImgUrl = '';
   avatarUploadUrl = '';
-  userName = 'zhaogh';
+  userName = 'fangshufeng';
+  config = {};
 
   constructor(
     private manageService: ManageService,

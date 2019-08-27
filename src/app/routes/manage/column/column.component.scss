@@ -22,10 +22,16 @@
             // margin-bottom: 16px;
             box-shadow: 0 0 4px #999;
             text-align: center;
+            &.shadow-red {
+                box-shadow: 0 0 4px red;
+            }
             .col-name {
                 font-size: 16px;
                 font-weight: bold;
                 padding: 60px 0 4px 0;
+                &.font-red {
+                    color: red;
+                }
             }
             .btn-row {
                 margin-top: 20px;

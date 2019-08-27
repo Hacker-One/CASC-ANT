@@ -1,16 +1,16 @@
-<div class="text-news">
+<div class="text-news" [ngClass]="{'shadow-red':borderColor==='red'}">
   <div class="title">
     <span>通知公告</span>
     <i nz-icon [nzType]="'more'" nz-tooltip nzTooltipTitle="更多" routerLink="../manage/info-release" [queryParams]="{type:1}"></i>
   </div>
-  <div class="content">
+  <div class="content" [perfectScrollbar]="config">
     <ul>
       <li *ngFor="let element of list">
         <div class="item">
           <img src="../../../../assets/images/trumpet.png" alt="">
         </div>
         <div class="item text" nz-tooltip [nzTitle]="">
-          <a href="javascript:void(0)" (click)="linkDetail(element)">{{element.title}}</a>
+          <a href="javascript:void(0)" (click)="linkDetail(element)" [ngClass]="{'font-red':fontColor==='red'}">{{element.title}}</a>
         </div>
         <div class="item date">
           <p>{{element.createDate | date:'yyyy-MM-dd'}}</p>

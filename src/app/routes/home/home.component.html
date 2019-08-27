@@ -3,14 +3,17 @@
     <div *ngFor="let element of columnArr" nz-col class="gutter-row" [nzSpan]="colMap[element.length]">
       <div [ngSwitch]="element.type" class="gutter-box">
         <ng-container *ngSwitchCase="'1'">
-          <text-news [viewUrl]="element.serviceAddr.viewUrl"></text-news>
+          <text-news [viewUrl]="element.serviceAddr.viewUrl" [borderColor]="element.borderColor"
+            [fontColor]="element.fontColor"></text-news>
         </ng-container>
         <ng-container *ngSwitchCase="'2'">
-          <image-news [viewUrl]="element.serviceAddr.viewUrl"></image-news>
+          <image-news [viewUrl]="element.serviceAddr.viewUrl" [borderColor]="element.borderColor"
+            [fontColor]="element.fontColor"></image-news>
         </ng-container>
         <ng-container *ngSwitchCase="'3'">
           <transaction-news [viewUrl]="element.serviceAddr.viewUrl" [url02]="element.serviceAddr.url02"
-            [url03]="element.serviceAddr.url03"></transaction-news>
+            [url03]="element.serviceAddr.url03" [borderColor]="element.borderColor" [fontColor]="element.fontColor">
+          </transaction-news>
         </ng-container>
       </div>
     </div>

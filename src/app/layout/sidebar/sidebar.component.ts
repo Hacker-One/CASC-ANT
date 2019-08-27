@@ -3,6 +3,7 @@ import { GlobalState } from '../../../app/global.state';
 import { ManageService } from '../../../app/core/api/manage.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { all } from 'q';
+import { USER, CONSTANTS } from 'src/app/constants';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,6 +11,7 @@ import { all } from 'q';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
+  user: USER;
   collectionList = [];
   menuList = [];
   allCollections = [];
@@ -25,14 +27,17 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
     this.getList();
   }
 
   // 获取已选收藏列表
   getList() {
-    const userName = 'fangshufeng';
+    const userName = this.user.id;
     this.manageService.getCollections(userName).subscribe(res => {
-      this.collectionList = res.result;
+      if (res.resultCode === '0') {
+        this.collectionList = res.result;
+      }
       this.mapCboxsChecked(this.allCollections);
     })
   }
@@ -69,7 +74,7 @@ export class SidebarComponent implements OnInit {
   handleOk(): void {
     console.log(this.collectCboxsArr)
     let params = {
-      userId: 'fangshufeng',  // will
+      userId: this.user.id,
       resourceIds: []
     };
     for (let element of this.collectCboxsArr) {

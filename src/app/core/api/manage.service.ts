@@ -75,7 +75,7 @@ export class ManageService {
      * @params pagePertNum int 每页数量
      * 5/system/news/page
      */
-    infoListApi(params,sortParams): Observable<any> {
+    infoListApi(params, sortParams): Observable<any> {
         const comParams = Object.assign(params, CommonService.deleteEmptyInObj(sortParams));
         return this.util.get(`system/news/page`, comParams);
     }
@@ -204,8 +204,16 @@ export class ManageService {
         return this.util.get(`system/syspermission/${params}`);
     }
 
+    getFlowTree(params) {
+        return this.util.get(`flowmgt/role/tree`, params);
+    }
+
     addRole(params) {
         return this.util.post('system/sysrole', params);
+    }
+
+    saveFlowTree(roleId, params) {
+        return this.util.post(`flowmgt/role/save?roleId=${roleId}`, params);
     }
 
     updateRole(id, params) {

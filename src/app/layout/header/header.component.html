@@ -1,7 +1,7 @@
 <header>
   <div class="p-logo"><img src="../../../assets/images/logo.png" alt="logo"></div>
   <div class="user-blk">
-    <nz-avatar nzSize="58" [nzSrc]="userInfo?.photo" nzAlt="avatar"></nz-avatar>
+    <nz-avatar nzSize="58" [nzSrc]="photoImgUrl" nzAlt="avatar"></nz-avatar>
     <a nz-dropdown [nzDropdownMenu]="setting" style="color:white">
       万芳芳
       <i nz-icon nzType="down"></i>
@@ -12,23 +12,26 @@
       </ul>
     </nz-dropdown-menu>
   </div>
-  <ul class="p-menu clearfix">
-    <ng-container *ngFor="let item of menuList">
-      <li class="fir-nav">
-        <a (click)="goPage(item)" nz-dropdown [nzDropdownMenu]="menu">{{item.desc}}</a>
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul class="sec-nav">
-            <li *ngFor="let tem of item.resourcess;">
-              <a (click)="goPage(tem)" [routerLinkActive]="'active'">{{tem.desc}}</a>
-            </li>
-          </ul>
-        </nz-dropdown-menu>
-      </li>
-    </ng-container>
-  </ul>
+  <div class="p-menu clearfix">
+    <ul [perfectScrollbar] style="position: relative">
+      <ng-container *ngFor="let item of menuList">
+        <li class="fir-nav">
+          <a (click)="goPage(item)" nz-dropdown [nzDropdownMenu]="menu">{{item.desc}}</a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul class="sec-nav">
+              <li *ngFor="let tem of item.resourcess;">
+                <a (click)="goPage(tem)" [routerLinkActive]="'active'">{{tem.desc}}</a>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
 </header>
 
-<nz-modal [(nzVisible)]="isVisible" [nzOkLoading]="modalOkLoading" [nzWidth]="'60%'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" [nzOkLoading]="modalOkLoading" [nzWidth]="'60%'" [nzFooter]="null"
+  (nzOnCancel)="handleCancel()">
   <div nz-row>
     <div nz-col nzSpan="16">
       <form class="mt-20" nz-form [formGroup]="buildForm">
@@ -68,10 +71,10 @@
       </form>
     </div>
     <div nz-col nzSpan="8" class="avatar-area">
-      <nz-avatar nzSize="60px" [nzSrc]="userInfo?.photo" nzAlt="avatar"></nz-avatar>
-      <!-- <img [src]="userInfo?.photo" width="60px" alt=""> -->
+      <nz-avatar nzSize="60px" [nzSrc]="photoImgUrl" nzAlt="avatar"></nz-avatar>
       <br />
-      <nz-upload [nzAction]="avatarUploadUrl" [nzCustomRequest]="customReq" (nzChange)="imgHandleChange($event)" [nzFileList]="[]">
+      <nz-upload [nzAction]="avatarUploadUrl" [nzCustomRequest]="customReq" (nzChange)="imgHandleChange($event)"
+        [nzFileList]="[]">
         <button nz-button><i nz-icon nzType="upload"></i><span>一键上传</span></button>
       </nz-upload>
     </div>

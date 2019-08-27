@@ -9,8 +9,8 @@
       [ngDraggable]="element?.canDrag" [preventDefaultEvent]="true" [zIndexMoving]="9999" [trackPosition]="false"
       [id]="element?.id" [position]="element?.position" (started)="onDragBegin($event)" (stopped)="onDragEnd($event)"
       (movingOffset)="onMoving($event)" (endOffset)="onMoveEnd($event)">
-      <div class="gutter-box">
-        <p class="col-name">{{element.title}}</p>
+      <div class="gutter-box" [ngClass]="{'shadow-red':element?.borderColor==='red'}">
+        <p class="col-name" [ngClass]="{'font-red':element?.fontColor==='red'}">{{element.title}}</p>
         <p>{{columnTypeMap[element.type]}}</p>
         <div class="btn-row">
           <button nz-button (click)="goDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>

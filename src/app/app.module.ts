@@ -27,9 +27,13 @@ import { GlobalState } from './global.state';
     AppRoutingModule,
     LayoutModule,
     ComponentModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }, httpInterceptorProviders, GlobalState],
+  providers: [
+    { provide: NZ_I18N, useValue: zh_CN },
+    httpInterceptorProviders,
+    GlobalState,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

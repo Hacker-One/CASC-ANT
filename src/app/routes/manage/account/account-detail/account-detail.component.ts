@@ -5,6 +5,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd';
 import { CommonService, LoadingService } from 'src/app/core';
 import { GlobalState } from 'src/app/global.state';
+import { USER, CONSTANTS } from 'src/app/constants';
 
 @Component({
   selector: 'app-account-detail',
@@ -100,7 +101,8 @@ export class AccountDetailComponent implements OnInit {
   }
 
   getMenuAgain() {
-    const userName = 'fangshufeng';
+    const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
+    const userName = user.id;
     this.manageService.getSysMenus(userName).subscribe(res => {
       this._state.notifyDataChanged('menu.data', res.result);
     })

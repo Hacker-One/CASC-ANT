@@ -6,4 +6,7 @@
     margin-bottom: 20px;
     color: #4fb5dd;
     background: white;
+    nz-breadcrumb-item span {
+        cursor: default;
+    }
 }

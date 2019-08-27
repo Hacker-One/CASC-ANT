@@ -32,7 +32,9 @@ export class NoopInterceptor implements HttpInterceptor {
     ]);
 
     if (formType.has(urlSplit())) {
-      headersConfig = {};
+      headersConfig = {
+        'Content-Type': 'application/octet-stream',
+      };
     } else if (req.url.indexOf('upload') > -1 && req.url.indexOf('users') > -1) {
       headersConfig = {
         'Content-Type': 'application/octet-stream',

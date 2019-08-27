@@ -4,7 +4,7 @@
     <i nz-icon [nzType]="'more'" routerLink="../manage/info-release" [queryParams]="{type:2}"></i>
   </div>
   <div class="content">
-    <nz-skeleton [nzActive]="true" *ngIf="list.length === 0"></nz-skeleton>
+    <nz-skeleton [nzActive]="true" *ngIf="list.length === 0&&skeletonActive"></nz-skeleton>
     <nz-carousel nzAutoPlay [nzAutoPlaySpeed]="2000">
       <div nz-carousel-content *ngFor="let element of list">
         <img [src]="element.images[0]['downloadUrl']" (click)="linkDetail(element)" width="100%" height="100%" alt="">

@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 import { ManageService, LoadingService } from '../../../../core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { GlobalState } from 'src/app/global.state';
+import { USER, CONSTANTS } from 'src/app/constants';
 
 @Component({
   selector: 'app-application-link',
@@ -235,10 +236,11 @@ export class ApplicationLinkComponent implements OnInit {
   }
 
   getMenuAgain() {
-    const userName = 'fangshufeng';
+    const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
+    const userName = user.id;
     this.manageService.getSysMenus(userName).subscribe(res => {
       this._state.notifyDataChanged('menu.data', res.result);
-    });
+    })
   }
 
 }

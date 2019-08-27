@@ -3,7 +3,7 @@
     .gutter-box {
         height: 36vh;
         margin-bottom: 16px;
-        box-shadow: 0 0 4px #999;
+        // box-shadow: 0 0 4px #999;
     }
 }
 
@@ -37,5 +37,11 @@
             border: thin solid #eee;
             padding: 20px;
         }
+    }
+    .shadow-red {
+        box-shadow: 0 0 4px red !important;
+    }
+    .font-red {
+        color: red !important;
     }
 }

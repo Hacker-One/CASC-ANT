@@ -17,6 +17,8 @@ export class TransactionNewsComponent implements OnInit {
   @Input() viewUrl: String = '';
   @Input() url02: String = '';
   @Input() url03: String = '';
+  @Input() borderColor: String = '';
+  @Input() fontColor: String = '';
 
   constructor(private manageService: ManageService) { }
 
@@ -53,7 +55,9 @@ export class TransactionNewsComponent implements OnInit {
   getList(url) {
     if (url) {
       this.manageService.getNews(url).subscribe((res: any) => {
-        this.list = res.result;
+        if (res.resultCode === '0') {
+          this.list = res.result;
+        }
       })
     }
   }

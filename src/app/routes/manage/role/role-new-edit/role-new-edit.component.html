@@ -1,7 +1,7 @@
 <div *ngIf="pageAction!=='detail'">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>角色名称</nz-form-label>
+      <nz-form-label [nzSpan]="4" nzRequired>角色名称</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="roleNameErrorTpl">
         <input nz-input formControlName="displayName" placeholder="async validate try to write JasonWood" />
         <ng-template #roleNameErrorTpl let-control>
@@ -12,7 +12,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>角色编码</nz-form-label>
+      <nz-form-label [nzSpan]="4" nzRequired>角色编码</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="externalIdErrorTpl">
         <input nz-input formControlName="externalId" placeholder="externalId" type="externalId" />
         <ng-template #externalIdErrorTpl let-control>
@@ -24,16 +24,23 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>角色权限</nz-form-label>
-      <div nz-col nzSpan="12">
-        <nz-tree #tree [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
-          (nzCheckBoxChange)="nzEvent($event)">
-        </nz-tree>
-      </div>
+      <nz-form-label [nzSpan]="4" nzRequired>角色权限</nz-form-label>
+      <nz-tabset nzSpan="12">
+        <nz-tab nzTitle="门户权限">
+          <nz-tree #treePortal [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
+            (nzCheckBoxChange)="nzEvent($event)">
+          </nz-tree>
+        </nz-tab>
+        <nz-tab nzTitle="流程权限">
+          <nz-tree #treeFlow [nzCheckStrictly]="true" [nzData]="flowTreeDatas" nzShowIcon nzCheckable nzMultiple
+            (nzCheckBoxChange)="nzEvent($event)">
+          </nz-tree>
+        </nz-tab>
+      </nz-tabset>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <nz-form-control [nzOffset]="4" [nzSpan]="12">
         <button nz-button nzType="primary" [disabled]="!validateForm.valid">保存</button>
       </nz-form-control>
     </nz-form-item>
@@ -55,10 +62,17 @@
   </div>
   <div nz-row>
     <div nz-col nzSpan="4" class="title">角色权限：</div>
-    <div nz-col nzSpan="16">
-      <nz-tree #tree [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
-        (nzCheckBoxChange)="nzEvent($event)">
-      </nz-tree>
-    </div>
+    <nz-tabset nzSpan="12">
+      <nz-tab nzTitle="门户权限">
+        <nz-tree #treePortal [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
+          (nzCheckBoxChange)="nzEvent($event)">
+        </nz-tree>
+      </nz-tab>
+      <nz-tab nzTitle="流程权限">
+        <nz-tree #treeFlow [nzCheckStrictly]="true" [nzData]="flowTreeDatas" nzShowIcon nzCheckable nzMultiple
+          (nzCheckBoxChange)="nzEvent($event)">
+        </nz-tree>
+      </nz-tab>
+    </nz-tabset>
   </div>
 </div>

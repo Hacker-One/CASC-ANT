@@ -13,6 +13,6 @@
   (nzOnOk)="handleOk()">
   <div nz-row>
     <label nz-checkbox nz-col nzSpan="4" *ngFor="let element of collectCboxsArr" [(ngModel)]="element.checked">{{element.desc}}</label>
-    <nz-skeleton [nzActive]="true" *ngIf="collectCboxsArr.length === 0"></nz-skeleton>
+    <nz-skeleton [nzActive]="true" *ngIf="allCollections.length === 0"></nz-skeleton>
   </div>
 </nz-modal>

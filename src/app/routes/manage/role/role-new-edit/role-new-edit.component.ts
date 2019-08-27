@@ -5,6 +5,7 @@ import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
 import { CommonService, LoadingService } from '../../../../../app/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalState } from 'src/app/global.state';
+import { USER, CONSTANTS } from 'src/app/constants';
 
 @Component({
   selector: 'app-role-new-edit',
@@ -17,12 +18,14 @@ export class RoleNewEditComponent implements OnInit {
       title: '0-0',
       key: '0-0',
       expanded: true,
+      hihi: false,
+      icon: 'anticon anticon-meh-o',
       children: [
         {
           title: '0-0-0',
           key: '0-0-0',
           children: [
-            { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true },
+            { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true, icon: 'anticon anticon-meh-o', },
             { title: '0-0-0-1', key: '0-0-0-1', isLeaf: true },
             { title: '0-0-0-2', key: '0-0-0-2', isLeaf: true }
           ]
@@ -67,10 +70,11 @@ export class RoleNewEditComponent implements OnInit {
     pExtIds: []
   };
   treeDatas = [];
+  flowTreeDatas = [];
   detailItem = {};
 
   validateForm: FormGroup;
-  @ViewChild('tree', { static: false }) tree;
+  @ViewChild('treePortal', { static: false }) treePortal;
 
   constructor(
     private manageService: ManageService,
@@ -123,8 +127,6 @@ export class RoleNewEditComponent implements OnInit {
       default:
         break;
     }
-    // console.log(this.treeDatas);
-    console.log(this.nodes)
   }
 
   setParentsChecked(node) {
@@ -152,6 +154,11 @@ export class RoleNewEditComponent implements OnInit {
       this.setIsLeaf(base);
       this.treeDatas = base;
     })
+    this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
+      const base = res.result;
+      this.setIsLeaf(base);
+      this.flowTreeDatas = base;
+    })
   }
 
   getDetailRole(id) {
@@ -161,8 +168,13 @@ export class RoleNewEditComponent implements OnInit {
       this.detailItem = res;
       let base = CommonService.modifyField(CommonService.modifyField(res.pExtIds, 'id', 'key'), 'label', 'title');
       this.setIsLeaf(base);
-      this.removeNoChecked(base);
+      // this.removeNoChecked(base);
       this.treeDatas = base;
+    })
+    this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
+      const base = res.result;
+      this.setIsLeaf(base);
+      this.flowTreeDatas = base;
     })
   }
 
@@ -178,13 +190,20 @@ export class RoleNewEditComponent implements OnInit {
 
   getMenuTree() {
     LoadingService.show();
-    const userName = 'fangshufeng';
+    const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
+    const userName = user.id;
     this.manageService.getMenuTree(userName).subscribe(res => {
       LoadingService.close();
       let base = CommonService.modifyField(CommonService.modifyField(res.result, 'id', 'key'), 'label', 'title');
       this.setIsLeaf(base);
       this.treeDatas = base;
-      console.log(this.treeDatas)
+      // console.log(this.treeDatas);
+    })
+    //  intergrate flow menu authority
+    this.manageService.getFlowTree({ needRole: false }).subscribe(res => {
+      const base = res.result;
+      this.setIsLeaf(base);
+      this.flowTreeDatas = base;
     })
   }
 
@@ -213,29 +232,46 @@ export class RoleNewEditComponent implements OnInit {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
-    console.log(value);
     let treeParam = this.treeDatas;
     value['pExtIds'] = CommonService.modifyField(CommonService.modifyField(treeParam, 'key', 'id'), 'title', 'label');
     LoadingService.show();
+    let p1: Promise<any>;
+    let p2: Promise<any>;
     if (this.pageAction == 'create') {
-      this.manageService.addRole(value).subscribe(res => {
-        this.message.create('success', '新建成功');
-        LoadingService.close();
-        this.router.navigate(['/manage/role-list']);
+      p1 = new Promise((resolve, reject) => {
+        this.manageService.addRole(value).subscribe(res => {
+          resolve(res)
+        })
       })
     } else {
       const id = this.validateForm.value.externalId;
-      this.manageService.updateRole(id, value).subscribe(res => {
-        this.message.create('success', '更新成功');
-        LoadingService.close();
-        this.getMenuAgain();
-        this.router.navigate(['/manage/role-list']);
+      p1 = new Promise((resolve) => {
+        this.manageService.updateRole(id, value).subscribe(res => {
+          resolve(res)
+        })
       })
-    }
+    };
+    p2 = new Promise((resolve, reject) => {
+      this.manageService.saveFlowTree(value.externalId, this.flowTreeDatas).subscribe(res => {
+        resolve(res)
+      })
+    });
+    Promise.all([p1, p2]).then(res => {
+      console.log(res);
+      if (res[0]['resultCode'] === '0' && res[1]['resultCode'] === '0') {
+        this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
+      };
+      if (this.pageAction === 'create') {
+        this.getMenuAgain();
+      };
+      LoadingService.close();
+      this.router.navigate(['/manage/role-list']);
+    })
   }
 
   getMenuAgain() {
-    const userName = 'fangshufeng';
+    const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
+    const userName = user.id;
     this.manageService.getSysMenus(userName).subscribe(res => {
       this._state.notifyDataChanged('menu.data', res.result);
     })

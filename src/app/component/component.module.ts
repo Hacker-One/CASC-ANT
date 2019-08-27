@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, PreloadAllModules } from '@angular/router';
 import {
   NzButtonModule,
   NzFormModule,
@@ -25,12 +25,21 @@ import {
   NzIconModule,
   NzToolTipModule,
   NzCarouselModule,
+  NzTabsModule,
 } from 'ng-zorro-antd';
 
 import { LoadingComponent } from './loading/loading.component';
 
 // 文本编辑器
 import { NgxNeditorModule } from '@notadd/ngx-neditor';
+
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import PerfectScrollbar from 'perfect-scrollbar';
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 // zorro组件
 const ZORROCOMPONENTS = [
@@ -55,7 +64,8 @@ const ZORROCOMPONENTS = [
   NzBreadCrumbModule,
   NzIconModule,
   NzToolTipModule,
-  NzCarouselModule
+  NzCarouselModule,
+  NzTabsModule
 ];
 
 @NgModule({
@@ -68,7 +78,8 @@ const ZORROCOMPONENTS = [
     RouterModule,
     ReactiveFormsModule,
     ...ZORROCOMPONENTS,
-    NgxNeditorModule
+    NgxNeditorModule,
+    PerfectScrollbarModule
   ],
   exports: [
     CommonModule,
@@ -77,7 +88,11 @@ const ZORROCOMPONENTS = [
     ReactiveFormsModule,
     ...ZORROCOMPONENTS,
     LoadingComponent,
-    NgxNeditorModule
+    NgxNeditorModule,
+    PerfectScrollbarModule
+  ],
+  providers: [
+    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
   ]
 })
-export class ComponentModule {}
+export class ComponentModule { }

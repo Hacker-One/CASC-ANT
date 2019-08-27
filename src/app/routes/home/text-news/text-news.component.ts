@@ -10,11 +10,14 @@ export class TextNewsComponent implements OnInit {
   list = [];
   isVisible = false;
   detailNew = {
-    title:'',
-    subTitle:'',
-    content:''
-  }
-  @Input() viewUrl: String = ''
+    title: '',
+    subTitle: '',
+    content: ''
+  };
+  config = {};
+  @Input() viewUrl: String = '';
+  @Input() borderColor: String = '';
+  @Input() fontColor: String = '';
 
   constructor(private manageService: ManageService) { }
 
@@ -24,11 +27,13 @@ export class TextNewsComponent implements OnInit {
 
   getList(url) {
     this.manageService.getNews(url).subscribe((res: any) => {
-      this.list = res.result;
+      if (res.resultCode === '0') {
+        this.list = res.result;
+      }
     })
   }
 
-  linkDetail(item){
+  linkDetail(item) {
     this.isVisible = true;
     this.detailNew.title = item.title;
     this.detailNew.subTitle = item.deputyTitle;

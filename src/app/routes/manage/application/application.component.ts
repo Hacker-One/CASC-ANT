@@ -4,6 +4,7 @@ import { GlobalState } from '../../../global.state';
 import { ManageService } from '../../../core';
 import { Router } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { USER, CONSTANTS } from 'src/app/constants';
 
 export interface TreeNodeInterface {
   desc: string;
@@ -46,7 +47,9 @@ export class ApplicationComponent implements OnInit {
   getList() {
     this.tableData = [];
     this.tableLoading = true;
-    this.manageService.getSysMenus('fangshufeng').subscribe(resp => {
+    const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
+    const userName = user.id;
+    this.manageService.getSysMenus(userName).subscribe(resp => {
       this.tableLoading = false;
       if (resp.resultCode === '0') {
         this.tableData = resp.result;

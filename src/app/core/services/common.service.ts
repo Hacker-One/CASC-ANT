@@ -103,13 +103,13 @@ export class CommonService {
     return JSON.parse(JSON.stringify(data).replace(REGEXP, newVal));
   }
 
-  public static deleteEmptyInObj(obj){
-    for(const key in obj){
-      if(!obj[key]){
-        delete obj[key]
+  public static deleteEmptyInObj(obj) {
+    for (const key in obj) {
+      if (!obj[key]) {
+        delete obj[key];
       }
     }
-    return obj
+    return obj;
   }
 
 }

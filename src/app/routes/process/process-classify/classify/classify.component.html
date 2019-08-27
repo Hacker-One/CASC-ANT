@@ -1,0 +1,91 @@
+<div class="classify-banner">
+  <nz-carousel [nzEffect]="effect">
+    <div nz-carousel-content *ngFor="let index of array">
+      <h3>{{ index }}</h3>
+    </div>
+  </nz-carousel>
+</div>
+<div class="classify-container clearfix">
+  <div class="classify-left">
+    <div class="classify-btns">
+      <button nz-button nzType="primary" (click)="treeBuild()">新建</button>
+      <button nz-button nzType="default" (click)="treeModify()">修改</button>
+      <button nz-button nzType="danger" (click)="deleteTreeOperator()">删除</button>
+      <button nz-button nzType="primary" (click)="initTree()">刷新</button>
+    </div>
+    <nz-tree class="classify-tree" [nzExpandAll]="true" [nzData]="treeList" [title]="'name'" nzShowLine (nzClick)="getTreeList($event)"> </nz-tree>
+  </div>
+  <div class="classify-right">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="classifyForm" *ngIf="formType">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="id">分类编码</nz-form-label>
+        <nz-form-control nzErrorTip="请输入分类编码!">
+          <nz-input-group>
+            <input formControlName="id" nz-input placeholder="请输入分类编码" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="title">分类名称</nz-form-label>
+        <nz-form-control nzErrorTip="请输入分类名称!">
+          <nz-input-group >
+            <input formControlName="title" nz-input placeholder="请输入分类名称" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="status">状态</nz-form-label>
+        <nz-form-control nzErrorTip="请选择状态!">
+          <nz-input-group >
+            <nz-select style="width: 180px;" formControlName="status"nzShowSearch nzPlaceHolder="请选择状态">
+              <nz-option nzValue="00" nzLabel="无效"></nz-option>
+              <nz-option nzValue="01" nzLabel="有效"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="parentId">上级分类</nz-form-label>
+        <nz-form-control nzErrorTip="请选择上级分类!">
+          <nz-input-group >
+            <nz-tree-select
+              style="width: 180px"
+              [nzNodes]="treeList"
+              nzShowSearch
+              nzPlaceHolder="请选择上级分类"
+              formControlName="parentId"
+              [nzDefaultExpandAll]="true"
+            >
+            </nz-tree-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="formType === 'build'">
+        <nz-form-label nzRequired nzFor="createBy">创建人</nz-form-label>
+        <nz-form-control nzErrorTip="请输入创建人!">
+          <nz-input-group >
+            <input formControlName="createBy" nz-input placeholder="请输入创建人" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="formType === 'update'">
+        <nz-form-label nzRequired nzFor="updateBy">更新人</nz-form-label>
+        <nz-form-control nzErrorTip="请输入更新人!">
+          <nz-input-group >
+            <input formControlName="updateBy" nz-input placeholder="请输入更新人" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button *ngIf="formType === 'build'" nzType="primary" [disabled]="this.classifyForm.invalid" (click)="submitOperator()">添加节点</button>
+          <button nz-button *ngIf="formType === 'update'" nzType="primary" [disabled]="this.classifyForm.invalid" (click)="updateOperator()">修改节点</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+  </div>
+
+</div>
+
+

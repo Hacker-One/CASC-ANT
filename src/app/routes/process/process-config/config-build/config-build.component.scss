@@ -1,0 +1,19 @@
+::ng-deep {
+  .ant-form-item-label {
+    width: 120px;
+  }
+}
+
+.form-params {
+
+  > span {
+    display: inline-block;
+    min-width: 100px;
+    margin-right: 15px;
+  }
+
+  .params-list {
+    width: 200px;
+    margin-right: 15px;
+  }
+}

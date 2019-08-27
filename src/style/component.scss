@@ -1,0 +1,25 @@
+/*各个公用非独立小组件样式*/
+
+/*search 样式*/
+.app-search {
+  margin: 10px 0;
+
+  .search-list {
+    display: inline-block;
+    margin: 10px 30px 10px 0;
+
+    > label {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .search-list-con {
+      width: 220px;
+      display: inline-block;
+
+      .ant-select {
+        width: 100%;
+      }
+    }
+  }
+}

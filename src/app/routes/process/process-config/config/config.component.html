@@ -1,0 +1,78 @@
+<div>
+  <button [routerLink]="[ '/config/build' ]" nz-button nzType="primary">新建</button>
+</div>
+
+<div class="app-search">
+  <div class="search-list">
+    <label>名称：</label>
+    <div class="search-list-con">
+      <input nz-input placeholder="请输入名称" [(ngModel)]="configParams.name"/>
+    </div>
+  </div>
+  <div class="search-list">
+    <label>流程分类：</label>
+    <div class="search-list-con">
+      <input nz-input placeholder="请输入流程分类" [(ngModel)]="configParams.flowCategoryName"/>
+    </div>
+  </div>
+  <div class="search-list">
+    <label>状态：</label>
+    <div class="search-list-con">
+      <nz-select [(ngModel)]="configParams.status" nzPlaceHolder="请选择状态">
+        <nz-option nzValue="00" nzLabel="无效"></nz-option>
+        <nz-option nzValue="01" nzLabel="有效"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div class="search-list">
+    <button nz-button nzType="primary" (click)="configDataService()"><i nz-icon nzType="search"></i>搜索</button>
+  </div>
+</div>
+
+<nz-table
+  class="application-table"
+  #infoTable
+  [nzData]="configData.result"
+  [nzSize]="'middle'"
+  [nzLoading]="tableLoading"
+  [nzFrontPagination]="false"
+  [nzTotal]="configData.totalNum"
+  [nzPageSize]="configData.pagePerNum"
+  [nzPageIndex]="configData.currentNum"
+  (nzPageIndexChange)="configDataService($event)"
+>
+  <thead>
+  <tr>
+    <th>应用名称</th>
+    <th>域名</th>
+    <th>表单名称</th>
+    <th>表单key</th>
+    <th>流程名称</th>
+    <th>流程分类</th>
+    <th>创建人</th>
+    <th>链接</th>
+    <th>状态</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of infoTable.data">
+    <td>{{data.name}}</td>
+    <td>{{data.appName}}</td>
+    <td>{{data.formName}}</td>
+    <td>{{data.formKey}}</td>
+    <td>{{data.originFlowKey}}</td>
+    <td>{{data.flowCategoryName}}</td>
+    <td>{{data.createBy}}</td>
+    <td>{{data.url}}</td>
+    <td>
+      <ng-container *ngIf="data.status === '00'">无效</ng-container>
+      <ng-container *ngIf="data.status === '01'">有效</ng-container>
+    </td>
+    <td>
+      <button nz-button nzType="link" routerLink="./build" [queryParams]="{id: data.id}">编辑</button>
+      <button nz-button nzType="link" (click)="deleteConfig(data.id)">删除</button>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

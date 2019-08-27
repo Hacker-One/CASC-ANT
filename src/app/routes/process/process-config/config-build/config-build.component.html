@@ -1,0 +1,106 @@
+<form nz-form [formGroup]="buildForm">
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="name">应用名称</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择应用名称!">
+      <input formControlName="name" nz-input placeholder="请输入应用名称" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="appInfo">域名</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择域名!">
+      <nz-select style="width: 100%" formControlName="appInfo" nzPlaceHolder="请选择域名">
+        <nz-option [nzValue]="item" [nzLabel]="item.desc" *ngFor="let item of appArray"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="formName">表单名称</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入表单名称!">
+      <input formControlName="formName" nz-input placeholder="请输入表单名称" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="formKey">表单key</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择表单key!">
+      <input formControlName="formKey" nz-input placeholder="请输入表单名称" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="originFlowObj">流程名称</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择流程名称!">
+      <nz-select style="width: 100%" (ngModelChange)="processSelectChange('name', $event)" formControlName="originFlowObj" nzPlaceHolder="请选择流程名称">
+        <nz-option [nzValue]="item" [nzLabel]="item.name" *ngFor="let item of processArray"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="originFlowId">流程ID</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24">
+      <nz-select style="width: 100%" (ngModelChange)="processSelectChange('id', $event)" formControlName="originFlowId" nzPlaceHolder="请选择流程ID">
+        <nz-option [nzValue]="item.id" [nzLabel]="item.id" *ngFor="let item of processIds"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="flowCategoryId">流程分类</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24">
+      <nz-tree-select
+        style="width: 250px"
+        [nzNodes]="treeList"
+        nzShowSearch
+        nzPlaceHolder="请选择流程分类"
+        formControlName="flowCategoryId"
+        (ngModelChange)="processSelectChange('tree', $event)"
+      >
+      </nz-tree-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="flowCategoryShowID">流程分类编码</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24">
+      <input formControlName="flowCategoryShowID" nz-input placeholder="请先选择流程分类" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="originFlowVariable">参数信息</nz-form-label>
+    <nz-form-control [nzSm]="20" [nzXXl]="20" [nzXs]="24" formArrayName="originFlowVariable">
+      <div class="form-params" *ngFor="let item of variableParams.controls, let i = index" [formGroupName]="i">
+        <span style="display: inline-block;min-width: 100px;margin-right: 15px">{{item.value.name}}</span>
+        <nz-select class='params-list' formControlName="type" nzPlaceHolder="请选择显示方式">
+          <nz-option [nzValue]="'prop'" [nzLabel]="'按字段名'"></nz-option>
+          <nz-option [nzValue]="'const'" [nzLabel]="'按固定值'"></nz-option>
+        </nz-select>
+        <input class='params-list' formControlName="value" nz-input placeholder="请输入字段名" />
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="createBy">创建人</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入创建人!">
+      <input formControlName="createBy" nz-input placeholder="请输入创建人" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="url">链接</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入链接!">
+      <input formControlName="url" nz-input placeholder="请输入链接" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="status">状态</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择状态!">
+      <nz-select style="width: 100%" formControlName="status" nzPlaceHolder="请选择状态">
+        <nz-option [nzValue]="'00'" [nzLabel]="'无效'"></nz-option>
+        <nz-option [nzValue]="'01'" [nzLabel]="'有效'"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nz-row>
+      <div nz-col nzSpan="12" nzOffset="2">
+        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid" *ngIf="!paramsId" (click)="submitForm()">保存</button>
+        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid" *ngIf="paramsId" (click)="updateForm()">编辑</button>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+</form>

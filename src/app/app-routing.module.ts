@@ -15,7 +15,15 @@ const routes: Routes = [
         path: 'manage',
         loadChildren: './routes/manage/manage.module#ManageModule',
         data: { breadcrumb: '管理工具' }
-      }
+      },
+      {
+        path: 'classify',
+        loadChildren: './routes/process/process-classify/process-classify.module#ProcessClassifyModule',
+      },
+      {
+        path: 'config',
+        loadChildren: './routes/process/process-config/process-config.module#ProcessConfigModule',
+      },
     ]
   }
 ];

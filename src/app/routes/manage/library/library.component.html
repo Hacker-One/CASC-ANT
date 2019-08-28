@@ -1,0 +1,50 @@
+<div class="page-btn-line">
+    <!-- <button [appAuthority]="'LibraryAdd'" nz-button [routerLink]="[ '/manage/library-new-edit',{action:'create'} ]"
+      nzType="primary">新建应用</button> -->
+    <button nz-button [routerLink]="[ '/manage/library-new-edit',{action:'create'} ]" nzType="primary">新建应用</button>
+</div>
+
+<form class="search-box" nz-form nzSize="middle" [formGroup]="searchForm" (ngSubmit)="submitForm(searchForm.value)">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="3">角色名称</nz-form-label>
+        <nz-form-control [nzSpan]="4">
+            <input nz-input formControlName="displayName" />
+        </nz-form-control>
+        <nz-form-label [nzSpan]="3">角色编码</nz-form-label>
+        <nz-form-control [nzSpan]="4">
+            <input nz-input formControlName="externalId" />
+        </nz-form-control>
+        <nz-form-control class="pl-20" [nzSpan]="6">
+            <button nz-button nzType="primary" [disabled]="!searchForm.valid">查询</button>
+            <button nz-button class="reset-btn" (click)="resetForm($event)">重置</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+
+<nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading"
+    [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="searchData()"
+    (nzPageSizeChange)="searchData(true)">
+    <thead>
+        <tr>
+            <th>角色</th>
+            <th>角色编码</th>
+            <th>应用</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let element of ajaxTable.data;let index = index;">
+            <td>{{ element.displayName }}</td>
+            <td>{{ element.externalId }}</td>
+            <td>{{ element.appExtId }}</td>
+            <td>{{ element.state==1?'有效':'无效' }}</td>
+            <td>
+                <button nz-button (click)="goDetail(element,'detail')" nzType="primary" nzSize="small">详情</button>
+                &nbsp;
+                <button [appAuthority]="'RoleaUbd'" nz-button (click)="goDetail(element,'edit')" nzType="primary"
+                    nzSize="small">编辑</button>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

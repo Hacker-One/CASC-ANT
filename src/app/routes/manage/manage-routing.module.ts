@@ -11,6 +11,8 @@ import { ReleaseComponent } from './release/release.component';
 import { ReleaseBuildComponent } from './release/release-build/release-build.component';
 import { ColumnComponent } from './column/column.component';
 import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit.component';
+import { LibraryComponent } from './library/library.component';
+import { LibraryNewEditComponent } from './library/library-new-edit/library-new-edit.component';
 
 const routes: Routes = [
   // { path: '', component: ApplicationComponent },
@@ -25,6 +27,8 @@ const routes: Routes = [
   { path: 'release-build', component: ReleaseBuildComponent },
   { path: 'column-list', component: ColumnComponent },
   { path: 'column-new-edit', component: ColumnNewEditComponent },
+  { path: 'library', component: LibraryComponent },
+  { path: 'library-new-edit', component: LibraryNewEditComponent },
 ];
 
 @NgModule({

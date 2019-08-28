@@ -1,0 +1,64 @@
+<div *ngIf="pageAction!=='detail'">
+    <form nz-form [formGroup]="buildForm">
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="externalId">自定义id</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入自定义id!">
+                <nz-input-group>
+                    <input formControlName="externalId" nz-input placeholder="请输入自定义id" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="displayName">应用名称</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用名称!">
+                <nz-input-group>
+                    <input formControlName="displayName" nz-input placeholder="请输入应用名称" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="serviceId">应用地址</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用地址!">
+                <nz-input-group>
+                    <input formControlName="serviceId" nz-input placeholder="请输入应用地址" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="evaluationOrder">相对顺序</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入相对顺序!">
+                <nz-input-group>
+                    <input formControlName="evaluationOrder" nz-input placeholder="请输入相对顺序" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nz-row>
+                <div nz-col nzSpan="14" nzOffset="2">
+                    <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
+                        <span *ngIf="pageAction==='create'">添加栏目</span>
+                        <span *ngIf="pageAction==='edit'">修改栏目</span>
+                    </button>
+                </div>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</div>
+
+<div *ngIf="pageAction=='detail'" class="detail-box">
+    <div nz-row>
+        <div nz-col nzSpan="4" class="title">应用目录：</div>
+        <div nz-col nzSpan="8">{{buildForm.value.desc}}</div>
+        <div nz-col nzSpan="4" class="title">描述：</div>
+        <div nz-col nzSpan="8">{{buildForm.value.pdesc}}</div>
+    </div>
+    <div nz-row>
+        <div nz-col nzSpan="4" class="title">排序：</div>
+        <div nz-col nzSpan="8">{{buildForm.value.sortNum}}</div>
+        <div nz-col nzSpan="4" class="title">访问权限：</div>
+        <div nz-col nzSpan="8">
+            <label class="no-margin" *ngFor="let element of buildForm.value.roleVOs" nz-checkbox
+                [(ngModel)]="element.checked">{{element.label}}</label>
+        </div>
+    </div>
+</div>

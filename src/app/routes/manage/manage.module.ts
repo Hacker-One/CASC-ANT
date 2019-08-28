@@ -16,6 +16,8 @@ import { ShareModule } from '../share/share.module';
 import { ReleaseComponent } from './release/release.component';
 import { ReleaseBuildComponent } from './release/release-build/release-build.component';
 import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit.component';
+import { LibraryComponent } from './library/library.component';
+import { LibraryNewEditComponent } from './library/library-new-edit/library-new-edit.component';
 
 @NgModule({
   imports: [
@@ -39,6 +41,8 @@ import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit
     ReleaseBuildComponent,
     ColumnComponent,
     ColumnNewEditComponent,
+    LibraryComponent,
+    LibraryNewEditComponent,
   ]
 })
 export class ManageModule { }

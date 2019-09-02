@@ -51,10 +51,10 @@ export class LibraryComponent implements OnInit {
     }
     this.loading = true;
     const params = { currentNum: this.pageIndex, pagePerNum: this.pageSize };
-    this.manageService.getRoleList(params, this.searchForm.value).subscribe((res: any) => {
+    this.manageService.getLibraryList(params, this.searchForm.value).subscribe((res: any) => {
       this.loading = false;
       this.total = res.totalResults;
-      this.listOfData = res.resources;
+      this.listOfData = res.result;
     })
   }
 

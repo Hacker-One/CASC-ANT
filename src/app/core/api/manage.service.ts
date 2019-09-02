@@ -183,8 +183,9 @@ export class ManageService {
         return this.util.get('system/sysmenus/nohome');
     }
 
-    getAccountList(params) {
-        return this.util.get('system/sysusers', params);
+    getAccountList(params, sortParams = {}) {
+        const comParams = Object.assign(params, CommonService.deleteEmptyInObj(sortParams));
+        return this.util.get('system/sysusers', comParams);
     }
 
     updateAccount(userId, params) {
@@ -275,5 +276,15 @@ export class ManageService {
     updateUserInfo(uId, params) {
         return this.util.put(`/users/${uId}`, params);
     }
+
+    addLibrary(params) {
+        return this.util.post('system/servicesregister', params);
+    }
+
+    getLibraryList(params, sortParams) {
+        const comParams = Object.assign(params, CommonService.deleteEmptyInObj(sortParams));
+        return this.util.get('system/servicesregister', comParams);
+    }
+
 
 }

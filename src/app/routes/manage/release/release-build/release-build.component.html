@@ -113,10 +113,10 @@
   <nz-form-item>
     <nz-form-control nz-row>
       <div nz-col nzSpan="12" nzOffset="2">
-        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('save')">保存</button>
-        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('submit')">提交</button>
-        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" *ngIf="this.paramsId" (click)="update('save')">更新保存</button>
-        <button nz-button nzType="primary" class="mr15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" *ngIf="this.paramsId" (click)="update('submit')">更新提交</button>
+        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('save')">保存</button>
+        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('submit')">提交</button>
+        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" *ngIf="this.paramsId" (click)="update('save')">更新保存</button>
+        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" *ngIf="this.paramsId" (click)="update('submit')">更新提交</button>
       </div>
     </nz-form-control>
   </nz-form-item>

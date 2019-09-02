@@ -71,7 +71,7 @@ export class RoleNewEditComponent implements OnInit {
   };
   treeDatas = [];
   flowTreeDatas = [];
-  detailItem = {};
+  detailItem: any;
 
   validateForm: FormGroup;
   @ViewChild('treePortal', { static: false }) treePortal;
@@ -149,15 +149,19 @@ export class RoleNewEditComponent implements OnInit {
     LoadingService.show();
     this.manageService.getRoleById(id).subscribe(res => {
       LoadingService.close();
-      this.validateForm.patchValue({ displayName: res.displayName, externalId: res.externalId });
-      let base = CommonService.modifyField(CommonService.modifyField(res.pExtIds, 'id', 'key'), 'label', 'title');
-      this.setIsLeaf(base);
-      this.treeDatas = base;
+      if (res.resultCode === '0') {
+        this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId });
+        let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
+        this.setIsLeaf(base);
+        this.treeDatas = base;
+      }
     })
     this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
-      const base = res.result;
-      this.setIsLeaf(base);
-      this.flowTreeDatas = base;
+      if (res.resultCode === '0') {
+        const base = res.result;
+        this.setIsLeaf(base);
+        this.flowTreeDatas = base;
+      }
     })
   }
 

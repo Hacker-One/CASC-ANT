@@ -18,10 +18,18 @@
         </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="serviceId">应用地址</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用地址!">
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="serviceIdErrorTpl">
                 <nz-input-group>
                     <input formControlName="serviceId" nz-input placeholder="请输入应用地址" />
                 </nz-input-group>
+                <ng-template #serviceIdErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        请输入应用地址
+                    </ng-container>
+                    <ng-container *ngIf="control.hasError('startSymbolUnvalid')">
+                        请在地址前添加符号 ^
+                    </ng-container>
+                </ng-template>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -33,11 +41,19 @@
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="description">描述</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入描述!">
+                <nz-input-group>
+                    <input formControlName="description" nz-input placeholder="请输入描述" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
             <nz-form-control nz-row>
-                <div nz-col nzSpan="14" nzOffset="2">
-                    <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
-                        <span *ngIf="pageAction==='create'">添加栏目</span>
-                        <span *ngIf="pageAction==='edit'">修改栏目</span>
+                <div nz-col nzSpan="14" nzOffset="4">
+                    <button nz-button nzType="primary" [disabled]="!buildForm.valid" (click)="submit()">
+                        <span *ngIf="pageAction==='create'">添加应用库</span>
+                        <span *ngIf="pageAction==='edit'">修改应用库</span>
                     </button>
                 </div>
             </nz-form-control>

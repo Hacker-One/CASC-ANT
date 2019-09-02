@@ -16,7 +16,7 @@ export class ConfigBuildComponent implements OnInit {
   public processArray = [];     // 流程下拉列表
   public processIds = [];       // 流程id下拉列表
   public treeList = [];
-  private paramsId: string;
+  public paramsId: string;
   private editMark: boolean;    // 限制编辑时数据覆盖事件(参数信息)
 
   get variableParams() {

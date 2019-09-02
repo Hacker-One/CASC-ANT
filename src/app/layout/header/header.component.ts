@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ManageService } from '../../core';
+import { ManageService, LoadingService } from '../../core';
 import { Router } from '@angular/router';
 import { GlobalState } from '../../global.state';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -64,7 +64,9 @@ export class HeaderComponent implements OnInit {
   }
 
   getTopMenu(uId) {
+    LoadingService.show();
     this.manageService.getSysMenus(uId).subscribe(res => {
+      LoadingService.close();
       this.menuList = res.result;
       this._state.notifyDataChanged('menu.data', this.menuList);
     });

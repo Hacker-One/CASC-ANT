@@ -70,6 +70,7 @@ export class ApplicationLinkComponent implements OnInit {
   }
 
   async editAsyncFunc(resourceId) {
+    LoadingService.show();
     await this.getMenuNoHome();
     await this.getEditLink(resourceId);
     const selectItem = this.menuSelectList.filter(item => {
@@ -95,11 +96,9 @@ export class ApplicationLinkComponent implements OnInit {
   }
 
   async getEditLink(resourceId) {
-    LoadingService.show();
     return new Promise((resolve, reject) => {
       this.manageService.getDirectoryById(resourceId).subscribe(res => {
         resolve();
-        LoadingService.close();
         this.detailItem = res.result;
         this.buildForm.patchValue({
           parentId: res.result.parentId,
@@ -156,7 +155,6 @@ export class ApplicationLinkComponent implements OnInit {
 
   mapRoleSelectedInMenusRoles(resourceId) {
     const arr = [];
-    LoadingService.show();
     this.manageService.getRoleByMenu(resourceId).subscribe(resp => {
       LoadingService.close();
       this.roleList = resp.result.filter(item => {

@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'release-build', component: ReleaseBuildComponent },
   { path: 'column-list', component: ColumnComponent },
   { path: 'column-new-edit', component: ColumnNewEditComponent },
-  { path: 'library', component: LibraryComponent },
+  { path: 'library-list', component: LibraryComponent },
   { path: 'library-new-edit', component: LibraryNewEditComponent },
 ];
 

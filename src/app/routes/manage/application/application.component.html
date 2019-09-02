@@ -20,7 +20,7 @@
     <ng-container *ngFor="let data of applicationTable.data">
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-          <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.resourcess" [(nzExpand)]="item.expand"
+          <td class="text-left" [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.resourcess" [(nzExpand)]="item.expand"
             (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
             {{item.desc}}
           </td>

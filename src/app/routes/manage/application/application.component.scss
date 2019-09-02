@@ -8,7 +8,10 @@
 }
 
 .application-table {
-  //text-align: center;
+
+  .text-left {
+    text-align: left;
+  }
 
   ::ng-deep {
 

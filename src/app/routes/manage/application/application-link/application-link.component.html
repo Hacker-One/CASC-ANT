@@ -70,19 +70,19 @@
 <div *ngIf="pageAction=='detail'" class="detail-box">
   <div nz-row>
     <div nz-col nzSpan="4" class="title">应用目录：</div>
-    <div nz-col nzSpan="8">{{detailItem.parentId}}</div>
+    <div nz-col nzSpan="8">{{buildForm.value.parentId}}</div>
     <div nz-col nzSpan="4" class="title">应用名称：</div>
-    <div nz-col nzSpan="8">{{detailItem.desc}}</div>
+    <div nz-col nzSpan="8">{{buildForm.value.desc}}</div>
   </div>
   <div nz-row>
     <div nz-col nzSpan="4" class="title">应用地址：</div>
-    <div nz-col nzSpan="8">{{detailItem.action}}</div>
+    <div nz-col nzSpan="8">{{buildForm.value.action}}</div>
     <div nz-col nzSpan="4" class="title">强制显示：</div>
-    <div nz-col nzSpan="8">{{detailItem.isView?'是':'否'}}</div>
+    <div nz-col nzSpan="8">{{buildForm.value.isView?'是':'否'}}</div>
   </div>
   <div nz-row>
     <div nz-col nzSpan="4" class="title">排序：</div>
-    <div nz-col nzSpan="8">{{detailItem.sortNum}}</div>
+    <div nz-col nzSpan="8">{{buildForm.value.sortNum}}</div>
     <div nz-col nzSpan="4" class="title">访问权限：</div>
     <div nz-col nzSpan="8">
       <nz-input-group>

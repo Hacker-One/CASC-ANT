@@ -80,8 +80,10 @@ export class RoleComponent implements OnInit {
     const params = { currentNum: this.pageIndex, pagePerNum: this.pageSize };
     this.manageService.getRoleList(params, this.searchForm.value).subscribe((res: any) => {
       this.loading = false;
-      this.total = res.totalResults;
-      this.listOfData = res.resources;
+      if (res.resultCode === '0') {
+        this.total = res.totalResults;
+        this.listOfData = res.result.resources;
+      }
     })
   }
 

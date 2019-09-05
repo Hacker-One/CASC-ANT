@@ -12,7 +12,7 @@
     <nz-form-control [nzSpan]="4">
       <input nz-input formControlName="phoneNumber" />
     </nz-form-control>
-    <nz-form-control class="pl-20" [nzSpan]="6">
+    <nz-form-control [nzOffset]="3" [nzSpan]="12">
       <button nz-button nzType="primary" [disabled]="!searchForm.valid">查询</button>
       <button nz-button class="reset-btn" (click)="resetForm($event)">重置</button>
     </nz-form-control>

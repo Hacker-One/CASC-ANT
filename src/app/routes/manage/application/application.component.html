@@ -20,7 +20,7 @@
     <ng-container *ngFor="let data of applicationTable.data">
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-          <td class="text-left" [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.resourcess" [(nzExpand)]="item.expand"
+          <td class="text-left nowrap" [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.resourcess" [(nzExpand)]="item.expand"
             (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
             {{item.desc}}
           </td>
@@ -36,7 +36,8 @@
             <ng-container *ngIf="item.state === '0'">无效</ng-container>
           </td>
           <td>
-            <span class="primary-color cp" (click)="goDetail(item,'detail')">详情</span>&nbsp;
+            <span *ngIf="item.resourceType=='Menu'" class="primary-color cp" [routerLink]="[ '/manage/applicat-btn',{action:'create',parentId:item.id} ]">添加按钮</span>&nbsp;
+            <span *ngIf="item.resourceType!=='Button'" class="primary-color cp" (click)="goDetail(item,'detail')">详情</span>&nbsp;
             <span [appAuthority]="item.resourceType=='Root'?'Rootupb':'Menuupd'">
               <span class="primary-color cp" (click)="goDetail(item,'edit')">编辑</span>&nbsp;
               <span class="primary-color cp" (click)="showDeleteConfirm(item)">设置无效</span>

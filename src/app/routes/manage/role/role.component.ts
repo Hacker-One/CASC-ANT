@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } fro
 import { Observable, Observer } from 'rxjs';
 import { ManageService } from '../../../../app/core/api/manage.service';
 import { Router } from '@angular/router';
+import { AUTHORITYBTNMAPPING } from 'src/app/constants';
 
 @Component({
   selector: 'app-role',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./role.component.scss']
 })
 export class RoleComponent implements OnInit {
+  authority = AUTHORITYBTNMAPPING;
   pageIndex = 1;
   pageSize = 10;
   total = 1;
@@ -81,7 +83,7 @@ export class RoleComponent implements OnInit {
     this.manageService.getRoleList(params, this.searchForm.value).subscribe((res: any) => {
       this.loading = false;
       if (res.resultCode === '0') {
-        this.total = res.totalResults;
+        this.total = res.result.totalResults;
         this.listOfData = res.result.resources;
       }
     })

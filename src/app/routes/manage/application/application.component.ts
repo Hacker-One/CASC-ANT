@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../share/http.service';
 import { GlobalState } from '../../../global.state';
-import { ManageService } from '../../../core';
+import { ManageService, CommonService } from '../../../core';
 import { Router } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { USER, CONSTANTS } from 'src/app/constants';
@@ -30,6 +30,70 @@ export class ApplicationComponent implements OnInit {
   public tableData = [];          // table data
   mapOfExpandedData: { [key: string]: TreeNodeInterface[] } = {};
   deleteDialog = false;
+  listOfMapData = [
+    {
+      key: 1,
+      name: 'John Brown sr.',
+      age: 60,
+      address: 'New York No. 1 Lake Park',
+      children: [
+        {
+          key: 11,
+          name: 'John Brown',
+          age: 42,
+          address: 'New York No. 2 Lake Park'
+        },
+        {
+          key: 12,
+          name: 'John Brown jr.',
+          age: 30,
+          address: 'New York No. 3 Lake Park',
+          children: [
+            {
+              key: 121,
+              name: 'Jimmy Brown',
+              age: 16,
+              address: 'New York No. 3 Lake Park'
+            }
+          ]
+        },
+        {
+          key: 13,
+          name: 'Jim Green sr.',
+          age: 72,
+          address: 'London No. 1 Lake Park',
+          children: [
+            {
+              key: 131,
+              name: 'Jim Green',
+              age: 42,
+              address: 'London No. 2 Lake Park',
+              children: [
+                {
+                  key: 1311,
+                  name: 'Jim Green jr.',
+                  age: 25,
+                  address: 'London No. 3 Lake Park'
+                },
+                {
+                  key: 1312,
+                  name: 'Jimmy Green sr.',
+                  age: 18,
+                  address: 'London No. 4 Lake Park'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      key: 2,
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    }
+  ];
 
   constructor(
     private http: HttpService,
@@ -52,11 +116,13 @@ export class ApplicationComponent implements OnInit {
     this.manageService.getSysMenus(userName).subscribe(resp => {
       this.tableLoading = false;
       if (resp.resultCode === '0') {
-        this.tableData = resp.result;
+        this.tableData = CommonService.modifyField(resp.result, 'resourcessButton', 'resourcess');
         this.tableData.forEach(item => {
           this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
         });
       }
+      console.log(this.mapOfExpandedData);
+
     }, () => this.tableLoading = false);
   }
 
@@ -104,8 +170,10 @@ export class ApplicationComponent implements OnInit {
     console.log(item);
     if (item.resourceType == 'Root') {
       this.router.navigate(['/manage/applicat-directory', { action: act, resourceId: item.resourceId }])
-    } else {
+    } else if (item.resourceType == 'Menu') {
       this.router.navigate(['/manage/applicat-link', { action: act, resourceId: item.resourceId }])
+    } else {
+      this.router.navigate(['/manage/applicat-btn', { action: act, parentId: item.parentId, resourceId: item.resourceId, desc: item.desc, url: item.action }])
     }
   }
 

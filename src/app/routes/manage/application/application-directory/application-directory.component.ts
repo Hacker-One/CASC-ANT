@@ -71,8 +71,8 @@ export class ApplicationDirectoryComponent implements OnInit {
   getRoleList() {
     let arr = [];
     this.manageService.getRoleListApi({ currentNum: 1, pagePerNum: 100 }).subscribe(resp => {
-      this.roleList = resp.resources;
-      resp.resources.forEach(item => {
+      this.roleList = resp.result.resources;
+      resp.result.resources.forEach(item => {
         const node = {
           label: item.displayName,
           value: item.externalId,

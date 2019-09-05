@@ -9,6 +9,13 @@
 
 .application-table {
 
+  .text-left {
+    text-align: left;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+
   ::ng-deep {
 
     .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
@@ -24,4 +31,5 @@
     }
 
   }
+
 }

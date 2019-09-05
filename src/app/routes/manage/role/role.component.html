@@ -1,5 +1,5 @@
 <div class="page-btn-line">
-  <button [appAuthority]="'RoleAdd'" nz-button [routerLink]="[ '/manage/role-new-edit',{action:'create'} ]"
+  <button [appAuthority]="authority.addRole" nz-button [routerLink]="[ '/manage/role-new-edit',{action:'create'} ]"
     nzType="primary">新建角色</button>
 </div>
 <form class="search-box" nz-form nzSize="middle" [formGroup]="searchForm" (ngSubmit)="submitForm(searchForm.value)">
@@ -40,7 +40,7 @@
       <td>
         <button nz-button (click)="goDetail(element,'detail')" nzType="primary" nzSize="small">详情</button>
         &nbsp;
-        <button [appAuthority]="'RoleaUbd'" nz-button (click)="goDetail(element,'edit')" nzType="primary"
+        <button [appAuthority]="authority.editRole" nz-button (click)="goDetail(element,'edit')" nzType="primary"
           nzSize="small">编辑</button>
       </td>
     </tr>

@@ -1,3 +1,4 @@
+// localstorage constants
 export const CONSTANTS = {
     userInfo: 'userInfo',   // 用户信息
     authorityBtnList: 'authorityBtnList'    // 权限按钮数组
@@ -22,4 +23,9 @@ export interface USER {
     id: string;
     userType: string;
     email: string;
-  }
+}
+
+export const AUTHORITYBTNMAPPING = {
+    addRole: 'ADDROLE',
+    editRole: 'EDITROLE',
+}

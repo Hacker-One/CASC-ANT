@@ -286,5 +286,16 @@ export class ManageService {
         return this.util.get('system/servicesregister', comParams);
     }
 
+    addSysButton(params) {
+        return this.util.post('system/resource/sysbutton', params);
+    }
+
+    updateSysButton(id, params) {
+        return this.util.put(`system/resource/sysbutton/${id}`, params);
+    }
+
+    getSysButtonById(id) {
+        return this.util.get(`system/resource/sysbutton/${id}`);
+    }
 
 }

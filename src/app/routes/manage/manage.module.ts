@@ -18,6 +18,7 @@ import { ReleaseBuildComponent } from './release/release-build/release-build.com
 import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit.component';
 import { LibraryComponent } from './library/library.component';
 import { LibraryNewEditComponent } from './library/library-new-edit/library-new-edit.component';
+import { ApplicationBtnComponent } from './application/application-btn/application-btn.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { LibraryNewEditComponent } from './library/library-new-edit/library-new-
     ColumnNewEditComponent,
     LibraryComponent,
     LibraryNewEditComponent,
+    ApplicationBtnComponent,
   ]
 })
 export class ManageModule { }

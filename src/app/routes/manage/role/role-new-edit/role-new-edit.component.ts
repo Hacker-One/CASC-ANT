@@ -169,8 +169,8 @@ export class RoleNewEditComponent implements OnInit {
     LoadingService.show();
     this.manageService.getRoleById(id).subscribe(res => {
       LoadingService.close();
-      this.detailItem = res;
-      let base = CommonService.modifyField(CommonService.modifyField(res.pExtIds, 'id', 'key'), 'label', 'title');
+      this.detailItem = res.result;
+      let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
       this.setIsLeaf(base);
       // this.removeNoChecked(base);
       this.treeDatas = base;

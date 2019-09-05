@@ -1,0 +1,30 @@
+<form nz-form [formGroup]="buildForm">
+    <nz-form-item>
+        <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="desc">名称</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入名称!">
+            <input formControlName="desc" nz-input placeholder="请输入名称" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="resourceId">编码</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入编码!">
+            <input formControlName="resourceId" nz-input placeholder="请输入编码" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="action">地址</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入地址!">
+            <input formControlName="action" nz-input placeholder="请输入地址" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nz-row>
+            <div nz-col nzSpan="14" nzOffset="2">
+                <button nz-button nzType="primary" [disabled]="buildForm.invalid" (click)="submit()">
+                    <span *ngIf="pageAction==='create'">添加</span>
+                    <span *ngIf="pageAction==='edit'">修改</span>
+                </button>
+            </div>
+        </nz-form-control>
+    </nz-form-item>
+</form>

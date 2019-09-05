@@ -13,12 +13,15 @@ import { ColumnComponent } from './column/column.component';
 import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit.component';
 import { LibraryComponent } from './library/library.component';
 import { LibraryNewEditComponent } from './library/library-new-edit/library-new-edit.component';
+import { ApplicationBtnComponent } from './application/application-btn/application-btn.component';
+import { AuthGuard } from '../share/guard/auth.guard';
 
 const routes: Routes = [
   // { path: '', component: ApplicationComponent },
   { path: 'applicat-list', component: ApplicationComponent, data: { breadcrumb: '应用管理' } },
   { path: 'applicat-directory', component: ApplicationDirectoryComponent, data: { breadcrumb: '新建目录' } },
   { path: 'applicat-link', component: ApplicationLinkComponent, data: { breadcrumb: '新建链接' } },
+  { path: 'applicat-btn', component: ApplicationBtnComponent },
   { path: 'account-list', component: AccountComponent },
   { path: 'account-detail', component: AccountDetailComponent },
   { path: 'role-list', component: RoleComponent },
@@ -33,6 +36,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class ManageRoutingModule { }

@@ -22,6 +22,7 @@ export class AuthorityDirective {
     this.action();
   }
 
+  // 按钮路由链接集合
   setAuthrityBtnArr(menuList) {
     this.authrityArr = [];
     for (let elementL1 of menuList) {

@@ -28,4 +28,15 @@ export interface USER {
 export const AUTHORITYBTNMAPPING = {
     addRole: 'ADDROLE',
     editRole: 'EDITROLE',
+    addDirectory: 'ADDDIRECTORY',
+    editDirectory: 'EDITDIRECTORY',
+    addLink: 'ADDLINK',
+    editLink: 'EDITLINK',
+    addButton: 'ADDBUTTON',
+    editButton: 'EDITBUTTON',
+    addLibrary: 'ADDLIBRARY',
+    editAccount: 'EDITACCOUNT',
+    addRelease: 'ADDRELEASE',
+    editColumn: 'EDITCOLUMN',
+    addColumn: 'ADDCOLUMN',
 }

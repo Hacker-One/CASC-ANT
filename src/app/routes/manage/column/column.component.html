@@ -1,5 +1,5 @@
 <div class="page-btn-line">
-  <button [appAuthority]="'columnnew'" nz-button [routerLink]="[ '/manage/column-new-edit',{action:'create'} ]"
+  <button [appAuthority]="authority.addColumn" nz-button [routerLink]="[ '/manage/column-new-edit',{action:'create'} ]"
     nzType="primary">新建栏目</button>
   <!-- <button nz-button [routerLink]="[ '/manage/column-new-edit',{action:'create'} ]" nzType="primary">新建栏目</button> -->
 </div>
@@ -12,7 +12,7 @@
       <div class="gutter-box" [ngClass]="{'shadow-red':element?.borderColor==='red'}">
         <p class="col-name" [ngClass]="{'font-red':element?.fontColor==='red'}">{{element.title}}</p>
         <p>{{columnTypeMap[element.type]}}</p>
-        <div class="btn-row" [appAuthority]="'columnnUpd'">
+        <div class="btn-row" [appAuthority]="authority.editColumn">
           <button nz-button (click)="goDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
           <button nz-button nzType="primary" nzSize="small" (click)="offService(element)">停用</button>
         </div>

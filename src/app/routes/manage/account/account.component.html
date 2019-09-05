@@ -46,9 +46,9 @@
         <!-- <a href="javascript:void(0)" (click)="roleDialog = true;getRoles(element);">设置</a> -->
       </td>
       <td>有效</td>
-      <td>
+      <td class="nowrap">
         <button nz-button (click)="toDetail(element,'detail')" nzType="primary" nzSize="small">详情</button>&nbsp;
-        <button [appAuthority]="'AccountUbd'" nz-button (click)="toDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
+        <button [appAuthority]="authority.editAccount" nz-button (click)="toDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
       </td>
     </tr>
   </tbody>

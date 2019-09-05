@@ -10,10 +10,10 @@ export class AuthorityDirective {
   authrityArr = [];
 
   constructor(private el: ElementRef, private _state: GlobalState) {
-    this._state.subscribe('menu.data', (menuData) => {
-      this.setAuthrityBtnArr(menuData);
-      this.action();
-    })
+    // this._state.subscribe('menu.data', (menuData) => {
+    //   this.setAuthrityBtnArr(menuData);
+    //   this.action();
+    // })
   }
 
   ngAfterViewInit(){

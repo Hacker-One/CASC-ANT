@@ -1,7 +1,8 @@
 <div class="application-btns">
-  <button [appAuthority]="'Rootadd'" [routerLink]="[ '/manage/applicat-directory',{action:'create'} ]" nz-button
-    nzType="primary">新建目录</button>
-  <button [appAuthority]="'Menuadd'" [routerLink]="[ '/manage/applicat-link',{action:'create'} ]" nz-button nzType="default">新建链接</button>
+  <button [appAuthority]="authority.addDirectory" [routerLink]="[ '/manage/applicat-directory',{action:'create'} ]"
+    nz-button nzType="primary">新建目录</button>
+  <button [appAuthority]="authority.addLink" [routerLink]="[ '/manage/applicat-link',{action:'create'} ]" nz-button
+    nzType="default">新建链接</button>
 </div>
 
 <nz-table class="application-table" #applicationTable [nzData]="tableData" nzSize="middle" [nzLoading]="tableLoading">
@@ -20,8 +21,8 @@
     <ng-container *ngFor="let data of applicationTable.data">
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-          <td class="text-left nowrap" [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.resourcess" [(nzExpand)]="item.expand"
-            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
+          <td class="text-left nowrap" [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.resourcess"
+            [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
             {{item.desc}}
           </td>
           <td>{{item.resourceType}}</td>
@@ -36,9 +37,11 @@
             <ng-container *ngIf="item.state === '0'">无效</ng-container>
           </td>
           <td>
-            <span *ngIf="item.resourceType=='Menu'" class="primary-color cp" [routerLink]="[ '/manage/applicat-btn',{action:'create',parentId:item.id} ]">添加按钮</span>&nbsp;
-            <span *ngIf="item.resourceType!=='Button'" class="primary-color cp" (click)="goDetail(item,'detail')">详情</span>&nbsp;
-            <span [appAuthority]="item.resourceType=='Root'?'Rootupb':'Menuupd'">
+            <span *ngIf="item.resourceType=='Menu'" class="primary-color cp" [appAuthority]="authority.addButton"
+              [routerLink]="[ '/manage/applicat-btn',{action:'create',parentId:item.id} ]">添加按钮</span>&nbsp;
+            <span *ngIf="item.resourceType!=='Button'" class="primary-color cp"
+              (click)="goDetail(item,'detail')">详情</span>&nbsp;
+            <span [appAuthority]="item.resourceType=='Root'?authority.editDirectory:authority.editLink">
               <span class="primary-color cp" (click)="goDetail(item,'edit')">编辑</span>&nbsp;
               <span class="primary-color cp" (click)="showDeleteConfirm(item)">设置无效</span>
             </span>

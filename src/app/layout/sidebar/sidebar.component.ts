@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GlobalState } from '../../../app/global.state';
 import { ManageService } from '../../../app/core/api/manage.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { all } from 'q';
 import { USER, CONSTANTS } from 'src/app/constants';
 
 @Component({
@@ -11,7 +10,7 @@ import { USER, CONSTANTS } from 'src/app/constants';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  user: USER;
+  userName = 'fangshufeng';
   collectionList = [];
   menuList = [];
   allCollections = [];
@@ -27,14 +26,12 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
     this.getList();
   }
 
   // 获取已选收藏列表
   getList() {
-    const userName = this.user.id;
-    this.manageService.getCollections(userName).subscribe(res => {
+    this.manageService.getCollections(this.userName).subscribe(res => {
       if (res.resultCode === '0') {
         this.collectionList = res.result;
       }
@@ -74,7 +71,7 @@ export class SidebarComponent implements OnInit {
   handleOk(): void {
     console.log(this.collectCboxsArr)
     let params = {
-      userId: this.user.id,
+      userId: this.userName,
       resourceIds: []
     };
     for (let element of this.collectCboxsArr) {

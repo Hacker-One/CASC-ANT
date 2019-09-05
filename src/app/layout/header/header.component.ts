@@ -33,7 +33,25 @@ export class HeaderComponent implements OnInit {
   ) {
     this._state.subscribe('menu.data', (menuData) => {
       this.menuList = menuData;
+      this.setAuthrityBtnArr(menuData || []);
     });
+  }
+
+  // 按钮resourceId集合
+  setAuthrityBtnArr(menuList) {
+    const authrityArr = [];
+    for (let elementL1 of menuList) {
+      if (elementL1.hasOwnProperty('resourcess')) {
+        for (let elementL2 of elementL1.resourcess) {
+          if (elementL2.hasOwnProperty('resourcessButton')) {
+            for (let item of elementL2.resourcessButton) {
+              authrityArr.push(item.resourceId);
+            }
+          }
+        }
+      }
+    }
+    localStorage.setItem(CONSTANTS.authorityBtnList, JSON.stringify(authrityArr));
   }
 
   phoneValidator = (control: FormControl): { [s: string]: boolean } => {

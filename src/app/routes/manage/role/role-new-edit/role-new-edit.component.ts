@@ -147,21 +147,29 @@ export class RoleNewEditComponent implements OnInit {
 
   getEditRole(id) {
     LoadingService.show();
-    this.manageService.getRoleById(id).subscribe(res => {
-      LoadingService.close();
-      if (res.resultCode === '0') {
-        this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId });
-        let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
-        this.setIsLeaf(base);
-        this.treeDatas = base;
-      }
+    const p1 = new Promise((resolve, reject) => {
+      this.manageService.getRoleById(id).subscribe(res => {
+        if (res.resultCode === '0') {
+          this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId });
+          let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
+          this.setIsLeaf(base);
+          this.treeDatas = base;
+        }
+        resolve()
+      })
     })
-    this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
-      if (res.resultCode === '0') {
-        const base = res.result;
-        this.setIsLeaf(base);
-        this.flowTreeDatas = base;
-      }
+    const p2 = new Promise((resolve, reject) => {
+      this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
+        if (res.resultCode === '0') {
+          const base = res.result;
+          this.setIsLeaf(base);
+          this.flowTreeDatas = base;
+        }
+        resolve()
+      })
+    })
+    Promise.all([p1, p2]).then(() => {
+      LoadingService.close();
     })
   }
 
@@ -196,18 +204,25 @@ export class RoleNewEditComponent implements OnInit {
     LoadingService.show();
     const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
     const userName = user.id;
-    this.manageService.getMenuTree(userName).subscribe(res => {
-      LoadingService.close();
-      let base = CommonService.modifyField(CommonService.modifyField(res.result, 'id', 'key'), 'label', 'title');
-      this.setIsLeaf(base);
-      this.treeDatas = base;
-      // console.log(this.treeDatas);
+    const p1 = new Promise((resolve, reject) => {
+      this.manageService.getMenuTree(userName).subscribe(res => {
+        let base = CommonService.modifyField(CommonService.modifyField(res.result, 'id', 'key'), 'label', 'title');
+        this.setIsLeaf(base);
+        this.treeDatas = base;
+      })
+      resolve()
     })
     //  intergrate flow menu authority
-    this.manageService.getFlowTree({ needRole: false }).subscribe(res => {
-      const base = res.result;
-      this.setIsLeaf(base);
-      this.flowTreeDatas = base;
+    const p2 = new Promise((resolve, reject) => {
+      this.manageService.getFlowTree({ needRole: false }).subscribe(res => {
+        const base = res.result;
+        this.setIsLeaf(base);
+        this.flowTreeDatas = base;
+      })
+      resolve()
+    })
+    Promise.all([p1, p2]).then(() => {
+      LoadingService.close();
     })
   }
 
@@ -265,9 +280,7 @@ export class RoleNewEditComponent implements OnInit {
       if (res[0]['resultCode'] === '0' && res[1]['resultCode'] === '0') {
         this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
       };
-      if (this.pageAction === 'create') {
-        this.getMenuAgain();
-      };
+      this.getMenuAgain();
       LoadingService.close();
       this.router.navigate(['/manage/role-list']);
     })

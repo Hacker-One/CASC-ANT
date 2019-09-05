@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
 import { ManageService } from '../../../core/api/manage.service';
 import { Router } from '@angular/router';
+import { AUTHORITYBTNMAPPING } from 'src/app/constants';
 
 @Component({
   selector: 'app-account',
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+  authority = AUTHORITYBTNMAPPING;
   param = {};
   pageIndex = 1;
   pageSize = 10;

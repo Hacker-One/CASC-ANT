@@ -50,6 +50,7 @@ export class ApplicationBtnComponent implements OnInit {
           isView: 1,
           sortNum: 1,
         })
+        this.buildForm.get('resourceId').disable();
         break;
 
       default:
@@ -80,7 +81,7 @@ export class ApplicationBtnComponent implements OnInit {
         if (resp.resultCode === '0') {
           this.messageService.success('添加成功');
           setTimeout(() => {
-            this.router.navigateByUrl('manage/applicat-list');
+            // this.router.navigateByUrl('manage/applicat-list');
           }, 2000);
         }
       });

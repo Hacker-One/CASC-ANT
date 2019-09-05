@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ManageService, LoadingService } from 'src/app/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
+import { AUTHORITYBTNMAPPING } from 'src/app/constants';
 
 @Component({
   selector: 'app-column',
@@ -9,6 +10,7 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./column.component.scss']
 })
 export class ColumnComponent implements OnInit {
+  authority = AUTHORITYBTNMAPPING;
   columnList = [];
   columnTypeMap = {
     1: '消息',

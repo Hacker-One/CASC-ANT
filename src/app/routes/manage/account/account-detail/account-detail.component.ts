@@ -62,7 +62,7 @@ export class AccountDetailComponent implements OnInit {
   getRoleList(detailDatas) {
     const arr = [];
     this.manageService.getRoleListApi({ currentNum: 1, pagePerNum: 100 }).subscribe(resp => {
-      this.roleList = resp.resources;
+      this.roleList = resp.result.resources;
       this.roleList.map(element => {
         element['checked'] = false;
         if (detailDatas.hasOwnProperty('rolevos')) {

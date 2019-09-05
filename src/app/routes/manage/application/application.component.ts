@@ -4,7 +4,7 @@ import { GlobalState } from '../../../global.state';
 import { ManageService, CommonService } from '../../../core';
 import { Router } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { USER, CONSTANTS } from 'src/app/constants';
+import { USER, CONSTANTS, AUTHORITYBTNMAPPING } from 'src/app/constants';
 
 export interface TreeNodeInterface {
   desc: string;
@@ -26,6 +26,7 @@ export interface TreeNodeInterface {
   styleUrls: ['./application.component.scss'],
 })
 export class ApplicationComponent implements OnInit {
+  authority = AUTHORITYBTNMAPPING;
   public tableLoading = false;    // table loading
   public tableData = [];          // table data
   mapOfExpandedData: { [key: string]: TreeNodeInterface[] } = {};

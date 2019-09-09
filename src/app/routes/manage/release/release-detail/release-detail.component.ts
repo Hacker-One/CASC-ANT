@@ -16,12 +16,12 @@ export class ReleaseDetailComponent implements OnInit {
     initialFrameHeight: 500,    // 初始化编辑器高度
     toolbars: [['source']]
   };
-  private paramsId: string;
-  private annexFileList = [];
-  private detailData: any = {
+  public paramsId: string;
+  public annexFileList = [];
+  public detailData: any = {
     content: ''
   };
-  private taskId: string;
+  public taskId: string;
   public detail: string;
 
   constructor(

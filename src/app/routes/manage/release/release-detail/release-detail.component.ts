@@ -52,6 +52,18 @@ export class ReleaseDetailComponent implements OnInit {
           approvalStatus: resp.result.approvalStatus,
           opinion: resp.result.opinion
         });
+        if (resp.result.enclosures) {
+          this.annexFileList = resp.result.enclosures.map(item => {
+            return {
+              url: `/system/download/${item.enclosureName}?fileUrl=${item.enclosureUrl}`,
+              name: item.enclosureName,
+              id: item.id,
+              type: item.type,
+              enclosureName: item.enclosureName,
+              enclosureUrl: item.enclosureUrl,
+            };
+          });
+        }
       }
     });
   }

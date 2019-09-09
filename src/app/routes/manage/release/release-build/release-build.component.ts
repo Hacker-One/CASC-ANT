@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {CommonService, LoadingService, ManageService} from '../../../../core';
+import { CommonService, LoadingService, ManageService } from '../../../../core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService, UploadFile, UploadXHRArgs, NzModalService} from 'ng-zorro-antd';
-import { HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
+import { NzMessageService, UploadFile, UploadXHRArgs, NzModalService } from 'ng-zorro-antd';
+import { HttpRequest, HttpResponse, HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import qs from 'qs';
 import { Observable, Observer, from } from 'rxjs';
 
@@ -27,6 +27,7 @@ export class ReleaseBuildComponent implements OnInit {
   };
   previewImage: string | undefined = '';
   previewVisible = false;
+  pageAction = '';
 
   constructor(
     private fb: FormBuilder,
@@ -44,10 +45,13 @@ export class ReleaseBuildComponent implements OnInit {
 
   // 初始化参数和表单
   initParams() {
-    this.paramsId = this.activatedRoute.snapshot.queryParamMap.get('id');
+    this.pageAction = this.activatedRoute.snapshot.params.action;
+    this.paramsId = this.activatedRoute.snapshot.params.id;
     this.buildForm = this.fb.group({
-      title: [{value: null, disabled: false}, [Validators.required]],
+      title: [{ value: null, disabled: false }, [Validators.required]],
       deputyTitle: [null, [Validators.required]],     // 副标题
+      beginDate: [null],
+      endDate: [null],
       rangeDate: [null, [Validators.required]],       // 有效期
       publisherObj: [null, [Validators.required]],    // 发布对象
       type: [null, [Validators.required]],            // 发布类型
@@ -93,6 +97,8 @@ export class ReleaseBuildComponent implements OnInit {
         this.buildForm.patchValue({
           title: data.title,
           deputyTitle: data.deputyTitle,
+          beginDate: data.beginDate,
+          endDate: data.endDate,
           rangeDate: data.rangeDate,
           publisherObj: data.publisherObj,
           type: data.type,
@@ -140,7 +146,7 @@ export class ReleaseBuildComponent implements OnInit {
       modelName: fileInfo[1],
     };
     const req = new HttpRequest('POST', item.action + qs.stringify(uploadParams), item.file, {
-      reportProgress : true,
+      reportProgress: true,
       withCredentials: true
     });
 
@@ -211,7 +217,7 @@ export class ReleaseBuildComponent implements OnInit {
 
   // 参数处理
   paramsHandle(requestType: string) {
-    const params: any = Object.assign({enclosures: this.annexFileList}, this.buildForm.value);
+    const params: any = Object.assign({ enclosures: this.annexFileList }, this.buildForm.value);
     params.beginDate = params.rangeDate[0].getTime();
     params.endDate = params.rangeDate[1].getTime();
     params.requestType = requestType;
@@ -279,5 +285,10 @@ export class ReleaseBuildComponent implements OnInit {
       }
     });
   }
+
+  linkAttachment(item) {
+    window.open(item.url, '_blank')
+  }
+
 }
 

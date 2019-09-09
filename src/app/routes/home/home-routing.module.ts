@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home-right', pathMatch: 'full' },
   { path: '', component: HomeComponent },
   { path: 'home-right', component: HomeComponent },
 ];

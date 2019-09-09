@@ -3,6 +3,7 @@ import { GlobalState } from '../../../app/global.state';
 import { ManageService } from '../../../app/core/api/manage.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { USER, CONSTANTS } from 'src/app/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,7 +19,7 @@ export class SidebarComponent implements OnInit {
   collectDialog = false;
   modalOkLoading = false;
 
-  constructor(private _state: GlobalState, private manageService: ManageService, private message: NzMessageService) {
+  constructor(private _state: GlobalState, private manageService: ManageService, private message: NzMessageService, private router: Router) {
     this._state.subscribe('menu.data', (menuData) => {
       this.menuList = menuData;
       this.setCollectCboxsArr();
@@ -91,6 +92,14 @@ export class SidebarComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.collectDialog = false;
+  }
+
+  goPage(element) {
+    if (element.resourceUrl.indexOf('http') > -1) {
+      window.open(element.resourceUrl)
+    } else {
+      this.router.navigate([`${element.resourceUrl}`]);
+    }
   }
 
 }

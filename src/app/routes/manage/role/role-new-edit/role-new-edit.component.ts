@@ -175,29 +175,66 @@ export class RoleNewEditComponent implements OnInit {
 
   getDetailRole(id) {
     LoadingService.show();
-    this.manageService.getRoleById(id).subscribe(res => {
-      LoadingService.close();
-      this.detailItem = res.result;
-      let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
-      this.setIsLeaf(base);
-      // this.removeNoChecked(base);
-      this.treeDatas = base;
+    const p1 = new Promise(resolve => {
+      this.manageService.getRoleById(id).subscribe(res => {
+        LoadingService.close();
+        this.detailItem = res.result;
+        let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
+        this.removeNoChecked(base);
+        this.removeEmptyChildren(base);
+        // treeDatas first level can not be empty
+        let nodes = [];
+        for (let element of base) {
+          if (element) {
+            nodes.push(element)
+          }
+        };
+        this.setIsLeaf(nodes);
+        console.log(nodes);
+        this.treeDatas = nodes;
+        resolve()
+      })
     })
-    this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
-      const base = res.result;
-      this.setIsLeaf(base);
-      this.flowTreeDatas = base;
+    const p2 = new Promise(resolve => {
+      this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
+        // const base = res.result;
+        // this.removeNoChecked(base);
+        // this.removeEmptyChildren(base);
+        // this.setIsLeaf(base);
+        // this.flowTreeDatas = base;
+        resolve()
+      })
+    })
+    Promise.all([p1, p2]).then(() => {
+      LoadingService.close();
     })
   }
 
   removeNoChecked(arr) {
-    arr.map((element) => {
-      if (!element['checked']) {
-        element['show'] = false;
-      };
-      return element;
+    arr.forEach((element, index) => {
+      if (!element.checked) {
+        delete arr[index]
+      }
+      else {
+        if (element.hasOwnProperty('children')) {
+          this.removeNoChecked(element.children)
+        }
+      }
     })
-    console.log(arr)
+  }
+
+  removeEmptyChildren(arr) {
+    arr.map(element => {
+      if (element.hasOwnProperty('children')) {
+        if (CommonService.isEmptyArr(element.children)) {
+          delete element.children
+        }
+        if (element.children) {
+          this.removeEmptyChildren(element.children)
+        }
+      }
+      return element
+    })
   }
 
   getMenuTree() {

@@ -43,7 +43,7 @@ export class LibraryNewEditComponent implements OnInit {
     this.buildForm = this.fb.group({
       externalId: [null, [Validators.required]],
       displayName: [null, [Validators.required]],
-      serviceId: [null, [Validators.required], [this.startSymbolValidator]],
+      serviceId: [null, [Validators.required],[this.startWithHttpValidator]],
       evaluationOrder: [null, [Validators.required]],
       description: [null, [Validators.required]],
     })
@@ -55,6 +55,18 @@ export class LibraryNewEditComponent implements OnInit {
         if (control.value.substr(0, 1) !== '^') {
           // you have to return `{error: true}` to mark it as an error event
           observer.next({ error: true, startSymbolUnvalid: true });
+        } else {
+          observer.next(null);
+        }
+        observer.complete();
+      }, 1000)
+    })
+
+  startWithHttpValidator = (control: FormControl) =>
+    new Observable((observer: Observer<ValidationErrors | null>) => {
+      setTimeout(() => {
+        if (control.value.substr(0, 4) !== 'http') {
+          observer.next({ error: true, startWithHttpUnvalid: true });
         } else {
           observer.next(null);
         }
@@ -79,7 +91,8 @@ export class LibraryNewEditComponent implements OnInit {
   }
 
   submit() {
-    const params = Object.assign(this.buildForm.value, {});
+    let params = Object.assign(this.buildForm.value, {});
+    params['serviceId'] = `^${this.buildForm.value.serviceId}.*`
     console.log(params);
 
     LoadingService.show();
@@ -87,10 +100,10 @@ export class LibraryNewEditComponent implements OnInit {
       this.manageService.addLibrary(params).subscribe(resp => {
         LoadingService.close();
         if (resp.resultCode === '0') {
-          this.messageService.success('添加应用成功');
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('manage/library-list');
-          // }, 2000);
+          this.messageService.success('添加成功');
+          setTimeout(() => {
+            this.router.navigateByUrl('manage/library-list');
+          }, 2000);
         }
       });
     } else {
@@ -98,7 +111,7 @@ export class LibraryNewEditComponent implements OnInit {
       this.manageService.updateColumn(id, params).subscribe(resp => {
         LoadingService.close();
         if (resp.resultCode === '0') {
-          this.messageService.success('修改应用成功');
+          this.messageService.success('修改成功');
           setTimeout(() => {
             this.router.navigateByUrl('manage/column-list');
           }, 2000);

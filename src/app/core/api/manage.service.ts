@@ -57,7 +57,7 @@ export class ManageService {
      * 已注册url
      */
     alreadyUrlApi() {
-        return this.util.get(`applications`);
+        return this.util.get(`system/servicesregister`);
     }
 
     /**

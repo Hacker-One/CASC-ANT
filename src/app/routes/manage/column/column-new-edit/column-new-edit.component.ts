@@ -72,8 +72,8 @@ export class ColumnNewEditComponent implements OnInit {
     let arr = [];
     this.manageService.getRoleListApi({ currentNum: 1, pagePerNum: 100 }).subscribe(resp => {
       if (resp.resultCode === '0') {
-        this.roleList = resp.resources;
-        resp.resources.forEach(item => {
+        this.roleList = resp.result.resources;
+        resp.result.resources.forEach(item => {
           const node = {
             label: item.displayName,
             value: item.externalId,

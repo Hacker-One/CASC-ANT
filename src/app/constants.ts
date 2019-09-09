@@ -37,6 +37,7 @@ export const AUTHORITYBTNMAPPING = {
     addLibrary: 'ADDLIBRARY',
     editAccount: 'EDITACCOUNT',
     addRelease: 'ADDRELEASE',
+    editRelease: 'EDITRELEASE',
     editColumn: 'EDITCOLUMN',
     addColumn: 'ADDCOLUMN',
 }

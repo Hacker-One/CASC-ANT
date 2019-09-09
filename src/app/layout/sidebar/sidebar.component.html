@@ -2,7 +2,7 @@
   <ul>
     <li *ngFor="let item of collectionList">
       <i class="icon iconfont iconglobe"></i>
-      <a href="javascript:void(0)" [routerLink]="[item.resourceUrl]">{{item.resourcename}}</a>
+      <a href="javascript:void(0)" (click)="goPage(item)">{{item.resourcename}}</a>
     </li>
   </ul>
   <a class="icon-add" href="javascript:void(0)" (click)="showModal()">+</a>

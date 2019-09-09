@@ -143,7 +143,11 @@ export class HeaderComponent implements OnInit {
     if (element.resourceType === 'Root' && element.resourceId !== '8shome') {
       return
     };
-    this.router.navigate([`${element.action}`]);
+    if (element.action.indexOf('http') > -1) {
+      window.open(element.action)
+    } else {
+      this.router.navigate([`${element.action}`]);
+    }
   }
 
   showModal(): void {

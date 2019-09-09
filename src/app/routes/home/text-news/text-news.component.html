@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'60%'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
+<nz-modal class="news-modal" [(nzVisible)]="isVisible" [nzWidth]="'80%'" [nzFooter]="null" (nzOnCancel)="handleCancel()">
   <h1>{{detailNew.title}}</h1>
   <h2>{{detailNew.subTitle}}</h2>
   <div class="new-content" [innerHtml]="detailNew.content | html"></div>

@@ -5,6 +5,7 @@ import { CommonService, ManageService } from '../../../core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { AUTHORITYBTNMAPPING } from 'src/app/constants';
 
 export interface TableObject {
   title: string;
@@ -32,6 +33,7 @@ export interface TreeNodeInterface {
   styleUrls: ['./release.component.scss'],
 })
 export class ReleaseComponent implements OnInit {
+  public authority = AUTHORITYBTNMAPPING;
   public tableLoading = false;    // table loading
   public tableData: TreeNodeInterface = CommonService.pagination;       // table data
   searchForm: FormGroup;
@@ -84,6 +86,11 @@ export class ReleaseComponent implements OnInit {
         this.tableData = resp;
       }
     }, () => this.tableLoading = false);
+  }
+
+  goDetail(item, act) {
+    console.log(item);
+    this.router.navigate(['/manage/release-build', { action: act, id: item.id }])
   }
 
   // 设置无效

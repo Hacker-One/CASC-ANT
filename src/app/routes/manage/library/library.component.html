@@ -1,7 +1,7 @@
 <div class="page-btn-line">
-    <!-- <button [appAuthority]="'LibraryAdd'" nz-button [routerLink]="[ '/manage/library-new-edit',{action:'create'} ]"
-      nzType="primary">新建应用</button> -->
-    <button nz-button [routerLink]="[ '/manage/library-new-edit',{action:'create'} ]" nzType="primary">新建应用</button>
+    <button [appAuthority]="authority.addLibrary" nz-button [routerLink]="[ '/manage/library-new-edit',{action:'create'} ]"
+      nzType="primary">添加</button>
+    <!-- <button nz-button [routerLink]="[ '/manage/library-new-edit',{action:'create'} ]" nzType="primary">添加</button> -->
 </div>
 
 <!-- <form class="search-box" nz-form nzSize="middle" [formGroup]="searchForm" (ngSubmit)="submitForm(searchForm.value)">

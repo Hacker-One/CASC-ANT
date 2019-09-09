@@ -1,5 +1,6 @@
 <div class="application-btns">
-  <button [routerLink]="[ '/manage/release-build' ]" nz-button nzType="primary">新建</button>
+  <button [appAuthority]="authority.addRelease" [routerLink]="[ '/manage/release-build' ]" nz-button
+    nzType="primary">新建</button>
 </div>
 
 <form class="search-box" nz-form nzSize="middle" [formGroup]="searchForm" (ngSubmit)="submitForm(searchForm.value)">
@@ -63,8 +64,11 @@
         <span *ngIf="data.status === '1'">有效</span>
       </td>
       <td>
-        <button nz-button nzType="link" (click)="setInvalid(data.id)" [disabled]="data.status === '0'">设置无效</button>
-        <button nz-button nzType="link" routerLink="../release-build" [queryParams]="{id: data.id}">详情</button>
+        <button nz-button nzType="primary" nzSize="small" (click)="setInvalid(data.id)"
+          [disabled]="data.status === '0'">停用</button>&nbsp;
+        <button nz-button nzType="primary" nzSize="small" (click)="goDetail(data,'detail')">详情</button>&nbsp;
+        <button [appAuthority]="authority.editRelease" nz-button (click)="goDetail(data,'edit')" nzType="primary"
+          nzSize="small">编辑</button>
       </td>
     </tr>
   </tbody>

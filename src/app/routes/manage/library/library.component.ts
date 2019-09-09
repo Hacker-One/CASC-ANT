@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ManageService } from '../../../../app/core/api/manage.service';
 import { Router } from '@angular/router';
+import { AUTHORITYBTNMAPPING } from 'src/app/constants';
 
 @Component({
   selector: 'app-library',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
+  authority = AUTHORITYBTNMAPPING;
   pageIndex = 1;
   pageSize = 10;
   total = 1;

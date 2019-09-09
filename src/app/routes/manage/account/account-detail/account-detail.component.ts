@@ -42,10 +42,11 @@ export class AccountDetailComponent implements OnInit {
   }
 
   getEditDetail(id) {
+    LoadingService.show();
     if (this.pageAction == 'edit') {
       this.manageService.getAccountDetail(id).subscribe(res => {
         this.getRoleList(res);
-        this.buildForm.get('id').disable();
+        // this.buildForm.get('id').disable();
         this.buildForm.patchValue({
           id: res.id,
           name: res.name,
@@ -54,6 +55,7 @@ export class AccountDetailComponent implements OnInit {
       })
     } else {
       this.manageService.getAccountDetail(id).subscribe(res => {
+        LoadingService.close();
         this.detailItem = res;
       })
     }
@@ -62,6 +64,7 @@ export class AccountDetailComponent implements OnInit {
   getRoleList(detailDatas) {
     const arr = [];
     this.manageService.getRoleListApi({ currentNum: 1, pagePerNum: 100 }).subscribe(resp => {
+      LoadingService.close();
       this.roleList = resp.result.resources;
       this.roleList.map(element => {
         element['checked'] = false;

@@ -1,123 +1,144 @@
-<form class="release-build" nz-form [formGroup]="buildForm">
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入标题名称!">
-      <nz-input-group>
-        <input formControlName="title" nz-input placeholder="请输入标题名称" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="deputyTitle">副标题</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入副标题!">
-      <nz-input-group >
-        <input formControlName="deputyTitle" nz-input placeholder="请输入副标题" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="beginDate">有效期</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择有效期!">
-      <nz-range-picker style="width: 100%" formControlName="rangeDate" nzShowTime></nz-range-picker>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="publisherObj">发布对象</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择发布对象!">
-      <nz-select style="width: 100%" formControlName="publisherObj" nzPlaceHolder="请选择发布对象">
-        <nz-option nzValue="1" nzLabel="本部门"></nz-option>
-        <nz-option nzValue="0" nzLabel="全部"></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="type">发布类型</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择发布类型!">
-      <nz-select style="width: 100%" formControlName="type" nzPlaceHolder="请选择发布类型">
-        <nz-option nzValue="1" nzLabel="通知公告"></nz-option>
-        <nz-option nzValue="2" nzLabel="图片新闻"></nz-option>
-      </nz-select>
-      <div class="clearfix" *ngIf="buildForm.value.type === '2'">
-        <nz-upload
-          nzAction={{imgUploadUrl}}
-          nzListType="picture-card"
-          [nzShowButton]="imgFileList.length < 1"
-          [nzShowUploadList]="showUploadList"
-          (nzChange)="imgHandleChange($event)"
-          [nzCustomRequest]="customReq"
-          [nzBeforeUpload]="imgBeforeUpload"
-          [(nzFileList)]="imgFileList"
-          [nzPreview]="handlePreview"
-          [nzRemove]="removeImgFile"
-        >
-          <i nz-icon nzType="plus"></i>
-          <div class="ant-upload-text">上传图片</div>
-        </nz-upload>
-        <nz-modal
-          [nzVisible]="previewVisible"
-          [nzContent]="imgFileModal"
-          [nzFooter]="null"
-          (nzOnCancel)="previewVisible = false"
-        >
-          <ng-template #imgFileModal>
-            <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
-          </ng-template>
-        </nz-modal>
-      </div>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="top">置顶天数</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入置顶天数!">
-      <nz-input-group >
-        <input formControlName="top" nz-input placeholder="请输入置顶天数" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="priority">重要度</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入重要度!">
-      <nz-input-group >
-        <nz-select style="width: 100%" formControlName="priority" nzPlaceHolder="请选择重要度">
-          <nz-option nzValue="1" nzLabel="重要"></nz-option>
-          <nz-option nzValue="2" nzLabel="不重要"></nz-option>
+<div *ngIf="pageAction!=='detail'">
+  <form class="release-build" nz-form [formGroup]="buildForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入标题名称!">
+        <nz-input-group>
+          <input formControlName="title" nz-input placeholder="请输入标题名称" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="deputyTitle">副标题</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入副标题!">
+        <nz-input-group>
+          <input formControlName="deputyTitle" nz-input placeholder="请输入副标题" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="beginDate">有效期</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择有效期!">
+        <nz-range-picker style="width: 100%" formControlName="rangeDate" nzShowTime></nz-range-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="publisherObj">发布对象</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择发布对象!">
+        <nz-select style="width: 100%" formControlName="publisherObj" nzPlaceHolder="请选择发布对象">
+          <nz-option nzValue="1" nzLabel="本部门"></nz-option>
+          <nz-option nzValue="0" nzLabel="全部"></nz-option>
         </nz-select>
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24">附件</nz-form-label>
-    <nz-form-control [nzSm]="12" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择访问权限!">
-      <nz-upload
-        nzType="drag"
-        nzAction = {{fileUploadUrl}}
-        [(nzFileList)]="annexFileList"
-        (nzChange)="handleChange($event)"
-        [nzMultiple]="true"
-        [nzCustomRequest]="customReq"
-        [nzRemove]="removeImgFile"
-      >
-        <p class="ant-upload-drag-icon">
-          <i nz-icon nzType="inbox"></i>
-        </p>
-        <p class="ant-upload-text">点击或拖拽文件上传</p>
-      </nz-upload>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="content">正文内容</nz-form-label>
-    <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="请输入正文内容!">
-      <ngx-neditor formControlName="content" loadingTip="编辑器加载中···" #neditor [config]="config"></ngx-neditor>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control nz-row>
-      <div nz-col nzSpan="12" nzOffset="2">
-        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('save')">保存</button>
-        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId" (click)="submit('submit')">提交</button>
-        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" *ngIf="this.paramsId" (click)="update('save')">更新保存</button>
-        <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')" *ngIf="this.paramsId" (click)="update('submit')">更新提交</button>
-      </div>
-    </nz-form-control>
-  </nz-form-item>
-</form>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="type">发布类型</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择发布类型!">
+        <nz-select style="width: 100%" formControlName="type" nzPlaceHolder="请选择发布类型">
+          <nz-option nzValue="1" nzLabel="通知公告"></nz-option>
+          <nz-option nzValue="2" nzLabel="图片新闻"></nz-option>
+        </nz-select>
+        <div class="clearfix" *ngIf="buildForm.value.type === '2'">
+          <nz-upload nzAction={{imgUploadUrl}} nzListType="picture-card" [nzShowButton]="imgFileList.length < 1"
+            [nzShowUploadList]="showUploadList" (nzChange)="imgHandleChange($event)" [nzCustomRequest]="customReq"
+            [nzBeforeUpload]="imgBeforeUpload" [(nzFileList)]="imgFileList" [nzPreview]="handlePreview"
+            [nzRemove]="removeImgFile">
+            <i nz-icon nzType="plus"></i>
+            <div class="ant-upload-text">上传图片</div>
+          </nz-upload>
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="imgFileModal" [nzFooter]="null"
+            (nzOnCancel)="previewVisible = false">
+            <ng-template #imgFileModal>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+            </ng-template>
+          </nz-modal>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="top">置顶天数</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入置顶天数!">
+        <nz-input-group>
+          <input formControlName="top" nz-input placeholder="请输入置顶天数" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="priority">重要度</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入重要度!">
+        <nz-input-group>
+          <nz-select style="width: 100%" formControlName="priority" nzPlaceHolder="请选择重要度">
+            <nz-option nzValue="1" nzLabel="重要"></nz-option>
+            <nz-option nzValue="2" nzLabel="不重要"></nz-option>
+          </nz-select>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24">附件</nz-form-label>
+      <nz-form-control [nzSm]="12" [nzXXl]="10" [nzXs]="24" nzErrorTip="附件缺失!">
+        <nz-upload nzType="drag" nzAction={{fileUploadUrl}} [(nzFileList)]="annexFileList"
+          (nzChange)="handleChange($event)" [nzMultiple]="true" [nzCustomRequest]="customReq"
+          [nzRemove]="removeImgFile">
+          <p class="ant-upload-drag-icon">
+            <i nz-icon nzType="inbox"></i>
+          </p>
+          <p class="ant-upload-text">点击或拖拽文件上传</p>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="content">正文内容</nz-form-label>
+      <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="请输入正文内容!">
+        <ngx-neditor formControlName="content" loadingTip="编辑器加载中···" #neditor [config]="config"></ngx-neditor>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nz-row>
+        <div nz-col nzSpan="12" nzOffset="4">
+          <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId"
+            (click)="submit('save')">保存</button>
+          <button nz-button nzType="primary" class="mr-15" [disabled]="buildForm.invalid" *ngIf="!this.paramsId"
+            (click)="submit('submit')">提交</button>
+          <button nz-button nzType="primary" class="mr-15"
+            [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')"
+            *ngIf="this.paramsId" (click)="update('save')">更新保存</button>
+          <button nz-button nzType="primary" class="mr-15"
+            [disabled]="buildForm.invalid || (imgFileList.length === 0 && buildForm.value.type === '2')"
+            *ngIf="this.paramsId" (click)="update('submit')">更新提交</button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<div *ngIf="pageAction=='detail'" class="detail-box">
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">标题：</div>
+    <div nz-col nzSpan="8">{{buildForm.value.title}}</div>
+    <div nz-col nzSpan="4" class="title">副标题：</div>
+    <div nz-col nzSpan="8">{{buildForm.value.deputyTitle}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">有效期：</div>
+    <div nz-col nzSpan="8">{{buildForm.value.beginDate | date:'yyyy-MM-dd hh:mm:ss'}} ~
+      {{buildForm.value.endDate | date:'yyyy-MM-dd hh:mm:ss'}}</div>
+    <div nz-col nzSpan="4" class="title">置顶天数：</div>
+    <div nz-col nzSpan="8">{{buildForm.value.top}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">重要度：</div>
+    <div nz-col nzSpan="8">{{buildForm.value.priority==1?'重要':'不重要'}}</div>
+    <div nz-col nzSpan="4" class="title">附件：</div>
+    <div nz-col nzSpan="8">
+      <a style="display: block" *ngFor="let element of annexFileList"
+        (click)="linkAttachment(element)">{{element.name}}</a>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="4" class="title">正文内容：</div>
+    <div nz-col nzSpan="8">
+      <div class="new-content" [innerHtml]="buildForm.value.content | html"></div>
+    </div>
+  </div>
+</div>

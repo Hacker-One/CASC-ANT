@@ -112,4 +112,13 @@ export class CommonService {
     return obj;
   }
 
+  public static isEmptyArr (arr){
+    for(let item of arr){
+      if(item){
+        return false
+      }
+    }
+    return true
+  }
+
 }

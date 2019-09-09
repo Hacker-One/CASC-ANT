@@ -26,8 +26,11 @@
                     <ng-container *ngIf="control.hasError('required')">
                         请输入应用地址
                     </ng-container>
-                    <ng-container *ngIf="control.hasError('startSymbolUnvalid')">
+                    <!-- <ng-container *ngIf="control.hasError('startSymbolUnvalid')">
                         请在地址前添加符号 ^
+                    </ng-container> -->
+                    <ng-container *ngIf="control.hasError('startWithHttpUnvalid')">
+                        请以http或https开始
                     </ng-container>
                 </ng-template>
             </nz-form-control>

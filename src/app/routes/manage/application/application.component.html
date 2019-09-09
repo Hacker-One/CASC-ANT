@@ -13,7 +13,6 @@
       <th>排序</th>
       <th>URL</th>
       <th>来源</th>
-      <th>状态</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -33,17 +32,13 @@
             <ng-container *ngIf="item.sourceType === 'N'">手动输入</ng-container>
           </td>
           <td>
-            <ng-container *ngIf="item.state === '1'">有效</ng-container>
-            <ng-container *ngIf="item.state === '0'">无效</ng-container>
-          </td>
-          <td>
             <span *ngIf="item.resourceType=='Menu'" class="primary-color cp" [appAuthority]="authority.addButton"
               [routerLink]="[ '/manage/applicat-btn',{action:'create',parentId:item.id} ]">添加按钮</span>&nbsp;
             <span *ngIf="item.resourceType!=='Button'" class="primary-color cp"
               (click)="goDetail(item,'detail')">详情</span>&nbsp;
             <span [appAuthority]="item.resourceType=='Root'?authority.editDirectory:authority.editLink">
               <span class="primary-color cp" (click)="goDetail(item,'edit')">编辑</span>&nbsp;
-              <span class="primary-color cp" (click)="showDeleteConfirm(item)">设置无效</span>
+              <!-- <span class="primary-color cp" (click)="showDeleteConfirm(item)">删除</span> -->
             </span>
           </td>
         </tr>

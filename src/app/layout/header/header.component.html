@@ -3,7 +3,7 @@
   <div class="user-blk">
     <nz-avatar nzSize="58" [nzSrc]="photoImgUrl" nzAlt="avatar"></nz-avatar>
     <a nz-dropdown [nzDropdownMenu]="setting" style="color:white">
-      万芳芳
+      {{userInfo?.name}}
       <i nz-icon nzType="down"></i>
     </a>
     <nz-dropdown-menu #setting="nzDropdownMenu">

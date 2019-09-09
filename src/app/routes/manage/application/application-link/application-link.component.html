@@ -28,10 +28,10 @@
           <label nz-radio [nzValue]="'Y'">从已注册应用库中选择</label>
           <label nz-radio [nzValue]="'N'">手动输入URL</label>
         </nz-radio-group>
-        <input formControlName="action" *ngIf="buildForm.value.sourceType === 'N'" nz-input placeholder="请输入url" />
+        <input formControlName="action" *ngIf="buildForm.value.sourceType === 'N'" nz-input placeholder="请以http或https开始" />
         <nz-select style="width: 100%" *ngIf="buildForm.value.sourceType === 'Y'" formControlName="action" nzAllowClear
           nzPlaceHolder="请选择url">
-          <nz-option [nzValue]="item.externalId" [nzLabel]="item.desc" *ngFor="let item of applicationLibArr">
+          <nz-option [nzValue]="item.serviceId" [nzLabel]="item.name" *ngFor="let item of applicationLibArr">
           </nz-option>
         </nz-select>
       </nz-form-control>

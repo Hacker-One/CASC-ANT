@@ -4,7 +4,7 @@
       <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="id">账号</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入账号!">
         <nz-input-group>
-          <input formControlName="id" nz-input placeholder="请输入账号" />
+          <input [disabled]="pageAction=='edit'" formControlName="id" nz-input placeholder="请输入账号" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>

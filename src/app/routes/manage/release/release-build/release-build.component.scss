@@ -9,8 +9,22 @@
       padding-right: 0;
     }
   
-    .ant-form-item-label {
-      width: 100px;
+    // .ant-form-item-label {
+    //   width: 100px;
+    // }
+  }
+  .detail-box {
+    .title {
+        text-align: right;
+        padding-right: 10px;
+    }
+    .ant-row {
+        margin: 20px 0;
+    }
+    .new-content {
+      img {
+        width: 100%;
+      }
     }
   }
 }

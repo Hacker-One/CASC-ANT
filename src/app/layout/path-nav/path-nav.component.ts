@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { GlobalState } from '../../../app/global.state';
+import { NOTINMENUMAPPING } from './path-nav.config';
 
 @Component({
   selector: 'app-path-nav',
@@ -11,6 +12,7 @@ import { GlobalState } from '../../../app/global.state';
 export class PathNavComponent implements OnInit {
   menuData = [];
   pathArr = [];
+  notInMenuMapping = NOTINMENUMAPPING;
   currentUrl: String = '';
   isShow = false;
   constructor(private router: Router, private _state: GlobalState, ) {
@@ -36,7 +38,15 @@ export class PathNavComponent implements OnInit {
   }
 
   setPathArr(url, menuArr) {
-    if (!url||url=='/') { url = '/home-right' };
+    if (!url || url == '/') { url = '/home-right' };
+    let detailLinkFlag = false;
+    for (let element of this.notInMenuMapping) {
+      if (url.indexOf(element.rLink) > -1) {  //  match parent navs for detail link  
+        url = element.parent;
+        detailLinkFlag = true;
+        break;
+      }
+    }
     if (url === '/home-right') {
       this.isShow = false;
     } else {
@@ -52,7 +62,11 @@ export class PathNavComponent implements OnInit {
           for (let elementLV2 of elementLV1.resourcess) {
             if (url.indexOf(elementLV2.action) > -1) {
               this.pathArr = [];
-              this.pathArr.push({ name: elementLV1.desc, url: elementLV1.action }, { name: elementLV2.desc, url: elementLV2.action });
+              if (!detailLinkFlag) {
+                this.pathArr.push({ name: elementLV1.desc, url: elementLV1.action }, { name: elementLV2.desc, url: elementLV2.action });
+              } else {
+                this.pathArr.push({ name: elementLV1.desc, url: elementLV1.action }, { name: elementLV2.desc, url: elementLV2.action }, { name: '详情', url: '' });
+              }
               break;
             } else {
               if (elementLV2.hasOwnProperty('resourcessButton')) {

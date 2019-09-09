@@ -200,7 +200,7 @@ export class ApplicationLinkComponent implements OnInit {
   getRegistUrl() {
     this.manageService.alreadyUrlApi().subscribe(resp => {
       console.log(resp);
-      this.applicationLibArr = resp.resources;
+      this.applicationLibArr = resp.result;
     });
   }
 

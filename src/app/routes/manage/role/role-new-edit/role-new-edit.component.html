@@ -64,14 +64,12 @@
     <div nz-col nzSpan="4" class="title">角色权限：</div>
     <nz-tabset nzSpan="12">
       <nz-tab nzTitle="门户权限">
-        <nz-tree #treePortal [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
-          (nzCheckBoxChange)="nzEvent($event)">
-        </nz-tree>
+        <nz-tree #treePortal [nzExpandAll]="true" [nzShowLine]="true" [nzBlockNode]="true" [nzData]="treeDatas"></nz-tree>
       </nz-tab>
       <nz-tab nzTitle="流程权限">
-        <nz-tree #treeFlow [nzCheckStrictly]="true" [nzData]="flowTreeDatas" nzShowIcon nzCheckable nzMultiple
+        <!-- <nz-tree #treeFlow [nzCheckStrictly]="true" [nzData]="flowTreeDatas" nzShowIcon nzCheckable nzMultiple
           (nzCheckBoxChange)="nzEvent($event)">
-        </nz-tree>
+        </nz-tree> -->
       </nz-tab>
     </nz-tabset>
   </div>

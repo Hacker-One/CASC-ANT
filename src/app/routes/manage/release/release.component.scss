@@ -8,13 +8,11 @@
 }
 
 .application-table {
-  //text-align: center;
 
   ::ng-deep {
-
     .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
       text-align: center;
     }
-
   }
+
 }

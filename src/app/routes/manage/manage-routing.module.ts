@@ -15,6 +15,7 @@ import { LibraryComponent } from './library/library.component';
 import { LibraryNewEditComponent } from './library/library-new-edit/library-new-edit.component';
 import { ApplicationBtnComponent } from './application/application-btn/application-btn.component';
 import { AuthGuard } from '../share/guard/auth.guard';
+import { ReleaseDetailComponent } from './release/release-detail/release-detail.component';
 
 const routes: Routes = [
   // { path: '', component: ApplicationComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'role-new-edit', component: RoleNewEditComponent },
   { path: 'info-release', component: ReleaseComponent },
   { path: 'release-build', component: ReleaseBuildComponent },
+  { path: 'release-detail/:id', component: ReleaseDetailComponent },
   { path: 'column-list', component: ColumnComponent },
   { path: 'column-new-edit', component: ColumnNewEditComponent },
   { path: 'library-list', component: LibraryComponent },

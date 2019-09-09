@@ -1,4 +1,4 @@
-<div *ngIf="pageAction!=='detail'">
+<div>
   <form class="release-build" nz-form [formGroup]="buildForm">
     <nz-form-item>
       <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="title">标题</nz-form-label>
@@ -110,35 +110,4 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-</div>
-
-<div *ngIf="pageAction=='detail'" class="detail-box">
-  <div nz-row>
-    <div nz-col nzSpan="4" class="title">标题：</div>
-    <div nz-col nzSpan="8">{{buildForm.value.title}}</div>
-    <div nz-col nzSpan="4" class="title">副标题：</div>
-    <div nz-col nzSpan="8">{{buildForm.value.deputyTitle}}</div>
-  </div>
-  <div nz-row>
-    <div nz-col nzSpan="4" class="title">有效期：</div>
-    <div nz-col nzSpan="8">{{buildForm.value.beginDate | date:'yyyy-MM-dd hh:mm:ss'}} ~
-      {{buildForm.value.endDate | date:'yyyy-MM-dd hh:mm:ss'}}</div>
-    <div nz-col nzSpan="4" class="title">置顶天数：</div>
-    <div nz-col nzSpan="8">{{buildForm.value.top}}</div>
-  </div>
-  <div nz-row>
-    <div nz-col nzSpan="4" class="title">重要度：</div>
-    <div nz-col nzSpan="8">{{buildForm.value.priority==1?'重要':'不重要'}}</div>
-    <div nz-col nzSpan="4" class="title">附件：</div>
-    <div nz-col nzSpan="8">
-      <a style="display: block" *ngFor="let element of annexFileList"
-        (click)="linkAttachment(element)">{{element.name}}</a>
-    </div>
-  </div>
-  <div nz-row>
-    <div nz-col nzSpan="4" class="title">正文内容：</div>
-    <div nz-col nzSpan="8">
-      <div class="new-content" [innerHtml]="buildForm.value.content | html"></div>
-    </div>
-  </div>
 </div>

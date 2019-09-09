@@ -67,7 +67,7 @@
         <button nz-button nzType="primary" nzSize="small" (click)="setInvalid(data.id)"
           [disabled]="data.status === '0'">停用</button>&nbsp;
         <button nz-button nzType="primary" nzSize="small" (click)="goDetail(data,'detail')">详情</button>&nbsp;
-        <button [appAuthority]="authority.editRelease" nz-button (click)="goDetail(data,'edit')" nzType="primary"
+        <button [appAuthority]="authority.editRelease" nz-button [routerLink]="'/manage/release-build'" [queryParams]="{id: data.id}" nzType="primary"
           nzSize="small">编辑</button>
       </td>
     </tr>

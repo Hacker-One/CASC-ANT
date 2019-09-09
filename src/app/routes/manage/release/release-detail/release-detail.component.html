@@ -1,0 +1,57 @@
+<div *ngIf="detail !== 'detail'">
+  <div style="text-align: right">
+    <button nz-button nzType="primary" class="mr-15" [disabled]="auditForm.invalid" (click)="auditService()">保存</button>
+  </div>
+
+  <form class="release-build" nz-form [formGroup]="auditForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="title">审核状态</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择审核状态!">
+        <nz-select style="width: 100%" formControlName="approvalStatus" nzPlaceHolder="请选择审核状态">
+          <nz-option nzValue="true" nzLabel="通过"></nz-option>
+          <nz-option nzValue="false" nzLabel="拒绝"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="deputyTitle">审核内容</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入审核内容!">
+        <nz-input-group>
+          <textarea rows="4" nz-input formControlName="opinion"></textarea>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<div class="detail-box">
+  <div nz-row>
+    <div nz-col nzSpan="2" class="title">标题：</div>
+    <div nz-col nzSpan="8">{{detailData.title}}</div>
+    <div nz-col nzSpan="2" class="title">副标题：</div>
+    <div nz-col nzSpan="8">{{detailData.deputyTitle}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="2" class="title">有效期：</div>
+    <div nz-col nzSpan="8">{{detailData.beginDate | date:'yyyy-MM-dd hh:mm:ss'}} ~
+      {{detailData.endDate | date:'yyyy-MM-dd hh:mm:ss'}}</div>
+    <div nz-col nzSpan="2" class="title">置顶天数：</div>
+    <div nz-col nzSpan="8">{{detailData.top}}</div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="2" class="title">重要度：</div>
+    <div nz-col nzSpan="8">{{detailData.priority==1?'重要':'不重要'}}</div>
+    <div nz-col nzSpan="2" class="title">附件：</div>
+    <div nz-col nzSpan="8">
+      <a style="display: block" *ngFor="let element of annexFileList"
+         (click)="linkAttachment(element)">{{element.name}}</a>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="2" class="title">正文内容：</div>
+    <div nz-col nzSpan="20">
+      <ngx-neditor [disabled]="true" [(ngModel)]="detailData.content" loadingTip="编辑器加载中···" [config]="config"></ngx-neditor>
+    </div>
+  </div>
+
+</div>

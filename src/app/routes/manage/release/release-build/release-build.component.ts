@@ -27,7 +27,6 @@ export class ReleaseBuildComponent implements OnInit {
   };
   previewImage: string | undefined = '';
   previewVisible = false;
-  pageAction = '';
 
   constructor(
     private fb: FormBuilder,
@@ -45,8 +44,7 @@ export class ReleaseBuildComponent implements OnInit {
 
   // 初始化参数和表单
   initParams() {
-    this.pageAction = this.activatedRoute.snapshot.params.action;
-    this.paramsId = this.activatedRoute.snapshot.params.id;
+    this.paramsId = this.activatedRoute.snapshot.queryParamMap.get('id');
     this.buildForm = this.fb.group({
       title: [{ value: null, disabled: false }, [Validators.required]],
       deputyTitle: [null, [Validators.required]],     // 副标题

@@ -123,8 +123,8 @@ export class ManageService {
      * 审核信息
      * @params id: 公告id
      */
-    infoReviewApi(id: string): Observable<any> {
-        return this.util.put(`system/news/approval`);
+    infoReviewApi(params): Observable<any> {
+        return this.util.put(`system/news/approval`, params);
     }
 
     /**

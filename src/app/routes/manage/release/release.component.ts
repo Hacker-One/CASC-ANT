@@ -80,7 +80,8 @@ export class ReleaseComponent implements OnInit {
     if (page) { this.tableData.currentNum = page; }
     this.tableData.result = [];
     this.tableLoading = true;
-    this.manageService.infoListApi({ currentNum: this.tableData.currentNum, pagePerNum: this.tableData.pagePerNum }, this.searchForm.value).subscribe(resp => {
+    this.manageService.infoListApi({ currentNum: this.tableData.currentNum, pagePerNum: this.tableData.pagePerNum },
+      this.searchForm.value).subscribe(resp => {
       this.tableLoading = false;
       if (resp.resultCode === '0') {
         this.tableData = resp;
@@ -89,8 +90,7 @@ export class ReleaseComponent implements OnInit {
   }
 
   goDetail(item, act) {
-    console.log(item);
-    this.router.navigate(['/manage/release-build', { action: act, id: item.id }])
+    this.router.navigate([`/manage/release-detail/${item.id}`], {queryParams: {detail: act}});
   }
 
   // 设置无效

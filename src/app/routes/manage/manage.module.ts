@@ -19,6 +19,7 @@ import { ColumnNewEditComponent } from './column/column-new-edit/column-new-edit
 import { LibraryComponent } from './library/library.component';
 import { LibraryNewEditComponent } from './library/library-new-edit/library-new-edit.component';
 import { ApplicationBtnComponent } from './application/application-btn/application-btn.component';
+import { ReleaseDetailComponent } from './release/release-detail/release-detail.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { ApplicationBtnComponent } from './application/application-btn/applicati
     LibraryComponent,
     LibraryNewEditComponent,
     ApplicationBtnComponent,
+    ReleaseDetailComponent,
   ]
 })
 export class ManageModule { }

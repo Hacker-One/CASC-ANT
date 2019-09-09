@@ -56,6 +56,10 @@ export class ReleaseDetailComponent implements OnInit {
     });
   }
 
+  linkAttachment(item) {
+    window.open(item.url, '_blank')
+  }
+
   // 审核
   auditService() {
     const params: any = {

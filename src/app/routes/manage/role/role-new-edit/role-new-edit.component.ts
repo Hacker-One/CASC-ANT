@@ -2,15 +2,16 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ManageService } from '../../../../../app/core/api/manage.service';
 import { NzFormatEmitEvent, NzMessageService } from 'ng-zorro-antd';
-import { CommonService, LoadingService } from '../../../../../app/core';
+import { CommonService, LoadingService, ConfigService } from '../../../../../app/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalState } from 'src/app/global.state';
-import { USER, CONSTANTS } from 'src/app/constants';
+import { USER, CONSTANTS, APPEXTIDMAPPING } from 'src/app/constants';
 
 @Component({
   selector: 'app-role-new-edit',
   templateUrl: './role-new-edit.component.html',
-  styleUrls: ['./role-new-edit.component.scss']
+  styleUrls: ['./role-new-edit.component.scss'],
+  providers: [ConfigService]
 })
 export class RoleNewEditComponent implements OnInit {
   nodes = [
@@ -64,6 +65,8 @@ export class RoleNewEditComponent implements OnInit {
   ];
   pageAction = '';
   selectArr = [];
+  appExtId = '';
+  appExtIdArr = []
   roleObj = {
     displayName: '',
     externalId: '',
@@ -74,7 +77,7 @@ export class RoleNewEditComponent implements OnInit {
   detailItem: any;
 
   validateForm: FormGroup;
-  @ViewChild('treePortal', { static: false }) treePortal;
+  // @ViewChild('treePortal', { static: false }) treePortal;
 
   constructor(
     private manageService: ManageService,
@@ -82,26 +85,30 @@ export class RoleNewEditComponent implements OnInit {
     private message: NzMessageService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _state: GlobalState
+    private _state: GlobalState,
+    private configService: ConfigService,
   ) {
     this.validateForm = this.fb.group({
+      appExtId: ['', [Validators.required]],
       displayName: ['', [Validators.required]],
       externalId: ['', [Validators.required]],
     });
     this.pageAction = this.activatedRoute.snapshot.params.action;
     switch (this.pageAction) {
       case 'create':
-        this.getMenuTree();
+        this.appListService();
         break;
 
       case 'edit':
+        const appExtId = this.activatedRoute.snapshot.params.appExtId;
         const externalId = this.activatedRoute.snapshot.params.externalId;
-        this.getEditRole(externalId);
+        this.editAsyncFunc(appExtId, externalId);
         break;
 
       case 'detail':
+        const aId = this.activatedRoute.snapshot.params.appExtId;
         const eId = this.activatedRoute.snapshot.params.externalId;
-        this.getDetailRole(eId);
+        this.getDetailRole(aId, eId);
         break;
 
       default:
@@ -110,6 +117,32 @@ export class RoleNewEditComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  appExtIdChanged(id) {
+    this.appExtId = id;
+    switch (id) {
+      case APPEXTIDMAPPING.portal:
+        this.getPortalTree();
+        break;
+      case APPEXTIDMAPPING.flow:
+        this.getFlowTree();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  // 获取域名列表service
+  async appListService() {
+    this.appExtIdArr = [];
+    return new Promise(resolve => {
+      this.configService.appListApi().subscribe(resp => {
+        this.appExtIdArr = resp.resources;
+      })
+      resolve()
+    })
   }
 
   nzEvent(event: NzFormatEmitEvent): void {
@@ -145,69 +178,163 @@ export class RoleNewEditComponent implements OnInit {
     }
   }
 
-  getEditRole(id) {
+  async editAsyncFunc(appExtId, externalId) {
     LoadingService.show();
-    const p1 = new Promise((resolve, reject) => {
-      this.manageService.getRoleById(id).subscribe(res => {
-        if (res.resultCode === '0') {
-          this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId });
-          let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
-          this.setIsLeaf(base);
-          this.treeDatas = base;
-        }
-        resolve()
-      })
-    })
-    const p2 = new Promise((resolve, reject) => {
-      this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
-        if (res.resultCode === '0') {
-          const base = res.result;
-          this.setIsLeaf(base);
-          this.flowTreeDatas = base;
-        }
-        resolve()
-      })
-    })
-    Promise.all([p1, p2]).then(() => {
-      LoadingService.close();
-    })
+    await this.appListService();
+    this.getEditRole(appExtId, externalId);
   }
 
-  getDetailRole(id) {
+  getEditRole(appExtId, externalId) {
     LoadingService.show();
-    const p1 = new Promise(resolve => {
-      this.manageService.getRoleById(id).subscribe(res => {
-        LoadingService.close();
-        this.detailItem = res.result;
-        let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
-        this.removeNoChecked(base);
-        this.removeEmptyChildren(base);
-        // treeDatas first level can not be empty
-        let nodes = [];
-        for (let element of base) {
-          if (element) {
-            nodes.push(element)
+    let keyY = '';
+    for (let key in APPEXTIDMAPPING) {
+      if (APPEXTIDMAPPING[key] == appExtId) {
+        keyY = key
+      }
+    }
+    switch (keyY) {
+      case 'portal':
+        this.manageService.getRoleById(externalId).subscribe(res => {
+          if (res.resultCode === '0') {
+            LoadingService.close();
+            this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId, appExtId: res.result.appExtId });
+            let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
+            this.setIsLeaf(base);
+            this.treeDatas = base;
           }
-        };
-        this.setIsLeaf(nodes);
-        console.log(nodes);
-        this.treeDatas = nodes;
-        resolve()
-      })
-    })
-    const p2 = new Promise(resolve => {
-      this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
-        // const base = res.result;
-        // this.removeNoChecked(base);
-        // this.removeEmptyChildren(base);
-        // this.setIsLeaf(base);
-        // this.flowTreeDatas = base;
-        resolve()
-      })
-    })
-    Promise.all([p1, p2]).then(() => {
-      LoadingService.close();
-    })
+        })
+        break;
+      case 'flow':
+        this.manageService.getFlowRoleById(appExtId, externalId).subscribe(res => {
+          if (res.resultCode === '0') {
+            LoadingService.close();
+            this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId, appExtId: res.result.appExtId });
+            let base = res.result.tree;
+            this.setIsLeaf(base);
+            this.treeDatas = base;
+          }
+        })
+        break;
+      default:
+        break;
+    }
+    // const p1 = new Promise((resolve, reject) => {
+    //   this.manageService.getRoleById(id).subscribe(res => {
+    //     if (res.resultCode === '0') {
+    //       this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId });
+    //       let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
+    //       this.setIsLeaf(base);
+    //       this.treeDatas = base;
+    //     }
+    //     resolve()
+    //   })
+    // })
+    // const p2 = new Promise((resolve, reject) => {
+    //   this.manageService.getFlowTree({ roleId: id, needRole: false }).subscribe(res => {
+    //     if (res.resultCode === '0') {
+    //       const base = res.result;
+    //       this.setIsLeaf(base);
+    //       this.flowTreeDatas = base;
+    //     }
+    //     resolve()
+    //   })
+    // })
+    // Promise.all([p1, p2]).then(() => {
+    //   LoadingService.close();
+    // })
+  }
+
+  getDetailRole(appExtId, externalId) {
+    LoadingService.show();
+    let keyY = '';
+    for (let key in APPEXTIDMAPPING) {
+      if (APPEXTIDMAPPING[key] == appExtId) {
+        keyY = key
+      }
+    }
+    switch (keyY) {
+      case 'portal':
+        this.manageService.getRoleById(externalId).subscribe(res => {
+          if (res.resultCode === '0') {
+            LoadingService.close();
+            this.detailItem = res.result;
+            this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId, appExtId: res.result.appExtId });
+            let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
+            this.removeNoChecked(base);
+            this.removeEmptyChildren(base);
+            // treeDatas first level can not be empty
+            let nodes = [];
+            for (let element of base) {
+              if (element) {
+                nodes.push(element)
+              }
+            };
+            this.setIsLeaf(nodes);
+            console.log(nodes);
+            this.treeDatas = nodes;
+          }
+        })
+        break;
+      case 'flow':
+        this.manageService.getFlowRoleById(appExtId, externalId).subscribe(res => {
+          if (res.resultCode === '0') {
+            LoadingService.close();
+            this.detailItem = res.result;
+            this.validateForm.patchValue({ displayName: res.result.displayName, externalId: res.result.externalId, appExtId: res.result.appExtId });
+            let base = res.result.tree;
+            this.removeNoChecked(base);
+            this.removeEmptyChildren(base);
+            // treeDatas first level can not be empty
+            let nodes = [];
+            for (let element of base) {
+              if (element) {
+                nodes.push(element)
+              }
+            };
+            this.setIsLeaf(nodes);
+            console.log(nodes);
+            this.treeDatas = nodes;
+          }
+        })
+        break;
+      default:
+        break;
+    }
+
+    // LoadingService.show();
+    // const p1 = new Promise(resolve => {
+    //   this.manageService.getRoleById(aId).subscribe(res => {
+    //     LoadingService.close();
+    //     this.detailItem = res.result;
+    //     let base = CommonService.modifyField(CommonService.modifyField(res.result.pExtIds, 'id', 'key'), 'label', 'title');
+    //     this.removeNoChecked(base);
+    //     this.removeEmptyChildren(base);
+    //     // treeDatas first level can not be empty
+    //     let nodes = [];
+    //     for (let element of base) {
+    //       if (element) {
+    //         nodes.push(element)
+    //       }
+    //     };
+    //     this.setIsLeaf(nodes);
+    //     console.log(nodes);
+    //     this.treeDatas = nodes;
+    //     resolve()
+    //   })
+    // })
+    // const p2 = new Promise(resolve => {
+    //   this.manageService.getFlowTree({ roleId: eId, needRole: false }).subscribe(res => {
+    //     const base = res.result;
+    //     this.removeNoChecked(base);
+    //     this.removeEmptyChildren(base);
+    //     this.setIsLeaf(base);
+    //     this.flowTreeDatas = base;
+    //     resolve()
+    //   })
+    // })
+    // Promise.all([p1, p2]).then(() => {
+    //   LoadingService.close();
+    // })
   }
 
   removeNoChecked(arr) {
@@ -237,7 +364,10 @@ export class RoleNewEditComponent implements OnInit {
     })
   }
 
-  getMenuTree() {
+  getPortalTree() {
+    if (this.pageAction === 'edit') {
+      return
+    };
     LoadingService.show();
     const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
     const userName = user.id;
@@ -247,19 +377,23 @@ export class RoleNewEditComponent implements OnInit {
         this.setIsLeaf(base);
         this.treeDatas = base;
       })
+      LoadingService.close();
       resolve()
     })
-    //  intergrate flow menu authority
+  }
+
+  getFlowTree() {
+    LoadingService.show();
+    const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
+    const userName = user.id;
     const p2 = new Promise((resolve, reject) => {
       this.manageService.getFlowTree({ needRole: false }).subscribe(res => {
         const base = res.result;
         this.setIsLeaf(base);
-        this.flowTreeDatas = base;
+        this.treeDatas = base;
       })
-      resolve()
-    })
-    Promise.all([p1, p2]).then(() => {
       LoadingService.close();
+      resolve()
     })
   }
 
@@ -289,38 +423,54 @@ export class RoleNewEditComponent implements OnInit {
       this.validateForm.controls[key].updateValueAndValidity();
     }
     let treeParam = this.treeDatas;
-    value['pExtIds'] = CommonService.modifyField(CommonService.modifyField(treeParam, 'key', 'id'), 'title', 'label');
+
     LoadingService.show();
-    let p1: Promise<any>;
-    let p2: Promise<any>;
-    if (this.pageAction == 'create') {
-      p1 = new Promise((resolve, reject) => {
-        this.manageService.addRole(value).subscribe(res => {
-          resolve(res)
+    let keyY = '';
+    for (let key in APPEXTIDMAPPING) {
+      if (APPEXTIDMAPPING[key] == this.appExtId) {
+        keyY = key
+      }
+    }
+    switch (keyY) {
+      case 'portal':
+        value['pExtIds'] = CommonService.modifyField(CommonService.modifyField(treeParam, 'key', 'id'), 'title', 'label');
+        if (this.pageAction == 'create') {
+          this.manageService.addRole(value).subscribe(res => {
+            if (res['resultCode'] === '0') {
+              this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
+              this.serverResponsed();
+            }
+          })
+        } else {
+          const id = this.validateForm.value.externalId;
+          this.manageService.updateRole(id, value).subscribe(res => {
+            if (res['resultCode'] === '0') {
+              this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
+              this.serverResponsed();
+            }
+          })
+        }
+        break;
+
+      case 'flow':
+        value['tree'] = treeParam;
+        this.manageService.saveFlowTree(value.appExtId, value.externalId, value).subscribe(res => {
+          if (res['resultCode'] === '0') {
+            this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
+            this.serverResponsed();
+          };
         })
-      })
-    } else {
-      const id = this.validateForm.value.externalId;
-      p1 = new Promise((resolve) => {
-        this.manageService.updateRole(id, value).subscribe(res => {
-          resolve(res)
-        })
-      })
-    };
-    p2 = new Promise((resolve, reject) => {
-      this.manageService.saveFlowTree(value.externalId, this.flowTreeDatas).subscribe(res => {
-        resolve(res)
-      })
-    });
-    Promise.all([p1, p2]).then(res => {
-      console.log(res);
-      if (res[0]['resultCode'] === '0' && res[1]['resultCode'] === '0') {
-        this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
-      };
-      this.getMenuAgain();
-      LoadingService.close();
-      this.router.navigate(['/manage/role-list']);
-    })
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  serverResponsed() {
+    this.getMenuAgain();
+    LoadingService.close();
+    this.router.navigate(['/manage/role-list']);
   }
 
   getMenuAgain() {

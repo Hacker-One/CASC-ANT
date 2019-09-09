@@ -83,6 +83,8 @@ export class ApplicationBtnComponent implements OnInit {
           setTimeout(() => {
             // this.router.navigateByUrl('manage/applicat-list');
           }, 2000);
+        } else if (resp.resultCode === '409') {
+          this.messageService.error(resp.result);
         }
       });
     } else {
@@ -95,7 +97,7 @@ export class ApplicationBtnComponent implements OnInit {
             this.router.navigateByUrl('manage/applicat-list');
           }, 2000);
         }
-      });
+      })
     }
   }
 

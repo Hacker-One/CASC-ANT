@@ -4,11 +4,13 @@ import { Observable, Observer } from 'rxjs';
 import { ManageService } from '../../../../app/core/api/manage.service';
 import { Router } from '@angular/router';
 import { AUTHORITYBTNMAPPING } from 'src/app/constants';
+import { ConfigService } from 'src/app/core';
 
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  styleUrls: ['./role.component.scss'],
+  providers: [ConfigService]
 })
 export class RoleComponent implements OnInit {
   authority = AUTHORITYBTNMAPPING;
@@ -16,19 +18,22 @@ export class RoleComponent implements OnInit {
   pageSize = 10;
   total = 1;
   listOfData = [];
-  loading = true;
+  loading = false;
+  appExtIdArr = [];
 
   searchForm: FormGroup;
 
-  constructor(private manageService: ManageService, private fb: FormBuilder, private router: Router) {
+  constructor(private manageService: ManageService, private fb: FormBuilder, private router: Router, private configService: ConfigService) {
     this.searchForm = this.fb.group({
       displayName: [''],
       externalId: [''],
+      appExtId: ['', [Validators.required]],
     })
   }
 
   ngOnInit() {
-    this.searchData();
+    this.appListService();
+    // this.searchData();
   }
 
   submitForm(value: any): void {
@@ -89,9 +94,17 @@ export class RoleComponent implements OnInit {
     })
   }
 
+  // 获取域名列表service
+  appListService() {
+    this.appExtIdArr = [];
+    this.configService.appListApi().subscribe(resp => {
+      this.appExtIdArr = resp.resources;
+    });
+  }
+
   goDetail(item, act) {
     console.log(item);
-    this.router.navigate(['/manage/role-new-edit', { action: act, externalId: item.externalId }])
+    this.router.navigate(['/manage/role-new-edit', { action: act, externalId: item.externalId, appExtId: item.appExtId }])
   }
 
 

@@ -4,6 +4,11 @@ export const CONSTANTS = {
     authorityBtnList: 'authorityBtnList'    // 权限按钮数组
 }
 
+export const APPEXTIDMAPPING = {
+    portal: '7012984',
+    flow: 'qloudflow'
+}
+
 export interface USER {
     preferredLanguage: string;
     address: string;

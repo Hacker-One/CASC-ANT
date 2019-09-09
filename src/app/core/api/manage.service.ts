@@ -213,8 +213,12 @@ export class ManageService {
         return this.util.post('system/sysrole', params);
     }
 
-    saveFlowTree(roleId, params) {
-        return this.util.post(`flowmgt/role/save?roleId=${roleId}`, params);
+    saveFlowTree(appExtId, externalId,params) {
+        return this.util.post(`flowmgt/role/save?appExtId=${appExtId}&rExtId=${externalId}`, params);
+    }
+
+    updateFlowTree(params) {
+        return this.util.post(`flowmgt/role/save`, params);
     }
 
     updateRole(id, params) {
@@ -223,6 +227,10 @@ export class ManageService {
 
     getRoleById(id) {
         return this.util.get(`system/sysrole/${id}`);
+    }
+
+    getFlowRoleById(appExtId, externalId) {
+        return this.util.get(`flowmgt/role/tree?appExtId=${appExtId}&roleId=${externalId}&needRole=false`);
     }
 
     saveUserRole(params) {

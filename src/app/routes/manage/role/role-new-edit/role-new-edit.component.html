@@ -1,6 +1,16 @@
 <div *ngIf="pageAction!=='detail'">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
     <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzRequired>域</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select formControlName="appExtId" nzAllowClear nzPlaceHolder="请选择域信息"
+          (ngModelChange)="appExtIdChanged($event)">
+          <nz-option [nzValue]="item.externalId" [nzLabel]="item.desc" *ngFor="let item of appExtIdArr">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>角色名称</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="roleNameErrorTpl">
         <input nz-input formControlName="displayName" placeholder="async validate try to write JasonWood" />
@@ -25,18 +35,11 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>角色权限</nz-form-label>
-      <nz-tabset nzSpan="12">
-        <nz-tab nzTitle="门户权限">
-          <nz-tree #treePortal [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
-            (nzCheckBoxChange)="nzEvent($event)">
-          </nz-tree>
-        </nz-tab>
-        <nz-tab nzTitle="流程权限">
-          <nz-tree #treeFlow [nzCheckStrictly]="true" [nzData]="flowTreeDatas" nzShowIcon nzCheckable nzMultiple
-            (nzCheckBoxChange)="nzEvent($event)">
-          </nz-tree>
-        </nz-tab>
-      </nz-tabset>
+      <nz-form-control [nzSpan]="12">
+        <nz-tree [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
+          (nzCheckBoxChange)="nzEvent($event)">
+        </nz-tree>
+      </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
@@ -62,15 +65,10 @@
   </div>
   <div nz-row>
     <div nz-col nzSpan="4" class="title">角色权限：</div>
-    <nz-tabset nzSpan="12">
-      <nz-tab nzTitle="门户权限">
-        <nz-tree #treePortal [nzExpandAll]="true" [nzShowLine]="true" [nzBlockNode]="true" [nzData]="treeDatas"></nz-tree>
-      </nz-tab>
-      <nz-tab nzTitle="流程权限">
-        <!-- <nz-tree #treeFlow [nzCheckStrictly]="true" [nzData]="flowTreeDatas" nzShowIcon nzCheckable nzMultiple
-          (nzCheckBoxChange)="nzEvent($event)">
-        </nz-tree> -->
-      </nz-tab>
-    </nz-tabset>
+    <nz-form-control [nzSpan]="12">
+      <nz-tree [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
+        (nzCheckBoxChange)="nzEvent($event)">
+      </nz-tree>
+    </nz-form-control>
   </div>
 </div>

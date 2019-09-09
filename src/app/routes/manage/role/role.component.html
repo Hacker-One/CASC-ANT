@@ -12,7 +12,16 @@
     <nz-form-control [nzSpan]="4">
       <input nz-input formControlName="externalId" />
     </nz-form-control>
-    <nz-form-control class="pl-20" [nzSpan]="6">
+    <nz-form-label [nzSpan]="3">应用</nz-form-label>
+    <nz-form-control [nzSpan]="4">
+      <nz-select formControlName="appExtId" nzAllowClear nzPlaceHolder="请选择域信息">
+        <nz-option [nzValue]="item.externalId" [nzLabel]="item.desc" *ngFor="let item of appExtIdArr">
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzOffset]="3" [nzSpan]="6">
       <button nz-button nzType="primary" [disabled]="!searchForm.valid">查询</button>
       <button nz-button class="reset-btn" (click)="resetForm($event)">重置</button>
     </nz-form-control>
@@ -40,8 +49,7 @@
       <td>
         <button nz-button (click)="goDetail(element,'detail')" nzType="primary" nzSize="small">详情</button>
         &nbsp;
-        <button  nz-button (click)="goDetail(element,'edit')" nzType="primary"
-          nzSize="small">编辑</button>
+        <button nz-button (click)="goDetail(element,'edit')" nzType="primary" nzSize="small">编辑</button>
       </td>
     </tr>
   </tbody>

@@ -1,0 +1,47 @@
+
+%display-table {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.classify-container {
+  display: table;
+
+  .classify-left {
+    @extend %display-table;
+    width: 320px;
+    min-width: 320px;
+
+    ::ng-deep .ant-tree {
+      border: 1px solid #ddd;
+      width: 300px;
+      padding: 15px;
+    }
+
+    .classify-btns {
+      width: 300px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .classify-right {
+    @extend %display-table;
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 15px 15px 0;
+
+    .right-card {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+h3 {
+  color: #fff;
+}
+
+::ng-deep .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
+  background: #F0F3F4;
+}

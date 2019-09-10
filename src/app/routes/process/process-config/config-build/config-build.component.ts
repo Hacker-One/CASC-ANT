@@ -213,7 +213,7 @@ export class ConfigBuildComponent implements OnInit {
         }
         this.buildForm.patchValue({
           name: data.name,
-          appInfo: this.appArray.filter(item => item.externalId === data.appId),
+          appInfo: this.appArray.filter(item => item.externalId === data.appId)[0],
           formName: data.formName,
           formKey: data.formKey,
           originFlowObj: originFlowObjs,

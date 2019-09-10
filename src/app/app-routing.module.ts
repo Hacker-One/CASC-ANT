@@ -26,6 +26,10 @@ const routes: Routes = [
         path: 'config',
         loadChildren: './routes/process/process-config/process-config.module#ProcessConfigModule',
       },
+      {
+        path: 'portal',
+        loadChildren: './routes/process/process-portal/process-portal.module#ProcessPortalModule',
+      },
     ]
   }
 ];

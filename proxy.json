@@ -5,7 +5,7 @@
     "changeOrigin": true
   },
   "/flowmgt": {
-    "target": "http://192.168.10.112:8085/",
+    "target": "http://192.168.10.17:8085/",
     "secure": false,
     "changeOrigin": true
   },

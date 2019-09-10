@@ -38,7 +38,6 @@ export class ReleaseDetailComponent implements OnInit {
     this.detail = this.activatedRoute.snapshot.queryParamMap.get('detail');
     this.detailService();
     this.auditForm = this.fb.group({
-      approvalStatus: [null, [Validators.required]],
       opinion: [null, [Validators.required]],
     });
   }
@@ -49,7 +48,6 @@ export class ReleaseDetailComponent implements OnInit {
       if (resp.resultCode === '0') {
         this.detailData = resp.result;
         this.auditForm.patchValue({
-          approvalStatus: resp.result.approvalStatus,
           opinion: resp.result.opinion
         });
         if (resp.result.enclosures) {
@@ -69,15 +67,15 @@ export class ReleaseDetailComponent implements OnInit {
   }
 
   linkAttachment(item) {
-    window.open(item.url, '_blank')
+    window.open(item.url, '_blank');
   }
 
   // 审核
-  auditService() {
+  auditService(status) {
     const params: any = {
       id: this.paramsId,
       taskId: this.taskId,
-      approvalStatus: this.auditForm.value.approvalStatus,
+      approvalStatus: status,
       approvalViewJsons: [
         {opinion: this.auditForm.value.opinion}
       ]

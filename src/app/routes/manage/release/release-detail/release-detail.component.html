@@ -1,24 +1,18 @@
 <div *ngIf="detail !== 'detail'">
-  <div style="text-align: right">
-    <button nz-button nzType="primary" class="mr-15" [disabled]="auditForm.invalid" (click)="auditService()">保存</button>
-  </div>
+  <!--<div style="text-align: right">-->
+    <!--<button nz-button nzType="primary" class="mr-15" [disabled]="auditForm.invalid" (click)="auditService()">保存</button>-->
+  <!--</div>-->
 
   <form class="release-build" nz-form [formGroup]="auditForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="title">审核状态</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请选择审核状态!">
-        <nz-select style="width: 100%" formControlName="approvalStatus" nzPlaceHolder="请选择审核状态">
-          <nz-option nzValue="true" nzLabel="通过"></nz-option>
-          <nz-option nzValue="false" nzLabel="拒绝"></nz-option>
-        </nz-select>
+      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="opinion">审批意见</nz-form-label>
+      <nz-form-control [nzSm]="10" nzErrorTip="请输入审批意见!">
+        <input nz-input formControlName="opinion" placeholder="请输入审批意见">
+        <!--<textarea rows="4" nz-input formControlName="opinion"></textarea>-->
       </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="2" [nzXs]="24" nzRequired nzFor="deputyTitle">审核内容</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXXl]="10" [nzXs]="24" nzErrorTip="请输入审核内容!">
-        <nz-input-group>
-          <textarea rows="4" nz-input formControlName="opinion"></textarea>
-        </nz-input-group>
+      <nz-form-control [nzSm]="10" style="text-align: right">
+        <button nz-button nzType="primary" class="ml-15" [disabled]="auditForm.invalid" (click)="auditService('true')">同意</button>
+        <button nz-button nzType="primary" class="ml-15" [disabled]="auditForm.invalid" (click)="auditService('false')">拒绝</button>
       </nz-form-control>
     </nz-form-item>
   </form>

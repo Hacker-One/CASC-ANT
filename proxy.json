@@ -1,11 +1,11 @@
 {
   "/system": {
-    "target": "http://192.168.10.111:8085/",
+    "target": "http://cspsystem.qloud-qloud.service.sd/",
     "secure": false,
     "changeOrigin": true
   },
   "/flowmgt": {
-    "target": "http://192.168.10.17:8085/",
+    "target": "http://192.168.10.112:8085/",
     "secure": false,
     "changeOrigin": true
   },

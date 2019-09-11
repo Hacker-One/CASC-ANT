@@ -77,7 +77,11 @@ export class ReleaseDetailComponent implements OnInit {
       taskId: this.taskId,
       approvalStatus: status,
       approvalViewJsons: [
-        {opinion: this.auditForm.value.opinion}
+        {
+          opinion: this.auditForm.value.opinion,
+          approvalDate: Date.now(),
+          approvalUser: ''
+        }
       ]
     };
     LoadingService.show();

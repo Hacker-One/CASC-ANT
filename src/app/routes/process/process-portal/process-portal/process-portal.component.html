@@ -1,12 +1,13 @@
 <div class="classify-container clearfix">
   <div class="classify-left">
-    <nz-tree class="classify-tree" [nzExpandAll]="true" [nzData]="treeList" [title]="'name'" nzShowLine (nzClick)="getTreeList($event)"> </nz-tree>
+    <nz-tree class="classify-tree" [nzExpandAll]="true" [nzAsyncData]="true" [nzData]="treeList" [title]="'name'"
+             nzShowLine (nzClick)="getTreeList($event)"></nz-tree>
   </div>
   <div class="classify-right">
     <div nz-row [nzGutter]="15">
       <div nz-col [nzSpan]="8" class="right-card" *ngFor="let item of portalList">
         <nz-card>
-          <p>{{item}}</p>
+          <p>{{item.title}}</p>
         </nz-card>
       </div>
     </div>

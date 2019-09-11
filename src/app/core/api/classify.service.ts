@@ -8,12 +8,19 @@ export class ClassifyService {
 
   /**
    * 分类树
-   * @params userId 当前用户id
    * @params needRole 是否显示角色没有权限的数据(true/false)
    * @params ignoreStatus 是否忽略数据的状态(true/false)
    */
   classifyListApi(status = true) {
     return this.service.get(`flowmgt/category/tree?ignoreStatus=${status}`);
+  }
+
+  /**
+   * 根据userId分类树
+   * @params userId 当前用户id
+   */
+  treeByUserApi(userId: string) {
+    return this.service.get(`flowmgt/role/treebyuser?userId=${userId}`);
   }
 
   /**

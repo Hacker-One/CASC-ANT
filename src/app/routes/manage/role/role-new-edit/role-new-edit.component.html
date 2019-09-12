@@ -1,9 +1,9 @@
 <div *ngIf="pageAction!=='detail'">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
     <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzRequired>域</nz-form-label>
+      <nz-form-label [nzSpan]="4" nzRequired>应用</nz-form-label>
       <nz-form-control [nzSpan]="12">
-        <nz-select formControlName="appExtId" nzAllowClear nzPlaceHolder="请选择域信息"
+        <nz-select [disabled]="pageAction=='edit'" formControlName="appExtId" nzAllowClear nzPlaceHolder="请选择应用信息"
           (ngModelChange)="appExtIdChanged($event)">
           <nz-option [nzValue]="item.externalId" [nzLabel]="item.desc" *ngFor="let item of appExtIdArr">
           </nz-option>
@@ -66,8 +66,7 @@
   <div nz-row>
     <div nz-col nzSpan="4" class="title">角色权限：</div>
     <nz-form-control [nzSpan]="12">
-      <nz-tree [nzCheckStrictly]="true" [nzData]="treeDatas" nzCheckable nzMultiple
-        (nzCheckBoxChange)="nzEvent($event)">
+      <nz-tree [nzCheckStrictly]="true" [nzData]="treeDatas" [nzShowLine]="true" [nzShowExpand]="true">
       </nz-tree>
     </nz-form-control>
   </div>

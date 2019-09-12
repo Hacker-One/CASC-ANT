@@ -383,12 +383,15 @@ export class RoleNewEditComponent implements OnInit {
   }
 
   getFlowTree() {
+    if (this.pageAction === 'edit') {
+      return
+    };
     LoadingService.show();
     const user: USER = JSON.parse(localStorage.getItem(CONSTANTS.userInfo));
     const userName = user.id;
     const p2 = new Promise((resolve, reject) => {
       this.manageService.getFlowTree({ needRole: false }).subscribe(res => {
-        const base = res.result;
+        const base = res.result.tree;
         this.setIsLeaf(base);
         this.treeDatas = base;
       })
@@ -454,12 +457,21 @@ export class RoleNewEditComponent implements OnInit {
 
       case 'flow':
         value['tree'] = treeParam;
-        this.manageService.saveFlowTree(value.appExtId, value.externalId, value).subscribe(res => {
-          if (res['resultCode'] === '0') {
-            this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
-            this.serverResponsed();
-          };
-        })
+        if (this.pageAction == 'create') {
+          this.manageService.saveFlowTree(value).subscribe(res => {
+            if (res['resultCode'] === '0') {
+              this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
+              this.serverResponsed();
+            };
+          })
+        } else {
+          this.manageService.updateFlowTree(value).subscribe(res => {
+            if (res['resultCode'] === '0') {
+              this.message.create('success', this.pageAction == 'create' ? '新建成功' : '修改成功');
+              this.serverResponsed();
+            };
+          })
+        }
         break;
 
       default:

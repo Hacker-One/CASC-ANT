@@ -6,7 +6,7 @@
 <div id="columnWrapper" class="column-wrapper">
   <div nz-row nzGutter="16" class="rel">
     <div nz-col class="gutter-row static-block" *ngFor="let element of columnList" [nzSpan]="colMap[element?.colWidth]"
-      [ngDraggable]="element?.canDrag" [preventDefaultEvent]="true" [zIndexMoving]="9999" [trackPosition]="false"
+      [ngDraggable]="element?.canDrag" [preventDefaultEvent]="false" [zIndexMoving]="9999" [trackPosition]="false"
       [id]="element?.id" [position]="element?.position" (started)="onDragBegin($event)" (stopped)="onDragEnd($event)"
       (movingOffset)="onMoving($event)" (endOffset)="onMoveEnd($event)">
       <div class="gutter-box" [ngClass]="{'shadow-red':element?.borderColor==='red'}">

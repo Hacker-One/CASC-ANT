@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  userName = 'fangshufeng';
+  userId = '';
   collectionList = [];
   menuList = [];
   allCollections = [];
   collectCboxsArr = [];
   collectDialog = false;
   modalOkLoading = false;
+  skeletonLoading = false;
 
   constructor(private _state: GlobalState, private manageService: ManageService, private message: NzMessageService, private router: Router) {
     this._state.subscribe('menu.data', (menuData) => {
@@ -27,12 +28,17 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getList();
+    this._state.subscribe('user.data', (userData: USER) => {
+      this.getList(userData.id);
+      this.userId = userData.id;
+    })
   }
 
   // 获取已选收藏列表
-  getList() {
-    this.manageService.getCollections(this.userName).subscribe(res => {
+  getList(id) {
+    this.skeletonLoading = true;
+    this.manageService.getCollections(id).subscribe(res => {
+      this.skeletonLoading = false;
       if (res.resultCode === '0') {
         this.collectionList = res.result;
       }
@@ -65,14 +71,14 @@ export class SidebarComponent implements OnInit {
   }
 
   showModal(): void {
-    this.getList();
+    this.getList(this.userId);
     this.collectDialog = true;
   }
 
   handleOk(): void {
     console.log(this.collectCboxsArr)
     let params = {
-      userId: this.userName,
+      userId: this.userId,
       resourceIds: []
     };
     for (let element of this.collectCboxsArr) {
@@ -82,7 +88,7 @@ export class SidebarComponent implements OnInit {
     };
     this.modalOkLoading = true;
     this.manageService.addCollection(params).subscribe(res => {
-      this.getList();
+      this.getList(this.userId);
       this.collectDialog = false;
       this.modalOkLoading = false;
       this.message.create('success', '添加成功');

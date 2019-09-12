@@ -12,6 +12,10 @@ export class ManageService {
 
     constructor(private util: UtilService) { }
 
+    getAuthUserInfo(): Observable<any> {
+        return this.util.get('/authUserInfo');
+    }
+
     randomUserUrl = 'https://api.randomuser.me/';
 
     /**
@@ -213,11 +217,11 @@ export class ManageService {
         return this.util.post('system/sysrole', params);
     }
 
-    saveFlowTree(appExtId, externalId,params) {
-        return this.util.post(`flowmgt/role/save?appExtId=${appExtId}&rExtId=${externalId}`, params);
+    updateFlowTree(params) {
+        return this.util.put(`flowmgt/role/update`, params);
     }
 
-    updateFlowTree(params) {
+    saveFlowTree(params) {
         return this.util.post(`flowmgt/role/save`, params);
     }
 
@@ -230,7 +234,7 @@ export class ManageService {
     }
 
     getFlowRoleById(appExtId, externalId) {
-        return this.util.get(`flowmgt/role/tree?appExtId=${appExtId}&roleId=${externalId}&needRole=false`);
+        return this.util.get(`flowmgt/role/tree?appId=${appExtId}&roleId=${externalId}&needRole=false`);
     }
 
     saveUserRole(params) {

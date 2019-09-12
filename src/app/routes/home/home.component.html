@@ -1,5 +1,10 @@
 <div class="home-wrapper">
   <div nz-row nzGutter="16">
+    <div nz-col class="gutter-row" [nzSpan]="8">
+      <div class="gutter-box">
+        <calendar-news></calendar-news>
+      </div>
+    </div>
     <div *ngFor="let element of columnArr" nz-col class="gutter-row" [nzSpan]="colMap[element.length]">
       <div [ngSwitch]="element.type" class="gutter-box">
         <ng-container *ngSwitchCase="'1'">

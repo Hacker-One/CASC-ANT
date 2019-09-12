@@ -6,6 +6,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { CONSTANTS, USER } from 'src/app/constants';
 import { UploadXHRArgs, NzMessageService } from 'ng-zorro-antd';
 import { HttpRequest, HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit {
   userInfo: USER;
   photoImgUrl = '';
   avatarUploadUrl = '';
-  userName = 'fangshufeng';
+  userId = 'fangshufeng';
   config = {};
 
   constructor(
@@ -68,8 +69,24 @@ export class HeaderComponent implements OnInit {
       phoneNumber: [null, [Validators.required, this.phoneValidator]],
       photo: [null],
     });
-    this.getUserInfo(this.userName);
-    this.getTopMenu(this.userName);
+    this.initDatas();
+  }
+
+  async initDatas() {
+    if (environment.production) {
+      await this.getUserId();
+    }
+    this.getUserInfo(this.userId);
+    this.getTopMenu(this.userId);
+  }
+
+  getUserId() {
+    return new Promise(resolve => {
+      this.manageService.getAuthUserInfo().subscribe(res => {
+        this.userId = res.id;
+        resolve()
+      })
+    })
   }
 
   getUserInfo(uId) {
@@ -77,6 +94,7 @@ export class HeaderComponent implements OnInit {
     this.manageService.getUserInfo(uId).subscribe(res => {
       this.userInfo = res;
       this.photoImgUrl = res.photo + '?' + new Date().getTime();
+      this._state.notifyDataChanged('user.data', this.userInfo);
       localStorage.setItem(CONSTANTS.userInfo, JSON.stringify(res));
     })
   }
@@ -129,7 +147,7 @@ export class HeaderComponent implements OnInit {
       if (file.response.photo) {
         this.message.success(`上传 ${file.name} 成功`);
         console.log(file.response);
-        this.getUserInfo(this.userName);
+        this.getUserInfo(this.userId);
       } else {
 
       }
@@ -170,9 +188,9 @@ export class HeaderComponent implements OnInit {
   submit() {
     console.log('Button ok clicked!');
     this.modalOkLoading = true;
-    this.manageService.updateUserInfo(this.userName, this.buildForm.value).subscribe(res => {
+    this.manageService.updateUserInfo(this.userId, this.buildForm.value).subscribe(res => {
       this.message.success('更新成功');
-      this.getUserInfo(this.userName);
+      this.getUserInfo(this.userId);
       this.modalOkLoading = true;
       this.isVisible = false;
     })

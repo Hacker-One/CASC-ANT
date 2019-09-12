@@ -1,0 +1,21 @@
+<div class="calendar-news" perfectScrollbar>
+    <!-- <nz-alert nzMessage="Your selected date: {{ selectedValue | date: 'yyyy-MM-dd' }}"></nz-alert> -->
+    <nz-calendar [(ngModel)]="selectedValue" [nzDateCell]="dateCellTpl" (nzSelectChange)="selectChange($event)">
+        <ul *nzDateCell="let date" class="events">
+            <ng-container [ngSwitch]="date.getDate()">
+                <ng-container *ngSwitchCase="date">
+                    <span *ngIf="listDataMap[date]" style="color: red">*</span>
+                </ng-container>
+            </ng-container>
+        </ul>
+        <ng-container *nzMonthCell="let month">
+            <div *ngIf="getMonthData(month) as monthData" class="notes-month">
+                <section>{{ monthData }}</section>
+                <span>Backlog number</span>
+            </div>
+        </ng-container>
+    </nz-calendar>
+    <ng-template #dateCellTpl let-date>
+        <span *ngIf="listDataMap[date.getDate()]" class="date-active">*</span>
+    </ng-template>
+</div>

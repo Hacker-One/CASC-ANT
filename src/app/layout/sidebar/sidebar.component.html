@@ -12,7 +12,8 @@
 <nz-modal [(nzVisible)]="collectDialog" [nzOkLoading]="modalOkLoading" nzTitle="应用收藏" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
   <div nz-row>
-    <label nz-checkbox nz-col nzSpan="4" *ngFor="let element of collectCboxsArr" [(ngModel)]="element.checked">{{element.desc}}</label>
-    <nz-skeleton [nzActive]="true" [nzLoading]="collectCboxsArr.length === 0"></nz-skeleton>
+    <label nz-checkbox nz-col nzSpan="4" *ngFor="let element of collectCboxsArr"
+      [(ngModel)]="element.checked">{{element.desc}}</label>
+    <nz-skeleton [nzActive]="true" [nzLoading]="collectCboxsArr.length === 0&&skeletonLoading"></nz-skeleton>
   </div>
 </nz-modal>

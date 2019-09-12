@@ -55,8 +55,8 @@
       <td>{{data.beginDate | date: 'yyyy-MM-dd HH:mm:ss'}} - {{data.endDate | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
       <td>
         <ng-container *ngIf="data.approvalStatus === '0'">待提交</ng-container>
-        <ng-container *ngIf="data.approvalStatus === '1'">通过</ng-container>
-        <ng-container *ngIf="data.approvalStatus === '2'">拒绝</ng-container>
+        <ng-container *ngIf="data.approvalStatus === '2'">通过</ng-container>
+        <ng-container *ngIf="data.approvalStatus === '1'">拒绝</ng-container>
         <ng-container *ngIf="data.approvalStatus === '3'">待审核</ng-container>
       </td>
       <td>

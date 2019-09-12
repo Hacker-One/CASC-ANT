@@ -27,6 +27,8 @@ import {
   NzCarouselModule,
   NzTabsModule,
   NzTreeSelectModule,
+  NzBadgeModule,
+  NzAlertModule,
 } from 'ng-zorro-antd';
 
 import { LoadingComponent } from './loading/loading.component';
@@ -67,7 +69,9 @@ const ZORROCOMPONENTS = [
   NzToolTipModule,
   NzCarouselModule,
   NzTabsModule,
-  NzTreeSelectModule
+  NzTreeSelectModule,
+  NzBadgeModule,
+  NzAlertModule
 ];
 
 @NgModule({
